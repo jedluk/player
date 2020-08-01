@@ -1,0 +1,40 @@
+.App {
+  text-align: center;
+  height: 100%;
+  background-color: var(--ultra-light-grey);
+}
+
+.App-content {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App-player {
+  height: 10%;
+}
+
+.drop-container {
+  min-width: 500px;
+  min-height: 300px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 10px dashed var(--light-grey);
+  outline: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  filter: blur(2px);
+  font-size: 2.5rem;
+}
+
+.drop-container p {
+  max-width: 80%;
+}
+
+.error {
+  color: var(--error);
+}
