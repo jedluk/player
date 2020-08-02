@@ -5,8 +5,8 @@ const path = require('path')
 
 const {
   PORT = 8083,
-  UPLOAD_DIR = path.join('.', 'uploads'),
-  CLIENT_DIR = path.join('..', 'client', 'build'),
+  UPLOAD_DIR = path.join(__dirname, 'uploads'),
+  CLIENT_DIR = path.join(__dirname, '..', 'client', 'build'),
 } = process.env
 
 const CORS = cors({
