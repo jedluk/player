@@ -25,7 +25,7 @@
 .tracks-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: 30% repeat(7, 10%);
+  grid-template-columns: 30% repeat(2, 20%) repeat(3, 8%) 6%;
   overflow-y: hidden;
 }
 
@@ -35,7 +35,7 @@
   opacity: 0.5;
 }
 
-.tracks-grid > div:nth-child(-n + 8) {
+.tracks-grid > div:nth-child(-n + 7) {
   opacity: 0.3;
   letter-spacing: 0.5px;
   font-size: 0.8rem;
@@ -44,12 +44,16 @@
   text-transform: uppercase;
 }
 
-.tracks-grid > div:nth-child(-n + 8):hover {
+.tracks-grid > div:nth-child(-n + 7):hover {
   opacity: 0.5;
 }
 
-.tracks-grid > div:not(:nth-child(-n + 8)) {
+.tracks-grid > div:not(:nth-child(-n + 7)) {
   padding: 20px 4px;
+}
+
+.tracks-grid > div:nth-child(7n + 7) {
+  text-align: right;
 }
 
 .tracks-grid > .action-play > span {

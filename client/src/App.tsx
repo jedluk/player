@@ -4,7 +4,7 @@ import { getTracks } from './utils/http';
 import { ModalWrapper } from './modal/ModalWrapper';
 import { Player } from './main/Player';
 import AddTrack from './common/AddTrack';
-import MyTracks from './main/MyTracks';
+import Tracks from './main/Tracks';
 import { isNotNull } from './utils/lib';
 import { API } from './types';
 
@@ -46,7 +46,7 @@ function App(props: AppProps): JSX.Element {
             {tracks.length === 0 ? (
               <AddTrack onAdd={() => setOpen(true)} />
             ) : (
-              <MyTracks
+              <Tracks
                 onAdd={() => setOpen(true)}
                 data={tracks.filter((track) => isNotNull(track.title))}
                 setTrack={setTrack}

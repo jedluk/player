@@ -4,7 +4,7 @@ import { formatTime, formatDuration } from '../utils/lib';
 import AddNewButton from '../common/Button';
 import { API } from '../types';
 
-import style from './MyTracks.module.css';
+import style from './Tracks.module.css';
 
 type MyTracksProps = {
   onAdd: () => void;
@@ -29,9 +29,9 @@ function MyTracks(props: MyTracksProps) {
       </div>
       <div className={style['tracks-grid']}>
         <div>Title</div>
-        <div>
+        {/* <div>
           <FontAwesome name="clock-o" style={{ fontSize: '0.8rem' }} />
-        </div>
+        </div> */}
         <div>Artist</div>
         <div>Album</div>
         <div>Year</div>
@@ -50,7 +50,7 @@ function MyTracks(props: MyTracksProps) {
                 <FontAwesome name="volume-up" />
               </span>
             </div>
-            <div>{formatDuration(Math.floor(Math.random() * 300))}</div>
+            {/* <div>{formatDuration(Math.floor(Math.random() * 300))}</div> */}
             <div>{track.artist}</div>
             <div>{track.album}</div>
             <div>{track.year}</div>
