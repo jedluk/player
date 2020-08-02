@@ -15,7 +15,7 @@ const pickTags = (tags, required) =>
     Object.entries(tags).filter(([key]) => required.includes(key))
   )
 
-router.get('/file', async (req, res) => {
+router.get('/track', async (req, res) => {
   await fs
     .readdir(UPLOAD_DIR)
     .then(async tracks => {
@@ -37,6 +37,7 @@ router.get('/file', async (req, res) => {
       res.status(200).send({
         tracks: tags.map((tag, idx) => ({
           uploaded: stats[idx].birthtime,
+          url: path.join(UPLOAD_DIR, tracks[idx]),
           ...pickTags(tag, ['title', 'artist', 'album', 'year', 'genre']),
         })),
       })
@@ -47,7 +48,7 @@ router.get('/file', async (req, res) => {
     })
 })
 
-router.post('/file', async (req, res) => {
+router.post('/track', async (req, res) => {
   const form = new formidable.IncomingForm({
     uploadDir: UPLOAD_DIR,
     multiples: true,

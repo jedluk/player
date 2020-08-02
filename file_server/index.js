@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const path = require('path')
 
 const {
@@ -10,6 +11,11 @@ const {
 
 const app = express()
 app.use(morgan('common'))
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  })
+)
 app.use('/api', require('./routes'))
 app.use(function (err, req, res, next) {
   console.error(err.stack)
