@@ -16,29 +16,35 @@ const pickTags = (tags, required) =>
   )
 
 router.get('/file', async (req, res) => {
-  await fs.readdir(UPLOAD_DIR).then(async tracks => {
-    const [stats, tags] = await Promise.all([
-      Promise.all(tracks.map(getFileDetails)),
-      Promise.all(
-        tracks
-          .map(track => path.join(UPLOAD_DIR, track))
-          .map(
-            track =>
-              new Promise(resolve =>
-                NodeID3.read(track, function (err, tags) {
-                  resolve(err === null ? tags : {})
-                })
-              )
-          )
-      ),
-    ])
-    res.status(200).send({
-      tracks: tracks.map((track, idx) => ({
-        uploaded: stats[idx].birthtime,
-        ...pickTags(tags[idx], ['title', 'artist', 'album', 'year', 'genre']),
-      })),
+  await fs
+    .readdir(UPLOAD_DIR)
+    .then(async tracks => {
+      const [stats, tags] = await Promise.all([
+        Promise.all(tracks.map(getFileDetails)),
+        Promise.all(
+          tracks
+            .map(track => path.join(UPLOAD_DIR, track))
+            .map(
+              track =>
+                new Promise(resolve =>
+                  NodeID3.read(track, function (err, tags) {
+                    resolve(err === null ? tags : {})
+                  })
+                )
+            )
+        ),
+      ])
+      res.status(200).send({
+        tracks: tags.map((tag, idx) => ({
+          uploaded: stats[idx].birthtime,
+          ...pickTags(tag, ['title', 'artist', 'album', 'year', 'genre']),
+        })),
+      })
     })
-  })
+    .catch(err => {
+      console.error(err)
+      return res.status(500).send('Internal server error !')
+    })
 })
 
 router.post('/file', async (req, res) => {
@@ -52,7 +58,7 @@ router.post('/file', async (req, res) => {
       file.path = path.join(form.uploadDir, file.name)
     })
     .on('error', () => {
-      return res.status(500).send('Error while uploading a file')
+      return res.status(500).send('Server error while uploading a file!')
     })
     .on('end', () => {
       return res.status(201).send('File(s) saved')
