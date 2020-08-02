@@ -22,7 +22,7 @@ type AppProps = {
 
 function App(props: AppProps): JSX.Element {
   const { appState, settleFiles, setTrack } = props;
-  const { files: tracks } = appState;
+  const { files: tracks, track } = appState;
   const [initialized, setInitialized] = useState<boolean>(false);
   const [isOpen, setOpen] = useState<boolean>(false);
 
@@ -48,7 +48,8 @@ function App(props: AppProps): JSX.Element {
             ) : (
               <Tracks
                 onAdd={() => setOpen(true)}
-                data={tracks.filter((track) => isNotNull(track.title))}
+                currentTrack={track}
+                tracks={tracks.filter((track) => isNotNull(track.title))}
                 setTrack={setTrack}
               />
             )}

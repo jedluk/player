@@ -9,7 +9,8 @@ import style from './Tracks.module.css';
 type MyTracksProps = {
   onAdd: () => void;
   setTrack: (track: string) => void;
-  data: API.Tracks[];
+  currentTrack: string;
+  tracks: API.Tracks[];
 };
 
 const downloadStyle = {
@@ -40,9 +41,13 @@ function MyTracks(props: MyTracksProps) {
           <FontAwesome name="calendar" style={{ fontSize: '0.8rem' }} />
         </div>
         <div></div>
-        {props.data.slice(0, 4).map((track) => (
+        {props.tracks.map((track) => (
           <React.Fragment key={track.title}>
-            <div className={style['action-play']} onClick={() => props.setTrack(track.url)}>
+            <div
+              className={style['action-play']}
+              style={{ fontWeight: props.currentTrack === track.url ? 'bold' : 'normal' }}
+              onClick={() => props.setTrack(track.url)}
+            >
               {track.title.length > 70
                 ? withoutExtenstion(track.title).slice(0, 70) + ' (...) '
                 : track.title}
