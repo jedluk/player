@@ -48,8 +48,8 @@ export const formatDuration = (seconds: number): string => {
   return `${minutes}:${displaySeconds}`;
 };
 
-export const formatTime = (milliseconds: number): string => {
-  const date = new Date(milliseconds);
+export const formatTime = (fromDate: Date): string => {
+  const date = new Date(fromDate);
   return `${pad(`${date.getMonth() + 1}`, 2)}.${pad(`${date.getDate()}`, 2)}.${date.getFullYear()}`;
 };
 

@@ -20,10 +20,7 @@ const downloadStyle = {
 
 const withoutExtenstion = (track: string) => track.slice(0, track.lastIndexOf('.'));
 
-// TODO: remove fallback values!
-const MyTracks = (props: MyTracksProps) => {
-  const fallbackSong = '05 Stare Miasto.mp3';
-  const fallbackTrack = `${process.env.PUBLIC_URL}/${encodeURIComponent(fallbackSong)}`;
+function MyTracks(props: MyTracksProps) {
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
@@ -32,36 +29,41 @@ const MyTracks = (props: MyTracksProps) => {
       </div>
       <div className={style['tracks-grid']}>
         <div>Title</div>
+        <div>
+          <FontAwesome name="clock-o" style={{ fontSize: '0.8rem' }} />
+        </div>
+        <div>Artist</div>
+        <div>Album</div>
+        <div>Year</div>
         <div>Genre</div>
         <div>
           <FontAwesome name="calendar" style={{ fontSize: '0.8rem' }} />
         </div>
-        <div>
-          <FontAwesome name="clock-o" style={{ fontSize: '0.8rem' }} />
-        </div>
         <div></div>
-        {props.data.map((track) => (
+        {props.data.slice(0, 4).map((track) => (
           <React.Fragment key={track.title}>
             <div className={style['action-play']} onClick={() => props.setTrack(track.url)}>
-              {withoutExtenstion(track.title)}
+              {withoutExtenstion(track.title).slice(0, 70)}
               <span>
                 <FontAwesome name="volume-up" />
               </span>
             </div>
+            <div>{formatDuration(Math.floor(Math.random() * 300))}</div>
+            <div>{track.artist}</div>
+            <div>{track.album}</div>
+            <div>{track.year}</div>
             <div>{track.genre}</div>
-            <div>sth</div>
-            <div>sth</div>
+            <div>{formatTime(track.uploaded)}</div>
             <div>
               <a download={track.title} href={track.url}>
                 <FontAwesome name="arrow-circle-o-down" style={downloadStyle} />
               </a>
-              <FontAwesome name="ellipsis-h" />
             </div>
           </React.Fragment>
         ))}
       </div>
     </div>
   );
-};
+}
 
 export default MyTracks;

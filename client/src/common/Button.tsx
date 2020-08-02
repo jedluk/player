@@ -6,11 +6,13 @@ type ButtonProps = {
   action: () => void;
 };
 
-const Button = ({ action }: ButtonProps) => (
-  <button className={style['the-button']} onClick={action}>
-    <FontAwesome name="plus-circle" />
-    <span>Add new track</span>
-  </button>
-);
+function Button({ action }: ButtonProps) {
+  return (
+    <button className={style['the-button']} onClick={action}>
+      <FontAwesome name="plus-circle" />
+      <span>Add new track</span>
+    </button>
+  );
+}
 
 export default Button;

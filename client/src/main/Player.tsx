@@ -28,8 +28,10 @@ export const Player = ({ track }: PlayerProps) => {
   useEffect(() => {
     if (assetURL !== '') {
       setCurrentSec(0);
-      // audioRef.current.currentTime = 0;
-      // audioRef.current.play();
+      // @ts-ignore: Object is possibly 'null'.
+      audioRef.current.currentTime = 0;
+      // @ts-ignore: Object is possibly 'null'.
+      audioRef.current.play();
       setPlayed(true);
     }
   }, [assetURL]);
@@ -47,7 +49,8 @@ export const Player = ({ track }: PlayerProps) => {
     (event) => {
       if (playerReady) {
         const { value } = event.target;
-        // audioRef.current.currentTime = parseInt(value);
+        // @ts-ignore: Object is possibly 'null'.
+        audioRef.current.currentTime = parseInt(value);
         setCurrentSec(parseInt(value));
       }
     },
@@ -55,11 +58,14 @@ export const Player = ({ track }: PlayerProps) => {
   );
 
   const handlePlayOrPause = useCallback(() => {
-    if (audioRef !== null && audioRef.current !== null) {
+    if (playerReady) {
+      // @ts-ignore: Object is possibly 'null'.
       if (audioRef.current.paused) {
+        // @ts-ignore: Object is possibly 'null'.
         audioRef.current.play();
         setPlayed(true);
       } else {
+        // @ts-ignore: Object is possibly 'null'.
         audioRef.current.pause();
         setPlayed(false);
       }
@@ -67,8 +73,10 @@ export const Player = ({ track }: PlayerProps) => {
   }, [playerReady, audioRef, setPlayed]);
 
   const handleRestart = useCallback(() => {
-    if (audioRef !== null && audioRef.current !== null) {
+    if (playerReady) {
+      // @ts-ignore: Object is possibly 'null'.
       audioRef.current.currentTime = 0;
+      // @ts-ignore: Object is possibly 'null'.
       audioRef.current.play();
       setCurrentSec(0);
       setPlayed(true);
@@ -77,9 +85,11 @@ export const Player = ({ track }: PlayerProps) => {
 
   const handleSkip = useCallback(
     (sec, value) => {
-      if (audioRef !== null && audioRef.current !== null) {
+      if (playerReady) {
         const audio = audioRef.current;
+        // @ts-ignore: Object is possibly 'null'.
         if ((sec >= 0 && audio.currentTime + sec < museDuration) || audio.currentTime + sec >= 0) {
+          // @ts-ignore: Object is possibly 'null'.
           audioRef.current.currentTime = audioRef.current.currentTime + sec;
           setCurrentSec(value + sec);
         }
