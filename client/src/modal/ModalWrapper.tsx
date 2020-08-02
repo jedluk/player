@@ -4,13 +4,14 @@ import { uploadTracks } from '../utils/http';
 import Modal from 'react-modal';
 import { useDropzone } from 'react-dropzone';
 import FontAwesome from 'react-fontawesome';
-import style from './ModalWrapper.module.css';
 import { API, Maybe } from '../types';
+
+import style from './ModalWrapper.module.css';
 
 type ModalProps = {
   isOpen: boolean;
   setOpen: (isOpen: boolean) => void;
-  tracks: API.Tracks[];
+  fetchTracks: () => void;
 };
 
 const customStyles = {
@@ -35,21 +36,30 @@ function renderIcon(error: Maybe<API.Error>, file: Maybe<File[]>, isDragActive: 
 }
 
 function renderText(error: Maybe<API.Error>, files: Maybe<File[]>) {
-  if (isNotNull(error)) {
-    // @ts-ignore: Object is possibly 'null'.
+  if (error !== null) {
     return <h2>{error.message}</h2>;
   }
-  if (isNull(files)) {
-    return <h2>Drop MP3 file here</h2>;
-  }
-  // @ts-ignore: Object is possibly 'null'.
-  return <h2>{files.map((f) => f.name).join(', ')} has been uploaded</h2>;
+  return (
+    <h2>
+      {files === null ? (
+        'Drop MP3 file here'
+      ) : (
+        <>
+          {files
+            .map((file: File) => file.name)
+            .map((fileName: string) => (
+              <div key={fileName}>{fileName}</div>
+            ))}
+        </>
+      )}
+    </h2>
+  );
 }
 
 export function ModalWrapper(props: ModalProps) {
-  const { isOpen, setOpen, tracks } = props;
+  const { isOpen, setOpen, fetchTracks } = props;
   const [error, setError] = useState<Maybe<API.Error>>(null);
-  const [files, addFile] = useState(null);
+  const [files, setFiles] = useState<Maybe<File[]>>(null);
 
   useEffect(() => Modal.setAppElement('body'), []);
 
@@ -57,13 +67,21 @@ export function ModalWrapper(props: ModalProps) {
     if (isNotNull(error)) setTimeout(() => setError(null), 3000);
   }, [error]);
 
-  const onDrop = useCallback(async (files: File[]) => {
-    const validatorResult = fileValidator(files);
-    if ('error' in validatorResult) return setError(error);
-    await uploadTracks(files).catch(setError);
-  }, []);
+  const onDrop = useCallback(
+    async (files: File[]) => {
+      const { error: validationError } = fileValidator(files);
+      if (validationError !== null) return setError(validationError);
+      await uploadTracks(files).catch(setError);
+      setFiles(files);
+    },
+    [setError]
+  );
 
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    if (files !== null) fetchTracks();
+    setFiles(null);
+  }, [setOpen, files, setFiles, fetchTracks]);
 
   const { getRootProps, isDragActive } = useDropzone({ onDrop });
 

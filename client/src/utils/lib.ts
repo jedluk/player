@@ -1,5 +1,5 @@
 import { ERROR_CODES } from './errorCodes';
-import { API } from '../types';
+import { API, Maybe } from '../types';
 
 export function isNotNull(sth: any): boolean {
   return sth !== null;
@@ -13,8 +13,7 @@ export function fileValidator(
   files: File[]
 ): {
   isValid: boolean;
-  error?: API.Error;
-  files?: File[];
+  error: Maybe<API.Error>;
 } {
   if (!/\.mp3$/.test(files[0].name)) {
     return {
@@ -36,8 +35,8 @@ export function fileValidator(
     };
   }
   return {
-    files,
     isValid: true,
+    error: null,
   };
 }
 

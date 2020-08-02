@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { WithAppContext } from './AppContext';
 import { getTracks } from './utils/http';
 import { ModalWrapper } from './modal/ModalWrapper';
@@ -26,16 +26,20 @@ function App(props: AppProps): JSX.Element {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [isOpen, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
+  const fetchTracks = useCallback(() => {
     getTracks()
       .then((tracks: API.Tracks[]) => settleFiles(tracks))
-      .catch((err: API.Error) => console.error(err.message))
-      .finally(() => setInitialized(true));
+      .catch((err: API.Error) => console.error(err.message));
   }, [settleFiles]);
+
+  useEffect(() => {
+    fetchTracks();
+    setInitialized(true);
+  }, [fetchTracks]);
 
   return (
     <div className={style.App}>
-      <ModalWrapper isOpen={isOpen} setOpen={setOpen} tracks={tracks} />
+      <ModalWrapper isOpen={isOpen} setOpen={setOpen} fetchTracks={fetchTracks} />
       <div className={style['App-content']}>
         {initialized ? (
           <React.Fragment>
