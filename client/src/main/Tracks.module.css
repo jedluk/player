@@ -42,7 +42,7 @@
   text-transform: uppercase;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .tracks-grid>div:nth-child(-n + 7):hover {
@@ -77,4 +77,18 @@
   background-color: var(--light-grey);
   opacity: 1;
   transition: all 0.8s ease-out;
+}
+
+.tracks-grid::-webkit-scrollbar-track {
+  background-color: inherit;
+}
+
+.tracks-grid::-webkit-scrollbar {
+  width: 4px;
+  background-color: var(--ultra-light-grey);
+
+}
+
+.tracks-grid::-webkit-scrollbar-thumb {
+  background-color: var(--dark-grey);
 }
