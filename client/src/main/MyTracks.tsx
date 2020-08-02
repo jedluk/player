@@ -43,7 +43,9 @@ function MyTracks(props: MyTracksProps) {
         {props.data.slice(0, 4).map((track) => (
           <React.Fragment key={track.title}>
             <div className={style['action-play']} onClick={() => props.setTrack(track.url)}>
-              {withoutExtenstion(track.title).slice(0, 70)}
+              {track.title.length > 70
+                ? withoutExtenstion(track.title).slice(0, 70) + ' (...) '
+                : track.title}
               <span>
                 <FontAwesome name="volume-up" />
               </span>

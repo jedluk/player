@@ -33,16 +33,13 @@ function App(props: AppProps): JSX.Element {
       .finally(() => setInitialized(true));
   }, [settleFiles]);
 
-  // TODO: refetch when upload
-  console.log(tracks);
-
   return (
     <div className={style.App}>
       <ModalWrapper isOpen={isOpen} setOpen={setOpen} tracks={tracks} />
       <div className={style['App-content']}>
         {initialized ? (
           <React.Fragment>
-            {tracks.length === 0 && tracks.every((track) => isNotNull(track.title)) ? (
+            {tracks.length === 0 ? (
               <AddTrack onAdd={() => setOpen(true)} />
             ) : (
               <MyTracks

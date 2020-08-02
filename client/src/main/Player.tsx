@@ -2,6 +2,7 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import FontAwesome from 'react-fontawesome';
 import { formatDuration } from '../utils/lib';
+import { STATICS } from '../utils/http';
 
 import style from './Player.module.css';
 
@@ -21,7 +22,7 @@ export const Player = ({ track }: PlayerProps) => {
 
   useEffect(() => {
     if (track !== '') {
-      setAssetURL(track);
+      setAssetURL(STATICS + track);
     }
   }, [track]);
 
@@ -84,7 +85,7 @@ export const Player = ({ track }: PlayerProps) => {
   }, [playerReady, setCurrentSec, setPlayed]);
 
   const handleSkip = useCallback(
-    (sec, value) => {
+    (sec: number, value: number) => {
       if (playerReady) {
         const audio = audioRef.current;
         // @ts-ignore: Object is possibly 'null'.
@@ -115,7 +116,7 @@ export const Player = ({ track }: PlayerProps) => {
         </button>
       </div>
       <div className={style['player-slider']}>
-        {playerReady ? <h3>song name placeholder</h3> : null}
+        {playerReady ? <h3>{track.slice(track.indexOf('/') + 1, -4)}</h3> : null}
         <input
           type="range"
           name="playbackRate"
