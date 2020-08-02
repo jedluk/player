@@ -1,0 +1,104 @@
+.player-container {
+  background-color: var(--light-grey);
+  height: 100%;
+  padding: 0 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.player-buttons button {
+  border: 1px solid var(--dark-grey);
+  outline: none;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: black;
+  transition: all 0.4s;
+}
+
+.player-buttons button:hover {
+  transform: scale(1.2);
+  border: 1px solid var(--light-grey);
+  background: var(--dark-grey);
+  color: var(--light-grey);
+}
+
+.player-slider {
+  position: relative;
+  width: 80%;
+}
+
+.player-slider > h3 {
+  position: absolute;
+  left: 0;
+  top: -35px;
+  font-weight: 300;
+}
+
+.player-slider > .time-start {
+  position: absolute;
+  left: 0;
+  top: 35px;
+}
+
+.player-slider > .time-stop {
+  position: absolute;
+  right: 0;
+  top: 35px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: 100%;
+}
+
+.player-slider input[type="range"]:focus {
+  outline: none;
+}
+
+.player-slider input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: var(--dark-grey);
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+.player-slider input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background: var(--light-grey);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -12px;
+}
+
+.player-slider input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: var(--dark-grey);
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+.player-slider input[type="range"]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--light-grey);
+  cursor: pointer;
+}

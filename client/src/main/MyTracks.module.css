@@ -1,0 +1,66 @@
+.tracks-container {
+  width: 60%;
+  height: 80%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.tracks-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+.tracks-container .header h1 {
+  font-weight: 500;
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+
+.tracks-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40% 15% 15% 15% 15%;
+}
+
+.tracks-grid > div {
+  border-bottom: 1px solid var(--light-grey);
+  text-align: left;
+  opacity: 0.5;
+}
+
+.tracks-grid > div:nth-child(-n + 5) {
+  opacity: 0.3;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+  transition: all 0.4s;
+  padding: 12px;
+  text-transform: uppercase;
+}
+
+.tracks-grid > div:nth-child(-n + 5):hover {
+  opacity: 0.5;
+}
+
+.tracks-grid > div:not(:nth-child(-n + 5)) {
+  padding: 20px 2px;
+}
+
+.tracks-grid > .action-play > span {
+  display: none;
+  margin-left: 10px;
+}
+
+.tracks-grid > .action-play:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.tracks-grid > .action-play:hover > span {
+  display: inline-block;
+}
