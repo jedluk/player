@@ -26,46 +26,55 @@
   width: 100%;
   display: grid;
   grid-template-columns: 30% repeat(2, 20%) repeat(3, 8%) 6%;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }
 
-.tracks-grid > div {
+.tracks-grid>div {
   border-bottom: 1px solid var(--light-grey);
   text-align: left;
-  opacity: 0.5;
 }
 
-.tracks-grid > div:nth-child(-n + 7) {
-  opacity: 0.3;
+.tracks-grid>div:nth-child(-n + 7) {
   letter-spacing: 0.5px;
   font-size: 0.8rem;
   transition: all 0.4s;
   padding: 12px;
   text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.tracks-grid > div:nth-child(-n + 7):hover {
+.tracks-grid>div:nth-child(-n + 7):hover {
+  opacity: 0.8;
+}
+
+.tracks-grid>div:not(:nth-child(-n + 7)) {
+  padding: 20px 4px;
+  z-index: 1;
   opacity: 0.5;
 }
 
-.tracks-grid > div:not(:nth-child(-n + 7)) {
-  padding: 20px 4px;
-}
-
-.tracks-grid > div:nth-child(7n + 7) {
+.tracks-grid>div:nth-child(7n + 7) {
   text-align: right;
 }
 
-.tracks-grid > .action-play > span {
+.tracks-grid>.action-play>span {
   display: none;
   margin-left: 10px;
 }
 
-.tracks-grid > .action-play:hover {
+.tracks-grid>.action-play:hover {
   cursor: pointer;
   opacity: 0.8;
 }
 
-.tracks-grid > .action-play:hover > span {
+.tracks-grid>.action-play:hover>span {
   display: inline-block;
+}
+
+.active>div:nth-child(-n + 7) {
+  background-color: var(--light-grey);
+  opacity: 1;
+  transition: all 0.8s ease-out;
 }

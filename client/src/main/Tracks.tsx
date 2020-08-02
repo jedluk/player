@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import FontAwesome from 'react-fontawesome';
-import { formatTime, formatDuration } from '../utils/lib';
+import { formatTime } from '../utils/lib';
 import AddNewButton from '../common/Button';
 import { API } from '../types';
 
@@ -22,17 +22,34 @@ const downloadStyle = {
 const withoutExtenstion = (track: string) => track.slice(0, track.lastIndexOf('.'));
 
 function MyTracks(props: MyTracksProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [gridTouched, setGridTouched] = useState<boolean>(false);
+
+  const handleScroll = useCallback(
+    (e) => {
+      if ((e.target as HTMLDivElement).scrollTop > 0 && !gridTouched) {
+        setGridTouched(true);
+        if (gridRef.current !== null) {
+          gridRef.current.classList.toggle(style.active);
+        }
+      } else if ((e.target as HTMLDivElement).scrollTop === 0) {
+        setGridTouched(false);
+        if (gridRef.current !== null) {
+          gridRef.current.classList.toggle(style.active);
+        }
+      }
+    },
+    [setGridTouched, gridTouched]
+  );
+
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
         <h1>My tracks</h1>
         <AddNewButton action={props.onAdd} />
       </div>
-      <div className={style['tracks-grid']}>
+      <div className={style['tracks-grid']} ref={gridRef} onScroll={handleScroll}>
         <div>Title</div>
-        {/* <div>
-          <FontAwesome name="clock-o" style={{ fontSize: '0.8rem' }} />
-        </div> */}
         <div>Artist</div>
         <div>Album</div>
         <div>Year</div>
@@ -55,7 +72,6 @@ function MyTracks(props: MyTracksProps) {
                 <FontAwesome name="volume-up" />
               </span>
             </div>
-            {/* <div>{formatDuration(Math.floor(Math.random() * 300))}</div> */}
             <div>{track.artist}</div>
             <div>{track.album}</div>
             <div>{track.year}</div>
