@@ -1,0 +1,22 @@
+{
+  "name": "file_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "morgan": "^1.10.0",
+    "node-id3": "^0.1.18"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
