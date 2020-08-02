@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  player:
+    build: file_server
+    environment:
+      - PORT=8083
+      - UPLOAD_DIR=./sample
+      - CLIENT_DIR=./client
+    ports:
+      - 8080:8083
