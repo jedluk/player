@@ -9,13 +9,13 @@ const {
   CLIENT_DIR = path.join('..', 'client', 'build'),
 } = process.env
 
+const CORS = cors({
+  origin: 'http://localhost:3000',
+})
+
 const app = express()
 app.use(morgan('common'))
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-  })
-)
+app.use(CORS)
 app.use('/api', require('./routes'))
 app.use(function (err, req, res, next) {
   console.error(err.stack)
