@@ -27,7 +27,7 @@ export function uploadTracks(files: File[]): Promise<string> {
       method: 'POST',
       body: formData,
     })
-      .then((res) => res.json())
+      .then((res) => res.text())
       .then(resolve)
       .catch(() =>
         reject({
