@@ -2,10 +2,14 @@ version: '3.7'
 
 services:
   player:
-    build: file_server
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - PORT=8083
-      - UPLOAD_DIR=./sample
-      - CLIENT_DIR=./client
+      - UPLOAD_DIR=./uploads
+      - NODE_ENV=production
     ports:
       - 8080:8083
+    volumes:
+      - ./uploads:/app/uploads
