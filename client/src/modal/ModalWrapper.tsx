@@ -1,18 +1,18 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { fileValidator, isNotNull, isNull } from '../utils/lib';
-import { uploadTracks } from '../utils/http';
-import Modal from 'react-modal';
-import { useDropzone } from 'react-dropzone';
-import FontAwesome from 'react-fontawesome';
-import { API, Maybe } from '../types';
+import React, { useState, useCallback, useEffect } from 'react'
+import { fileValidator, isNotNull, isNull } from '../utils/lib'
+import { uploadTracks } from '../utils/http'
+import Modal from 'react-modal'
+import { useDropzone } from 'react-dropzone'
+import FontAwesome from 'react-fontawesome'
+import { API, Maybe } from '../types'
 
-import style from './ModalWrapper.module.css';
+import style from './ModalWrapper.module.css'
 
 type ModalProps = {
-  isOpen: boolean;
-  setOpen: (isOpen: boolean) => void;
-  fetchTracks: () => void;
-};
+  isOpen: boolean
+  setOpen: (isOpen: boolean) => void
+  fetchTracks: () => void
+}
 
 const customStyles = {
   content: {
@@ -23,21 +23,31 @@ const customStyles = {
     padding: 0,
     overflow: 'hidden',
   },
-};
+}
 
-function renderIcon(error: Maybe<API.Error>, file: Maybe<File[]>, isDragActive: boolean) {
+function renderIcon(
+  error: Maybe<API.Error>,
+  file: Maybe<File[]>,
+  isDragActive: boolean
+) {
   if (isNotNull(error)) {
-    return <FontAwesome name="exclamation-circle" size="5x" />;
+    return <FontAwesome name="exclamation-circle" size="5x" />
   }
   if (isNull(error) && isNull(file)) {
-    return <FontAwesome name="music" size="5x" style={{ opacity: isDragActive ? 1 : 0.5 }} />;
+    return (
+      <FontAwesome
+        name="music"
+        size="5x"
+        style={{ opacity: isDragActive ? 1 : 0.5 }}
+      />
+    )
   }
-  return <FontAwesome name="check" size="5x" />;
+  return <FontAwesome name="check" size="5x" />
 }
 
 function renderText(error: Maybe<API.Error>, files: Maybe<File[]>) {
   if (error !== null) {
-    return <h2>{error.message}</h2>;
+    return <h2>{error.message}</h2>
   }
   return (
     <h2>
@@ -53,37 +63,37 @@ function renderText(error: Maybe<API.Error>, files: Maybe<File[]>) {
         </>
       )}
     </h2>
-  );
+  )
 }
 
 export function ModalWrapper(props: ModalProps) {
-  const { isOpen, setOpen, fetchTracks } = props;
-  const [error, setError] = useState<Maybe<API.Error>>(null);
-  const [files, setFiles] = useState<Maybe<File[]>>(null);
+  const { isOpen, setOpen, fetchTracks } = props
+  const [error, setError] = useState<Maybe<API.Error>>(null)
+  const [files, setFiles] = useState<Maybe<File[]>>(null)
 
-  useEffect(() => Modal.setAppElement('body'), []);
+  useEffect(() => Modal.setAppElement('body'), [])
 
   useEffect(() => {
-    if (isNotNull(error)) setTimeout(() => setError(null), 3000);
-  }, [error]);
+    if (isNotNull(error)) setTimeout(() => setError(null), 3000)
+  }, [error])
 
   const onDrop = useCallback(
     async (files: File[]) => {
-      const { error: validationError } = fileValidator(files);
-      if (validationError !== null) return setError(validationError);
-      await uploadTracks(files).catch(setError);
-      setFiles(files);
+      const { error: validationError } = fileValidator(files)
+      if (validationError !== null) return setError(validationError)
+      await uploadTracks(files).catch(setError)
+      setFiles(files)
     },
     [setError]
-  );
+  )
 
   const handleClose = useCallback(() => {
-    setOpen(false);
-    if (files !== null) fetchTracks();
-    setFiles(null);
-  }, [setOpen, files, setFiles, fetchTracks]);
+    setOpen(false)
+    if (files !== null) fetchTracks()
+    setFiles(null)
+  }, [setOpen, files, setFiles, fetchTracks])
 
-  const { getRootProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, isDragActive } = useDropzone({ onDrop })
 
   return (
     <React.Fragment>
@@ -103,5 +113,5 @@ export function ModalWrapper(props: ModalProps) {
         </div>
       </Modal>
     </React.Fragment>
-  );
+  )
 }
