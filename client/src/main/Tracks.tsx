@@ -23,10 +23,11 @@ function MyTracks(props: MyTracksProps) {
 
   useEffect(() => {
     setLoaded(false)
-    setTimeout(
+    const timeout = setTimeout(
       () => setLoaded(true),
       (0.5 + ((props.tracks.length * 0.5) % 6)) * 1000
     )
+    return () => clearTimeout(timeout)
   }, [props.tracks.length])
 
   const handleScroll = useCallback(
