@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
-import { formatTime } from '../utils/lib'
 import Search from './Search'
+import Directories from './Directories'
 import { API } from '../types'
 
 import style from './Tracks.module.css'
@@ -14,12 +14,6 @@ type MyTracksProps = {
   currentTrack: string
   tracks: API.Track[]
   dirs: API.Directory[]
-}
-
-const downloadStyle = {
-  fontSize: '1.2rem',
-  marginRight: 10,
-  cursor: 'pointer',
 }
 
 function MyTracks(props: MyTracksProps) {
@@ -55,7 +49,6 @@ function MyTracks(props: MyTracksProps) {
     },
     [setGridTouched, gridTouched]
   )
-
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
@@ -63,20 +56,11 @@ function MyTracks(props: MyTracksProps) {
           My tracks <Search setFilteringPhrase={props.setFilteringPhrase} />
         </h1>
       </div>
-      {props.dirs.length > 0 ? (
-        <div className={style['dirs-container']}>
-          {props.dirs.map(dir => (
-            <div
-              key={dir.name}
-              className={style['dirs-folder']}
-              onClick={() => props.fetchAssets(encodeURIComponent(dir.url))}
-            >
-              <FontAwesome name="folder-open-o" style={{ marginRight: 5 }} />{' '}
-              {dir.name}
-            </div>
-          ))}
-        </div>
-      ) : null}
+      <Directories
+        fetchAssets={props.fetchAssets}
+        tracks={props.tracks}
+        dirs={props.dirs}
+      />
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
           {props.tracks.length > 0 ? (
