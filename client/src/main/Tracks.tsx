@@ -88,12 +88,6 @@ function MyTracks(props: MyTracksProps) {
                   <th>Album</th>
                   <th>Year</th>
                   <th>Genre</th>
-                  <th>
-                    <FontAwesome
-                      name="calendar"
-                      style={{ fontSize: '0.8rem' }}
-                    />
-                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -122,7 +116,6 @@ function MyTracks(props: MyTracksProps) {
                     <td>{track.album.slice(0, 10)}</td>
                     <td>{track.year}</td>
                     <td>{track.genre}</td>
-                    <td>{formatTime(track.uploaded)}</td>
                   </tr>
                 ))}
               </tbody>

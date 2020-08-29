@@ -52,6 +52,10 @@
   text-align: left;
 }
 
+.tracks-grid tr td:not(:first-child) {
+  text-align: center;
+}
+
 .tracks-grid thead tr {
   font-size: 0.8rem;
   text-transform: uppercase;
