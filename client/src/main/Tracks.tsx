@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { formatTime } from '../utils/lib'
-import AddNewButton from '../common/Button'
 import Search from './Search'
 import { API } from '../types'
 
@@ -11,8 +10,10 @@ type MyTracksProps = {
   onAdd: () => void
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
+  fetchAssets: (path?: string) => Promise<void>
   currentTrack: string
   tracks: API.Track[]
+  dirs: API.Directory[]
 }
 
 const downloadStyle = {
@@ -20,9 +21,6 @@ const downloadStyle = {
   marginRight: 10,
   cursor: 'pointer',
 }
-
-const withoutExtenstion = (track: string) =>
-  track.slice(0, track.lastIndexOf('.'))
 
 function MyTracks(props: MyTracksProps) {
   const theadRowRef = useRef<HTMLTableRowElement>(null)
@@ -57,18 +55,30 @@ function MyTracks(props: MyTracksProps) {
     },
     [setGridTouched, gridTouched]
   )
-
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
         <h1>
           My tracks <Search setFilteringPhrase={props.setFilteringPhrase} />
         </h1>
-        <AddNewButton action={props.onAdd} />
       </div>
+      {props.dirs.length > 0 ? (
+        <div className={style['dirs-container']}>
+          {props.dirs.map(dir => (
+            <div
+              key={dir.name}
+              className={style['dirs-folder']}
+              onClick={() => props.fetchAssets(dir.url)}
+            >
+              <FontAwesome name="folder-open-o" style={{ marginRight: 5 }} />{' '}
+              {dir.name}
+            </div>
+          ))}
+        </div>
+      ) : null}
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
-          {props.tracks.length ? (
+          {props.tracks.length > 0 ? (
             <React.Fragment>
               <thead>
                 <tr ref={theadRowRef}>
@@ -104,8 +114,7 @@ function MyTracks(props: MyTracksProps) {
                       onClick={() => props.setTrack(track.url)}
                     >
                       {track.title.length > 70
-                        ? withoutExtenstion(track.title).slice(0, 70) +
-                          ' (...) '
+                        ? track.title.slice(0, 70) + ' (...) '
                         : track.title}
                       <FontAwesome name="volume-up" />
                     </td>

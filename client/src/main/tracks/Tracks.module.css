@@ -23,6 +23,7 @@
 }
 
 .grid-container {
+  margin-top: 1rem;
   overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
@@ -35,6 +36,7 @@
 .grid-container::-webkit-scrollbar {
   width: 4px;
   background-color: var(--ultra-light-grey);
+
 }
 
 .grid-container::-webkit-scrollbar-thumb {
@@ -47,9 +49,15 @@
   /* border-collapse: collapse; */
 }
 
+.track-grid thead th:last-child,
+.track-grid tbody td:last-child {
+  width: 50px;
+}
+
+
 .tracks-grid td {
   border-bottom: 1px solid var(--light-grey);
-  text-align: left;
+  text-align: center;
 }
 
 .tracks-grid thead tr {
@@ -62,19 +70,21 @@
   padding: 10px;
   position: sticky;
   top: 0;
+  transition: all 0.5s;
 }
 
 .tracks-grid thead th.active {
+  box-shadow: none;
   animation: sticky-thead forwards 0.8s linear;
 }
 
 .tracks-grid thead th:hover {
-  opacity: 0.6;
-  transition: all 1.2s;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s;
 }
 
 .animate {
-  animation: fadein forwards cubic-bezier(1, -0.24, 0.56, 0.78);
+  animation: fadein forwards cubic-bezier(1, -0.24, .56, .78);
 }
 
 .tracks-grid tbody tr td {
@@ -85,7 +95,7 @@
   text-align: right;
 }
 
-.tracks-grid .action-play > span {
+.tracks-grid .action-play>span {
   display: inline-block;
   margin-left: 10px;
 }
@@ -95,34 +105,7 @@
   opacity: 0.8;
 }
 
-.dirs-container {
-  display: grid;
-  grid-auto-columns: 1fr;
-  grid-template-columns: repeat(3, 33%);
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
-  width: 100%;
-  margin: 10px 0;
-}
 
-.dirs-folder {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.03);
-  transition: all 0.4s;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.dirs-folder:hover {
-  background-color: var(--dark-grey);
-  color: white;
-}
 
 @keyframes spacing-in {
   0% {
@@ -148,28 +131,28 @@
 
 @keyframes fadein {
   0% {
-    opacity: 0;
+    opacity: 0
   }
 
   80% {
-    opacity: 0.8;
+    opacity: 0.8
   }
 
   100% {
-    opacity: 1;
+    opacity: 1
   }
 }
 
 @-webkit-keyframes fadein {
   0% {
-    opacity: 0;
+    opacity: 0
   }
 
   80% {
-    opacity: 0.8;
+    opacity: 0.8
   }
 
   100% {
-    opacity: 1;
+    opacity: 1
   }
 }

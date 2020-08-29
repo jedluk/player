@@ -11,11 +11,12 @@ const API_URL =
 export const STATICS =
   process.env.NODE_ENV !== 'production' ? `http://localhost:8083/` : '/'
 
-export function getTracks(): Promise<API.Track[]> {
+export function getAssets(path?: string): Promise<API.Assets> {
+  const query = path !== undefined ? `?path=${path}` : ''
   return new Promise((resolve, reject) =>
-    fetch(`${API_URL}/track`)
+    fetch(`${API_URL}/assets${query}`)
       .then(res => res.json())
-      .then(json => resolve(json.tracks))
+      .then(json => resolve(json))
       .catch(() =>
         reject({
           code: ERROR_CODES.REQUEST_FAILED,

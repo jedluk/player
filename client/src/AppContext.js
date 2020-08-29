@@ -1,34 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react'
 
-export const WithAppContext = (Component) => {
-  const WithAppContextComponent = (props) => {
-    const [files, addFile] = useState([]);
-    const [track, setTrack] = useState('');
+export const WithAppContext = Component => {
+  const WithAppContextComponent = props => {
+    const [tracks, addTracks] = useState([])
+    const [dirs, addDirs] = useState([])
+    const [track, setTrack] = useState('')
 
-    const settleFiles = useCallback((files) => addFile(files), [addFile]);
-
-    const addNewFile = useCallback(
-      (file) => {
-        addFile([...files, file]);
+    const settleFiles = useCallback(
+      assets => {
+        addTracks(assets.tracks)
+        addDirs(assets.dirs)
       },
-      [files, addFile]
-    );
+      [addTracks, addDirs]
+    )
 
     const appState = {
       track,
-      files,
-    };
+      tracks,
+      dirs,
+    }
 
     return (
       <Component
         {...props}
         appState={appState}
         settleFiles={settleFiles}
-        addNewFile={addNewFile}
         setTrack={setTrack}
       />
-    );
-  };
+    )
+  }
 
-  return WithAppContextComponent;
-};
+  return WithAppContextComponent
+}

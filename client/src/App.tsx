@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { WithAppContext } from './AppContext'
-import { getTracks } from './utils/http'
+import { getAssets } from './utils/http'
 import { ModalWrapper } from './modal/ModalWrapper'
 import { Player } from './main/Player'
-import AddTrack from './common/AddTrack'
 import Tracks from './main/Tracks'
 import { API } from './types'
 
 import style from './App.module.css'
 
 type AppProps = {
-  settleFiles: (files: API.Track[]) => void
+  settleFiles: (assets: API.Assets) => void
   addNewFile: (file: API.Track) => void
   setTrack: (track: string) => void
   appState: {
     track: string
-    files: API.Track[]
+    tracks: API.Track[]
+    dirs: API.Directory[]
   }
 }
 
@@ -26,40 +26,49 @@ function matchTitle(phrase: string) {
 
 function App(props: AppProps): JSX.Element {
   const { appState, settleFiles, setTrack } = props
-  const { files: tracks, track } = appState
-
+  const { track, tracks, dirs } = appState
   const [filteringPhrase, setFilteringPhrase] = useState<string>('')
   const [initialized, setInitialized] = useState<boolean>(false)
   const [isOpen, setOpen] = useState<boolean>(false)
 
-  const fetchTracks = useCallback(() => {
-    getTracks()
-      .then((tracks: API.Track[]) => settleFiles(tracks))
-      .catch((err: API.Error) => console.error(err.message))
-  }, [settleFiles])
+  const fetchAssets = useCallback(
+    (path?: string): Promise<void> => {
+      return new Promise(resolve => {
+        getAssets(path)
+          .then((assets: API.Assets) => settleFiles(assets))
+          .catch((err: API.Error) => console.error(err.message))
+          .finally(resolve)
+      })
+    },
+    [settleFiles]
+  )
 
   useEffect(() => {
-    fetchTracks()
-    setInitialized(true)
-  }, [fetchTracks])
+    fetchAssets().then(() => setInitialized(true))
+  }, [fetchAssets])
 
   return (
     <div className={style.App}>
       <ModalWrapper
         isOpen={isOpen}
         setOpen={setOpen}
-        fetchTracks={fetchTracks}
+        fetchTracks={fetchAssets}
       />
       <div className={style['App-content']}>
         {initialized ? (
           <React.Fragment>
-            {tracks.length === 0 ? (
-              <AddTrack onAdd={() => setOpen(true)} />
+            {tracks.length === 0 && dirs.length === 0 ? (
+              <>
+                <h1>It looks like there is nothing to play</h1>
+                <h2>Please put some files in assets directory </h2>
+              </>
             ) : (
               <Tracks
                 onAdd={() => setOpen(true)}
+                fetchAssets={fetchAssets}
                 currentTrack={track}
                 tracks={tracks.filter(matchTitle(filteringPhrase))}
+                dirs={dirs}
                 setTrack={setTrack}
                 setFilteringPhrase={setFilteringPhrase}
               />
@@ -70,7 +79,7 @@ function App(props: AppProps): JSX.Element {
         )}
       </div>
       <div className={style['App-player']}>
-        <Player track={appState.track} />
+        <Player track={track} />
       </div>
     </div>
   )
