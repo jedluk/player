@@ -60,6 +60,12 @@ typings/
 # dotenv environment variables file
 .env
 
+# Default ignored files
+/workspace.xml
+
 # CUSTOM
 uploads
+assets
 build
+
+Bonobo - Discography
