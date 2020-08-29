@@ -94,7 +94,6 @@ function MyTracks(props: MyTracksProps) {
                       style={{ fontSize: '0.8rem' }}
                     />
                   </th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -124,14 +123,6 @@ function MyTracks(props: MyTracksProps) {
                     <td>{track.year}</td>
                     <td>{track.genre}</td>
                     <td>{formatTime(track.uploaded)}</td>
-                    <td>
-                      <a download={track.title} href={track.url}>
-                        <FontAwesome
-                          name="arrow-circle-o-down"
-                          style={downloadStyle}
-                        />
-                      </a>
-                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -64,6 +64,10 @@
   top: 0;
 }
 
+.tracks-grid thead th:first-child {
+  width: 30%;
+}
+
 .tracks-grid thead th.active {
   animation: sticky-thead forwards 0.8s linear;
 }
