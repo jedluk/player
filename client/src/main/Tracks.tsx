@@ -55,6 +55,7 @@ function MyTracks(props: MyTracksProps) {
     },
     [setGridTouched, gridTouched]
   )
+
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
@@ -68,7 +69,7 @@ function MyTracks(props: MyTracksProps) {
             <div
               key={dir.name}
               className={style['dirs-folder']}
-              onClick={() => props.fetchAssets(dir.url)}
+              onClick={() => props.fetchAssets(encodeURIComponent(dir.url))}
             >
               <FontAwesome name="folder-open-o" style={{ marginRight: 5 }} />{' '}
               {dir.name}
