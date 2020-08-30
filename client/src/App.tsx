@@ -24,6 +24,12 @@ function matchTitle(phrase: string) {
     phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())
 }
 
+function findNextTrack(trackURL: string, tracks: API.Track[]): string | null {
+  if (trackURL === '') return null
+  const idx = tracks.findIndex(track => trackURL === track.url)
+  return idx + 1 < tracks.length ? tracks[idx + 1].url : null
+}
+
 function App(props: AppProps): JSX.Element {
   const { appState, settleFiles, setTrack } = props
   const { track, tracks, dirs } = appState
@@ -79,7 +85,11 @@ function App(props: AppProps): JSX.Element {
         )}
       </div>
       <div className={style['App-player']}>
-        <Player track={track} />
+        <Player
+          track={track}
+          nextTrack={findNextTrack(track, tracks)}
+          setTrack={setTrack}
+        />
       </div>
     </div>
   )

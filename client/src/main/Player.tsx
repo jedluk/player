@@ -8,9 +8,11 @@ import style from './Player.module.css'
 
 type PlayerProps = {
   track: string
+  nextTrack: string | null
+  setTrack: (track: string) => void
 }
 
-export const Player = ({ track }: PlayerProps) => {
+export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [assetURL, setAssetURL] = useState<string>('')
   const [isPlayed, setPlayed] = useState<boolean>(false)
@@ -96,6 +98,10 @@ export const Player = ({ track }: PlayerProps) => {
     [museDuration, setCurrentSec]
   )
 
+  const handleMuseEnd = useCallback(() => {
+    if (nextTrack !== null) setTrack(nextTrack)
+  }, [setTrack, nextTrack])
+
   return (
     <div className={style['player-container']}>
       <div className={style['player-buttons']}>
@@ -128,6 +134,7 @@ export const Player = ({ track }: PlayerProps) => {
           ref={audioRef}
           onLoadedMetadata={handleLoadMetaData}
           onTimeUpdate={handleMuseTimeUpdate}
+          onEnded={handleMuseEnd}
           src={assetURL}
         />
         {playerReady ? (

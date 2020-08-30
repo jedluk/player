@@ -10,7 +10,7 @@
 
 .dirs-folder {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding: 5px;
   cursor: pointer;
