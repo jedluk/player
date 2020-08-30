@@ -4,6 +4,7 @@ import { getAssets } from './utils/http'
 import { ModalWrapper } from './modal/ModalWrapper'
 import { Player } from './main/Player'
 import Tracks from './main/Tracks'
+import Button from './common/Button'
 import { API } from './types'
 
 import style from './App.module.css'
@@ -66,7 +67,12 @@ function App(props: AppProps): JSX.Element {
             {tracks.length === 0 && dirs.length === 0 ? (
               <>
                 <h1>It looks like there is nothing to play</h1>
-                <h2>Please put some files in assets directory </h2>
+                <h3>Please put some mp3 files in assets directory</h3>
+                <Button
+                  text="Reload"
+                  icon="refresh"
+                  action={() => fetchAssets()}
+                />
               </>
             ) : (
               <Tracks

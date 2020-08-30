@@ -120,7 +120,7 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
       </div>
       <div className={style['player-slider']}>
         {playerReady ? (
-          <h3>{track.slice(track.indexOf('/') + 1, -4)}</h3>
+          <h3>{track.slice(track.lastIndexOf('/') + 1, -4)}</h3>
         ) : null}
         <input
           type="range"

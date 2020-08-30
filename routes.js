@@ -22,30 +22,29 @@ router.get('/assets', async (req, res) => {
       const paths = files.map(file => path.join(ROOT_DIR, file))
       return Promise.all([
         Promise.resolve(paths),
-        Promise.all(paths.map(fs.stat))
+        Promise.all(paths.map(fs.stat)),
       ])
     })
     .then(async ([files, stats]) => {
       const directories = files.filter((_, idx) => stats[idx].isDirectory())
-      const tracks = files.filter(file =>  file.endsWith('.mp3'))
+      const tracks = files.filter(file => file.toLowerCase().endsWith('.mp3'))
       const [trackStats, tags] = await Promise.all([
         Promise.all(tracks.map(fs.stat)),
         Promise.all(
-          tracks
-            .map(
-              track =>
-                new Promise(resolve =>
-                  NodeID3.read(track, function (err, tags) {
-                    resolve(err === null ? tags : {})
-                  })
-                )
-            )
+          tracks.map(
+            track =>
+              new Promise(resolve =>
+                NodeID3.read(track, function (err, tags) {
+                  resolve(err === null ? tags : {})
+                })
+              )
+          )
         ),
       ])
       res.status(200).send({
         dirs: directories.map(dir => ({
           name: dir.slice(dir.lastIndexOf('/') + 1),
-          url: dir
+          url: dir,
         })),
         tracks: tags.map((tag, idx) => ({
           uploaded: trackStats[idx].birthtime,
@@ -56,7 +55,9 @@ router.get('/assets', async (req, res) => {
     })
     .catch(err => {
       console.error(err)
-      return res.status(500).json({ msg: err.message || 'Intenral server error' })
+      return res
+        .status(500)
+        .json({ msg: err.message || 'Intenral server error' })
     })
 })
 
