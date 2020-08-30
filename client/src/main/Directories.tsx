@@ -53,10 +53,10 @@ export default function Directories(
       </div>
     )
   }
-
+  console.log(dirs)
   return (
     <div className={style['dirs-container']}>
-      {nestedLevel(dirs[0].url) > 1 ? (
+      {dirs.length > 0 && nestedLevel(dirs[0].url) > 1 ? (
         <div
           className={style['dirs-folder']}
           onClick={() =>
