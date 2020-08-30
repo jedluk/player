@@ -65,7 +65,8 @@ typings/
 
 # CUSTOM
 uploads
-assets
+assets/*
+!assets/.gitkeep
 build
 
 Bonobo - Discography

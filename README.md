@@ -1,16 +1,21 @@
 # Player app
 
-Web based mp3 player.
+Fully functional web based mp3 player built with React and Node
 
-## Run app
+![Alt Demo](https://raw.githubusercontent.com/jedluk/random/master/player/player_demo.gif)
 
-Single shot (assumption: you are in root dir)
+Running app with Docker is extremely easy !
+
+## Launch the app
+
+(Assuming you are in the root dir)
 
 ```
-> cd client && yarn install && yarn build && cd ../file_server && yarn install && yarn start
+> docker-compose up
 ```
 
-Visit & enjoy the app on `http://localhost:8083/index.html`
+Next put your files inside assets directory (it can be either mp3 files or folders containing mp3 files). You are ready to go now !
+Visit & enjoy the app on `http://localhost:8083/index.html`.
 
 ## DEV mode
 
@@ -25,5 +30,3 @@ Visit & enjoy the app on `http://localhost:8083/index.html`
 ```
 > yarn install && yarn start
 ```
-
-more details soon...
