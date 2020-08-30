@@ -53,7 +53,7 @@ export default function Directories(
       </div>
     )
   }
-  console.log(dirs)
+
   return (
     <div className={style['dirs-container']}>
       {dirs.length > 0 && nestedLevel(dirs[0].url) > 1 ? (

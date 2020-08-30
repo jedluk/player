@@ -16,10 +16,15 @@ type MyTracksProps = {
   dirs: API.Directory[]
 }
 
+function serializeTracks(tracks: API.Track[]): string {
+  return tracks.map(track => track.title).join(',')
+}
+
 function MyTracks(props: MyTracksProps) {
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [gridTouched, setGridTouched] = useState<boolean>(false)
+  const serializedTracks = serializeTracks(props.tracks)
 
   useEffect(() => {
     setLoaded(false)
@@ -29,6 +34,15 @@ function MyTracks(props: MyTracksProps) {
     )
     return () => clearTimeout(timeout)
   }, [props.tracks.length])
+
+  useEffect(() => {
+    if (theadRowRef.current !== null) {
+      const scrollContainer = theadRowRef.current.closest(
+        `.${style['grid-container']}`
+      )
+      if (scrollContainer !== null) scrollContainer.scrollTop = 0
+    }
+  }, [serializedTracks])
 
   const handleScroll = useCallback(
     e => {
