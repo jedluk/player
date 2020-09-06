@@ -1,30 +1,23 @@
-import React, { useCallback, useState } from 'react'
-import FontAwesome from 'react-fontawesome'
-
-import style from './SideMenu.module.css'
-import { API } from '../types'
+import React from 'react'
 import Directories from './Directories'
-import Hamburger from './Hamburger'
+import { API } from '../types'
 
 type SideMenuProps = {
   isOpen: boolean
   dirs: API.Directory[]
   tracks: API.Track[]
-  toggle: () => void
   fetchAssets: (path?: string) => Promise<void>
 }
 
-export default function SideMenu(props: SideMenuProps): JSX.Element {
+export default function SideMenu(props: SideMenuProps): JSX.Element | null {
+  if (!props.isOpen) {
+    return null
+  }
   return (
-    <div className={style.container} style={{ zIndex: 100000 }}>
-      <Hamburger toggle={props.toggle} isOpen={props.isOpen} />
-      {props.isOpen ? (
-        <Directories
-          fetchAssets={props.fetchAssets}
-          tracks={props.tracks}
-          dirs={props.dirs}
-        />
-      ) : null}
-    </div>
+    <Directories
+      fetchAssets={props.fetchAssets}
+      tracks={props.tracks}
+      dirs={props.dirs}
+    />
   )
 }

@@ -1,7 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, { Fragment, useCallback, useState } from 'react'
 import { API } from '../types'
 import SideMenu from './SideMenu'
+import Hamburger from './Hamburger'
 import Tracks from './Tracks'
+
+import style from './MainView.module.css'
 
 interface MainViewProps {
   track: string
@@ -23,21 +26,25 @@ export default function MainView(props: MainViewProps) {
   const toggle = useCallback(() => setSidebarOpen(prev => !prev), [])
 
   return (
-    <>
-      <SideMenu
-        isOpen={sidebarOpen}
-        toggle={toggle}
-        dirs={props.dirs}
-        tracks={props.tracks}
-        fetchAssets={props.fetchAssets}
-      />
-      <Tracks
-        fetchAssets={props.fetchAssets}
-        currentTrack={props.track}
-        tracks={props.tracks.filter(matchTitle(filteringPhrase))}
-        setTrack={props.setTrack}
-        setFilteringPhrase={setFilteringPhrase}
-      />
-    </>
+    <Fragment>
+      <Hamburger toggle={toggle} isOpen={sidebarOpen} />
+      <div className={style.container}>
+        <Tracks
+          fetchAssets={props.fetchAssets}
+          currentTrack={props.track}
+          tracks={props.tracks.filter(matchTitle(filteringPhrase))}
+          setTrack={props.setTrack}
+          setFilteringPhrase={setFilteringPhrase}
+        />
+        {sidebarOpen ? (
+          <SideMenu
+            isOpen={sidebarOpen}
+            dirs={props.dirs}
+            tracks={props.tracks}
+            fetchAssets={props.fetchAssets}
+          />
+        ) : null}
+      </div>
+    </Fragment>
   )
 }

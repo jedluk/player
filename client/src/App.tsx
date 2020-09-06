@@ -48,32 +48,28 @@ function App(props: AppProps): JSX.Element {
 
   return (
     <div className={style.App}>
-      <div className={style['App-content']}>
-        {initialized ? (
-          <React.Fragment>
-            {tracks.length === 0 && dirs.length === 0 ? (
-              <EmptyView fetchAssets={fetchAssets} />
-            ) : (
-              <MainView
-                track={track}
-                tracks={tracks}
-                dirs={dirs}
-                fetchAssets={fetchAssets}
-                setTrack={setTrack}
-              />
-            )}
-          </React.Fragment>
-        ) : (
-          <h1>Loading tracks...</h1>
-        )}
-      </div>
-      <div className={style['App-player']}>
-        <Player
-          track={track}
-          nextTrack={findNextTrack(track, tracks)}
-          setTrack={setTrack}
-        />
-      </div>
+      {initialized ? (
+        <React.Fragment>
+          {tracks.length === 0 && dirs.length === 0 ? (
+            <EmptyView fetchAssets={fetchAssets} />
+          ) : (
+            <MainView
+              track={track}
+              tracks={tracks}
+              dirs={dirs}
+              fetchAssets={fetchAssets}
+              setTrack={setTrack}
+            />
+          )}
+        </React.Fragment>
+      ) : (
+        <h1>Loading tracks...</h1>
+      )}
+      <Player
+        track={track}
+        nextTrack={findNextTrack(track, tracks)}
+        setTrack={setTrack}
+      />
     </div>
   )
 }

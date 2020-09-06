@@ -24,10 +24,10 @@ type GoBackProps = {
 
 function GoBack({ text = '. . /' }: GoBackProps): JSX.Element {
   return (
-    <>
+    <div style={{ marginLeft: -10 }}>
       <FontAwesome name="folder-open-o" style={{ marginRight: 5 }} />
       <span>{text}</span>
-    </>
+    </div>
   )
 }
 
