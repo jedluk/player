@@ -1,19 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
 import Search from './Search'
-import Directories from './Directories'
 import { API } from '../types'
 
 import style from './Tracks.module.css'
 
 type MyTracksProps = {
-  onAdd: () => void
+  currentTrack: string
+  tracks: API.Track[]
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
-  currentTrack: string
-  tracks: API.Track[]
-  dirs: API.Directory[]
 }
 
 function serializeTracks(tracks: API.Track[]): string {
@@ -71,11 +68,6 @@ function MyTracks(props: MyTracksProps) {
           My tracks <Search setFilteringPhrase={props.setFilteringPhrase} />
         </h1>
       </div>
-      <Directories
-        fetchAssets={props.fetchAssets}
-        tracks={props.tracks}
-        dirs={props.dirs}
-      />
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
           {props.tracks.length > 0 ? (
