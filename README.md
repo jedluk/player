@@ -19,14 +19,8 @@ Visit & enjoy the app on `http://localhost:8080/index.html`.
 
 ## DEV mode
 
-### Client side
-
 ```
-> yarn install && yarn start
+npm run start
 ```
 
-### Backend side
-
-```
-> yarn install && yarn start
-```
+(processes will run simultaneously)
