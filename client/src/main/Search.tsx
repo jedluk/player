@@ -4,12 +4,14 @@ import FontAwesome from 'react-fontawesome'
 import style from './Search.module.css'
 
 type SeatchProps = {
+  visible: boolean
   setFilteringPhrase: (text: string) => void
 }
 
 export default function Search({
+  visible,
   setFilteringPhrase,
-}: SeatchProps): JSX.Element {
+}: SeatchProps): JSX.Element | null {
   const [value, setValue] = useState<string>('')
   const handleChange = useCallback(
     event => {
@@ -19,9 +21,15 @@ export default function Search({
     },
     [setValue, setFilteringPhrase]
   )
+
+  if (!visible) {
+    return null
+  }
+
   return (
     <div className={style.container}>
       <input
+        autoFocus
         className={style.search}
         type="text"
         value={value}

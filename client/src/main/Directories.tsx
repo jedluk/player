@@ -1,10 +1,13 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import FontAwesome from 'react-fontawesome'
 import { API } from '../types'
+import { joinClasses } from '../utils/lib'
 
 import style from './Directories.module.css'
 
 interface DirectoriesProps {
+  visible: boolean
   fetchAssets: (path?: string) => Promise<void>
   tracks: API.Track[]
   dirs: API.Directory[]
@@ -24,7 +27,7 @@ type GoBackProps = {
 
 function GoBack({ text = '. . /' }: GoBackProps): JSX.Element {
   return (
-    <div style={{ marginLeft: -10 }}>
+    <div>
       <FontAwesome name="folder-open-o" style={{ marginRight: 5 }} />
       <span>{text}</span>
     </div>
@@ -34,7 +37,13 @@ function GoBack({ text = '. . /' }: GoBackProps): JSX.Element {
 export default function Directories(
   props: DirectoriesProps
 ): JSX.Element | null {
-  const { dirs, tracks, fetchAssets } = props
+  const { dirs, tracks, fetchAssets, visible } = props
+
+  // TODO: reversed animation based on visible property
+  if (!visible) {
+    return null
+  }
+
   if (dirs.length === 0 && tracks.length === 0) {
     return null
   }

@@ -8,6 +8,10 @@
   user-select: none;
 }
 
+.toggle:hover span {
+  background: var(--dark-grey);
+}
+
 .toggle input {
   display: block;
   width: 40px;
@@ -31,7 +35,7 @@
   margin-bottom: 5px;
   position: relative;
 
-  background: #cdcdcd;
+  background: var(--light-grey);
   border-radius: 3px;
 
   z-index: 1;

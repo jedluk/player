@@ -9,12 +9,10 @@ type SideMenuProps = {
   fetchAssets: (path?: string) => Promise<void>
 }
 
-export default function SideMenu(props: SideMenuProps): JSX.Element | null {
-  if (!props.isOpen) {
-    return null
-  }
+export default function SideMenu(props: SideMenuProps): JSX.Element {
   return (
     <Directories
+      visible={props.isOpen}
       fetchAssets={props.fetchAssets}
       tracks={props.tracks}
       dirs={props.dirs}

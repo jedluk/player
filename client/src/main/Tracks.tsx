@@ -61,16 +61,23 @@ function MyTracks(props: MyTracksProps) {
     },
     [setGridTouched, gridTouched]
   )
+
+  const noTracks = props.tracks.length === 0
+
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
         <h1>
-          My tracks <Search setFilteringPhrase={props.setFilteringPhrase} />
+          My tracks{' '}
+          <Search
+            visible={!noTracks}
+            setFilteringPhrase={props.setFilteringPhrase}
+          />
         </h1>
       </div>
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
-          {props.tracks.length > 0 ? (
+          {!noTracks ? (
             <React.Fragment>
               <thead>
                 <tr ref={theadRowRef}>

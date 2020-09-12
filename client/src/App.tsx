@@ -4,6 +4,7 @@ import { getAssets } from './utils/http'
 import { Player } from './main/Player'
 import EmptyView from './main/EmptyView'
 import MainView from './main/MainView'
+import LoadingPlaceholder from './main/LoadingPlaceholder'
 import { API } from './types'
 
 import style from './App.module.css'
@@ -63,7 +64,7 @@ function App(props: AppProps): JSX.Element {
           )}
         </React.Fragment>
       ) : (
-        <h1>Loading tracks...</h1>
+        <LoadingPlaceholder />
       )}
       <Player
         track={track}
