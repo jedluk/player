@@ -1,8 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import FontAwesome from 'react-fontawesome'
 import { API } from '../types'
-import { joinClasses } from '../utils/lib'
 
 import style from './Directories.module.css'
 
