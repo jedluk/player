@@ -9,7 +9,7 @@ interface VolumeSetterProps {
 }
 
 export default function VolumeSetter({ audio: audioRef }: VolumeSetterProps) {
-  const [volume, setVolume] = useState<number>(0.7)
+  const [volume, setVolume] = useState<number>(0.8)
 
   const audio = audioRef !== null ? audioRef.current : null
 
@@ -31,7 +31,7 @@ export default function VolumeSetter({ audio: audioRef }: VolumeSetterProps) {
       className={style.root}
       style={{
         color: 'black',
-        background: `linear-gradient(to top, #545454 ${
+        background: `linear-gradient(90deg, #545454 ${
           volume * 100
         }%, #d3d3d3 0%)`,
       }}
