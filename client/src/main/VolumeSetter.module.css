@@ -1,0 +1,37 @@
+.root {
+  position: relative;
+}
+
+.root .setter {
+  display: none;
+}
+
+.root:hover .setter {
+  display: block;
+}
+
+.setter {
+  position: absolute;
+  color: black;
+  border: 1px solid black;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+
+.setter:hover {
+  transform: scale(1.2);
+  border: 1px solid var(--light-grey);
+  background: var(--dark-grey);
+  color: var(--light-grey);
+}
+
+.setter-up {
+  top: -10px;
+  right: -10px;
+}
+
+.setter-down {
+  bottom: -10px;
+  left: -10px;
+}

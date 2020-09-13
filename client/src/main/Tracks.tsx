@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import FontAwesome from 'react-fontawesome'
 import Search from './Search'
 import { API } from '../types'
+import { joinClasses } from '../utils/lib'
 
 import style from './Tracks.module.css'
 
@@ -99,23 +99,19 @@ function MyTracks(props: MyTracksProps) {
                 {props.tracks.map((track, idx) => (
                   <tr
                     key={track.title}
-                    className={!loaded ? style.animate : undefined}
+                    className={joinClasses(
+                      !loaded ? style.animate : '',
+                      props.currentTrack === track.url ? style.active : ''
+                    )}
                     style={{
                       animationDuration: `${0.2 + ((idx * 0.5) % 6)}s`,
                     }}
                   >
                     <td
                       className={style['action-play']}
-                      style={{
-                        fontWeight:
-                          props.currentTrack === track.url ? 'bold' : 'normal',
-                      }}
                       onClick={() => props.setTrack(track.url)}
                     >
-                      {track.title.length > 70
-                        ? track.title.slice(0, 70) + ' (...) '
-                        : track.title}
-                      <FontAwesome name="volume-up" />
+                      {track.title}
                     </td>
                     <td>{track.artist}</td>
                     <td>{track.album.slice(0, 10)}</td>

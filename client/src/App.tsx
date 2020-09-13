@@ -46,19 +46,21 @@ function App(props: AppProps): JSX.Element {
     fetchAssets().then(() => setInitialized(true))
   }, [fetchAssets])
 
+  const content = initialized ? (
+    <MainView
+      track={track}
+      tracks={tracks}
+      dirs={dirs}
+      fetchAssets={fetchAssets}
+      setTrack={setTrack}
+    />
+  ) : (
+    <LoadingPlaceholder />
+  )
+
   return (
     <div className={style.App}>
-      {initialized ? (
-        <MainView
-          track={track}
-          tracks={tracks}
-          dirs={dirs}
-          fetchAssets={fetchAssets}
-          setTrack={setTrack}
-        />
-      ) : (
-        <LoadingPlaceholder />
-      )}
+      {content}
       <Player
         track={track}
         nextTrack={findNextTrack(track, tracks)}
