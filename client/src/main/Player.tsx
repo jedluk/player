@@ -1,6 +1,7 @@
 /* tslint:disable:: Object is possibly 'null'. */
 import React, { useCallback, useState, useRef, useEffect } from 'react'
 import FontAwesome from 'react-fontawesome'
+import VolumeSetter from './VolumeSetter'
 import { formatDuration } from '../utils/lib'
 import { STATICS } from '../utils/http'
 
@@ -117,6 +118,7 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
         <button onClick={() => handleSkip(10, currentSec)}>
           <FontAwesome name="step-forward" />
         </button>
+        <VolumeSetter audio={audioRef} />
       </div>
       <div className={style['player-slider']}>
         {playerReady ? (
