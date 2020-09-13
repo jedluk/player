@@ -3,13 +3,19 @@ import FontAwesome from 'react-fontawesome'
 
 import style from './Search.module.css'
 
+const ENTER_KEY_CODE = 13
+
 type SeatchProps = {
+  visible: boolean
+  setFiltered: () => void
   setFilteringPhrase: (text: string) => void
 }
 
 export default function Search({
+  visible,
+  setFiltered,
   setFilteringPhrase,
-}: SeatchProps): JSX.Element {
+}: SeatchProps): JSX.Element | null {
   const [value, setValue] = useState<string>('')
   const handleChange = useCallback(
     event => {
@@ -19,12 +25,28 @@ export default function Search({
     },
     [setValue, setFilteringPhrase]
   )
+
+  const handleKeyDown = useCallback(
+    event => {
+      if (event.keyCode === ENTER_KEY_CODE) {
+        setFiltered()
+      }
+    },
+    [setFiltered]
+  )
+
+  if (!visible && value === '') {
+    return null
+  }
+
   return (
     <div className={style.container}>
       <input
+        autoFocus
         className={style.search}
         type="text"
         value={value}
+        onKeyDown={handleKeyDown}
         onChange={handleChange}
       />
       <FontAwesome

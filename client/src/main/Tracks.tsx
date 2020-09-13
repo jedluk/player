@@ -1,19 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
 import Search from './Search'
-import Directories from './Directories'
 import { API } from '../types'
 
 import style from './Tracks.module.css'
 
 type MyTracksProps = {
-  onAdd: () => void
+  currentTrack: string
+  tracks: API.Track[]
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
-  currentTrack: string
-  tracks: API.Track[]
-  dirs: API.Directory[]
 }
 
 function serializeTracks(tracks: API.Track[]): string {
@@ -21,6 +18,8 @@ function serializeTracks(tracks: API.Track[]): string {
 }
 
 function MyTracks(props: MyTracksProps) {
+  const { tracks, setFilteringPhrase, setTrack } = props
+
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [gridTouched, setGridTouched] = useState<boolean>(false)
@@ -30,10 +29,10 @@ function MyTracks(props: MyTracksProps) {
     setLoaded(false)
     const timeout = setTimeout(
       () => setLoaded(true),
-      (0.5 + ((props.tracks.length * 0.5) % 6)) * 1000
+      (0.5 + ((tracks.length * 0.5) % 6)) * 1000
     )
     return () => clearTimeout(timeout)
-  }, [props.tracks.length])
+  }, [tracks.length])
 
   useEffect(() => {
     if (theadRowRef.current !== null) {
@@ -64,21 +63,28 @@ function MyTracks(props: MyTracksProps) {
     },
     [setGridTouched, gridTouched]
   )
+
+  const setFiltered = useCallback(() => {
+    if (tracks.length > 0) setTrack(tracks[0].url)
+  }, [tracks, setTrack])
+
+  const noTracks = tracks.length === 0
+
   return (
     <div className={style['tracks-container']}>
       <div className={style['header']}>
         <h1>
-          My tracks <Search setFilteringPhrase={props.setFilteringPhrase} />
+          My tracks{' '}
+          <Search
+            visible={!noTracks}
+            setFiltered={setFiltered}
+            setFilteringPhrase={setFilteringPhrase}
+          />
         </h1>
       </div>
-      <Directories
-        fetchAssets={props.fetchAssets}
-        tracks={props.tracks}
-        dirs={props.dirs}
-      />
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
-          {props.tracks.length > 0 ? (
+          {!noTracks ? (
             <React.Fragment>
               <thead>
                 <tr ref={theadRowRef}>

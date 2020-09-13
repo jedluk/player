@@ -61,6 +61,10 @@ const pad = (numberString: string, size: number): string => {
   return padded
 }
 
+export function joinClasses(...classes: any[]) {
+  return classes.filter(className => typeof className === 'string').join(' ')
+}
+
 export function isValidTrack(
   file: API.Track | API.Directory
 ): file is API.Track {

@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { WithAppContext } from './AppContext'
 import { getAssets } from './utils/http'
-import { ModalWrapper } from './modal/ModalWrapper'
 import { Player } from './main/Player'
-import Tracks from './main/Tracks'
-import Button from './common/Button'
+import MainView from './main/MainView'
+import LoadingPlaceholder from './main/LoadingPlaceholder'
 import { API } from './types'
 
 import style from './App.module.css'
@@ -20,11 +19,6 @@ type AppProps = {
   }
 }
 
-function matchTitle(phrase: string) {
-  return (track: API.Track) =>
-    phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())
-}
-
 function findNextTrack(trackURL: string, tracks: API.Track[]): string | null {
   if (trackURL === '') return null
   const idx = tracks.findIndex(track => trackURL === track.url)
@@ -34,9 +28,7 @@ function findNextTrack(trackURL: string, tracks: API.Track[]): string | null {
 function App(props: AppProps): JSX.Element {
   const { appState, settleFiles, setTrack } = props
   const { track, tracks, dirs } = appState
-  const [filteringPhrase, setFilteringPhrase] = useState<string>('')
   const [initialized, setInitialized] = useState<boolean>(false)
-  const [isOpen, setOpen] = useState<boolean>(false)
 
   const fetchAssets = useCallback(
     (path?: string): Promise<void> => {
@@ -56,47 +48,22 @@ function App(props: AppProps): JSX.Element {
 
   return (
     <div className={style.App}>
-      <ModalWrapper
-        isOpen={isOpen}
-        setOpen={setOpen}
-        fetchTracks={fetchAssets}
-      />
-      <div className={style['App-content']}>
-        {initialized ? (
-          <React.Fragment>
-            {tracks.length === 0 && dirs.length === 0 ? (
-              <>
-                <h1>It looks like there is nothing to play</h1>
-                <h3>Please put some mp3 files in assets directory</h3>
-                <Button
-                  text="Reload"
-                  icon="refresh"
-                  action={() => fetchAssets()}
-                />
-              </>
-            ) : (
-              <Tracks
-                onAdd={() => setOpen(true)}
-                fetchAssets={fetchAssets}
-                currentTrack={track}
-                tracks={tracks.filter(matchTitle(filteringPhrase))}
-                dirs={dirs}
-                setTrack={setTrack}
-                setFilteringPhrase={setFilteringPhrase}
-              />
-            )}
-          </React.Fragment>
-        ) : (
-          <h1>Loading tracks...</h1>
-        )}
-      </div>
-      <div className={style['App-player']}>
-        <Player
+      {initialized ? (
+        <MainView
           track={track}
-          nextTrack={findNextTrack(track, tracks)}
+          tracks={tracks}
+          dirs={dirs}
+          fetchAssets={fetchAssets}
           setTrack={setTrack}
         />
-      </div>
+      ) : (
+        <LoadingPlaceholder />
+      )}
+      <Player
+        track={track}
+        nextTrack={findNextTrack(track, tracks)}
+        setTrack={setTrack}
+      />
     </div>
   )
 }
