@@ -1,9 +1,9 @@
 .dirs-container {
-  height: 90%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  height: 88%;
+  overflow: hidden;
   padding-top: 120px;
   animation: moveWidth 0.4s ease-out forwards;
+  box-shadow: -10px -10px 5px -6px rgba(0, 0, 0, 0.05);
 }
 
 .dirs-folder {
@@ -13,10 +13,15 @@
   justify-content: flex-start;
   align-items: center;
   padding: 5px;
+}
+
+.dirs-folder > div:first-child {
   cursor: pointer;
-  font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  padding-right: 1rem;
 }
 
 .dirs-folder:hover {
