@@ -99,6 +99,10 @@
   text-align: right;
 }
 
+.tracks-grid tbody tr td:first-child:hover {
+  font-weight: bold;
+}
+
 .tracks-grid .action-play > span {
   display: inline-block;
   margin-left: 10px;
@@ -106,7 +110,10 @@
 
 .tracks-grid .action-play:hover {
   cursor: pointer;
-  /* opacity: 0.8; */
+}
+
+.active {
+  font-weight: bold;
 }
 
 @keyframes spacing-in {
