@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { API } from '../types'
 
@@ -37,23 +37,27 @@ export default function Directories(
 ): JSX.Element | null {
   const { dirs, tracks, fetchAssets, visible } = props
 
-  // TODO: reversed animation based on visible property
+  const handleClickItem = useCallback(
+    (item: string) => fetchAssets(encodeURIComponent(item)),
+    [fetchAssets]
+  )
+
   if (!visible) {
+    // TODO: reversed animation based on visible property
     return null
   }
 
   if (dirs.length === 0 && tracks.length === 0) {
-    return null
+    return <div className={style['dirs-container']} />
   }
 
   if (dirs.length === 0 && nestedLevel(tracks[0].url) > 1) {
+    console.group(tracks)
     return (
       <div className={style['dirs-container']}>
         <div
           className={style['dirs-folder']}
-          onClick={() =>
-            fetchAssets(encodeURIComponent(previousDir(tracks[0].url)))
-          }
+          onClick={() => handleClickItem(previousDir(tracks[0].url))}
         >
           <GoBack />
         </div>
@@ -66,9 +70,7 @@ export default function Directories(
       {dirs.length > 0 && nestedLevel(dirs[0].url) > 1 ? (
         <div
           className={style['dirs-folder']}
-          onClick={() =>
-            props.fetchAssets(encodeURIComponent(previousDir(dirs[0].url)))
-          }
+          onClick={() => handleClickItem(previousDir(dirs[0].url))}
         >
           <GoBack />
         </div>
@@ -77,7 +79,7 @@ export default function Directories(
         <div
           key={dir.name}
           className={style['dirs-folder']}
-          onClick={() => fetchAssets(encodeURIComponent(dir.url))}
+          onClick={() => handleClickItem(dir.url)}
         >
           <GoBack text={dir.name} />
         </div>

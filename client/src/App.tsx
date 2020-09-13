@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { WithAppContext } from './AppContext'
 import { getAssets } from './utils/http'
 import { Player } from './main/Player'
-import EmptyView from './main/EmptyView'
 import MainView from './main/MainView'
 import LoadingPlaceholder from './main/LoadingPlaceholder'
 import { API } from './types'
@@ -50,19 +49,13 @@ function App(props: AppProps): JSX.Element {
   return (
     <div className={style.App}>
       {initialized ? (
-        <React.Fragment>
-          {tracks.length === 0 && dirs.length === 0 ? (
-            <EmptyView fetchAssets={fetchAssets} />
-          ) : (
-            <MainView
-              track={track}
-              tracks={tracks}
-              dirs={dirs}
-              fetchAssets={fetchAssets}
-              setTrack={setTrack}
-            />
-          )}
-        </React.Fragment>
+        <MainView
+          track={track}
+          tracks={tracks}
+          dirs={dirs}
+          fetchAssets={fetchAssets}
+          setTrack={setTrack}
+        />
       ) : (
         <LoadingPlaceholder />
       )}

@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback, useState } from 'react'
 import { API } from '../types'
+import EmptyView from './EmptyView'
 import SideMenu from './SideMenu'
 import Hamburger from './Hamburger'
 import Tracks from './Tracks'
@@ -29,13 +30,17 @@ export default function MainView(props: MainViewProps) {
     <Fragment>
       <Hamburger toggle={toggle} isOpen={sidebarOpen} />
       <div className={style.container}>
-        <Tracks
-          fetchAssets={props.fetchAssets}
-          currentTrack={props.track}
-          tracks={props.tracks.filter(matchTitle(filteringPhrase))}
-          setTrack={props.setTrack}
-          setFilteringPhrase={setFilteringPhrase}
-        />
+        {props.tracks.length === 0 && props.dirs.length === 0 ? (
+          <EmptyView fetchAssets={props.fetchAssets} />
+        ) : (
+          <Tracks
+            fetchAssets={props.fetchAssets}
+            currentTrack={props.track}
+            tracks={props.tracks.filter(matchTitle(filteringPhrase))}
+            setTrack={props.setTrack}
+            setFilteringPhrase={setFilteringPhrase}
+          />
+        )}
         <SideMenu
           isOpen={sidebarOpen}
           dirs={props.dirs}
