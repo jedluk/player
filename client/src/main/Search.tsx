@@ -3,13 +3,17 @@ import FontAwesome from 'react-fontawesome'
 
 import style from './Search.module.css'
 
+const ENTER_KEY_CODE = 13
+
 type SeatchProps = {
   visible: boolean
+  setFiltered: () => void
   setFilteringPhrase: (text: string) => void
 }
 
 export default function Search({
   visible,
+  setFiltered,
   setFilteringPhrase,
 }: SeatchProps): JSX.Element | null {
   const [value, setValue] = useState<string>('')
@@ -22,7 +26,16 @@ export default function Search({
     [setValue, setFilteringPhrase]
   )
 
-  if (!visible) {
+  const handleKeyDown = useCallback(
+    event => {
+      if (event.keyCode === ENTER_KEY_CODE) {
+        setFiltered()
+      }
+    },
+    [setFiltered]
+  )
+
+  if (!visible && value === '') {
     return null
   }
 
@@ -33,6 +46,7 @@ export default function Search({
         className={style.search}
         type="text"
         value={value}
+        onKeyDown={handleKeyDown}
         onChange={handleChange}
       />
       <FontAwesome

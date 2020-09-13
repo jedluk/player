@@ -18,6 +18,8 @@ function serializeTracks(tracks: API.Track[]): string {
 }
 
 function MyTracks(props: MyTracksProps) {
+  const { tracks, setFilteringPhrase, setTrack } = props
+
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [gridTouched, setGridTouched] = useState<boolean>(false)
@@ -27,10 +29,10 @@ function MyTracks(props: MyTracksProps) {
     setLoaded(false)
     const timeout = setTimeout(
       () => setLoaded(true),
-      (0.5 + ((props.tracks.length * 0.5) % 6)) * 1000
+      (0.5 + ((tracks.length * 0.5) % 6)) * 1000
     )
     return () => clearTimeout(timeout)
-  }, [props.tracks.length])
+  }, [tracks.length])
 
   useEffect(() => {
     if (theadRowRef.current !== null) {
@@ -62,7 +64,11 @@ function MyTracks(props: MyTracksProps) {
     [setGridTouched, gridTouched]
   )
 
-  const noTracks = props.tracks.length === 0
+  const setFiltered = useCallback(() => {
+    if (tracks.length > 0) setTrack(tracks[0].url)
+  }, [tracks, setTrack])
+
+  const noTracks = tracks.length === 0
 
   return (
     <div className={style['tracks-container']}>
@@ -71,7 +77,8 @@ function MyTracks(props: MyTracksProps) {
           My tracks{' '}
           <Search
             visible={!noTracks}
-            setFilteringPhrase={props.setFilteringPhrase}
+            setFiltered={setFiltered}
+            setFilteringPhrase={setFilteringPhrase}
           />
         </h1>
       </div>

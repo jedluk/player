@@ -36,7 +36,6 @@ export default function MainView(props: MainViewProps) {
           setTrack={props.setTrack}
           setFilteringPhrase={setFilteringPhrase}
         />
-
         <SideMenu
           isOpen={sidebarOpen}
           dirs={props.dirs}
