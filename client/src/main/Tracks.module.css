@@ -31,6 +31,13 @@
 .grid-container {
   overflow-y: scroll;
   overflow-x: hidden;
+  scrollbar-color: var(--dark-grey) var(--ultra-light-grey);
+  scrollbar-width: thin;
+  width: 100%;
+}
+
+.grid-container .tracks-grid {
+  table-layout: fixed;
   width: 100%;
 }
 
@@ -45,12 +52,6 @@
 
 .grid-container::-webkit-scrollbar-thumb {
   background-color: var(--dark-grey);
-}
-
-.tracks-grid {
-  table-layout: fixed;
-  width: 100%;
-  /* border-collapse: collapse; */
 }
 
 .tracks-grid td {

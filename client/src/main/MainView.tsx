@@ -24,14 +24,18 @@ export default function MainView(props: MainViewProps) {
   const [filteringPhrase, setFilteringPhrase] = useState<string>('')
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
-  const toggle = useCallback(() => setSidebarOpen(prev => !prev), [])
+  const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
+
+  const fetchAndCloseSidebar = useCallback(() => {
+    props.fetchAssets().then(() => setSidebarOpen(false))
+  }, [setSidebarOpen, props.fetchAssets])
 
   return (
     <Fragment>
-      <Hamburger toggle={toggle} isOpen={sidebarOpen} />
+      <Hamburger toggle={toggleSidebar} isOpen={sidebarOpen} />
       <div className={style.container}>
         {props.tracks.length === 0 && props.dirs.length === 0 ? (
-          <EmptyView fetchAssets={props.fetchAssets} />
+          <EmptyView action={fetchAndCloseSidebar} />
         ) : (
           <Tracks
             fetchAssets={props.fetchAssets}
