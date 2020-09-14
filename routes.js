@@ -43,7 +43,7 @@ router.get('/assets', async (req, res) => {
       ])
       res.status(200).send({
         dirs: directories.map(dir => ({
-          name: dir.slice(dir.lastIndexOf('/') + 1),
+          name: dir.slice(dir.lastIndexOf(path.sep) + 1),
           url: dir,
         })),
         tracks: tags.map((tag, idx) => ({

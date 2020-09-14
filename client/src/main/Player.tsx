@@ -4,6 +4,7 @@ import FontAwesome from 'react-fontawesome'
 import VolumeSetter from './VolumeSetter'
 import { formatDuration } from '../utils/lib'
 import { STATICS } from '../utils/http'
+import { FILE_SEPARATOR } from '../utils/constans'
 
 import style from './Player.module.css'
 
@@ -122,7 +123,7 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
       </div>
       <div className={style['player-slider']}>
         {playerReady ? (
-          <h3>{track.slice(track.lastIndexOf('/') + 1, -4)}</h3>
+          <h3>{track.slice(track.lastIndexOf(FILE_SEPARATOR) + 1, -4)}</h3>
         ) : null}
         <input
           type="range"

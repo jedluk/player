@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import FontAwesome from 'react-fontawesome'
+import { FILE_SEPARATOR } from '../utils/constans'
 import { API } from '../types'
 
 import style from './Directories.module.css'
@@ -12,11 +13,11 @@ interface DirectoriesProps {
 }
 
 const nestedLevel = (path: string): number => {
-  return path.split('/').length - 1
+  return path.split(FILE_SEPARATOR).length - 1
 }
 
 const previousDir = (path: string): string => {
-  return path.split('/').slice(0, -2).join('/')
+  return path.split(FILE_SEPARATOR).slice(0, -2).join(FILE_SEPARATOR)
 }
 
 type GoBackProps = {
