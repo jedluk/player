@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
 import Header from './Header'
+import Row from './Row'
 import { API } from '../../types'
-import { joinClasses } from '../../utils/lib'
 
 import style from './Tracks.module.css'
 
@@ -90,27 +90,15 @@ function MyTracks(props: MyTracksProps) {
               <Header ref={theadRowRef} />
               <tbody>
                 {props.tracks.map((track, idx) => (
-                  <tr
+                  <Row
                     key={track.title}
-                    className={joinClasses(
-                      !loaded ? style.animate : '',
-                      props.currentTrack === track.url ? style.active : ''
-                    )}
-                    style={{
-                      animationDuration: `${0.2 + ((idx * 0.5) % 6)}s`,
-                    }}
-                  >
-                    <td
-                      className={style['action-play']}
-                      onClick={() => props.setTrack(track.url)}
-                    >
-                      {track.title}
-                    </td>
-                    <td>{track.artist}</td>
-                    <td>{track.album.slice(0, 10)}</td>
-                    <td>{track.year}</td>
-                    <td>{track.genre}</td>
-                  </tr>
+                    style={style}
+                    isCurrentTrack={props.currentTrack === track.url}
+                    animationDelay={0.2 + ((idx * 0.5) % 6)}
+                    track={track}
+                    setTrack={props.setTrack}
+                    loaded={loaded}
+                  />
                 ))}
               </tbody>
             </React.Fragment>
