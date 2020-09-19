@@ -1,9 +1,9 @@
 import React, { Fragment, useCallback, useState } from 'react'
-import { API } from '../types'
+import { API } from '../../types'
 import EmptyView from './EmptyView'
-import SideMenu from './SideMenu'
-import Hamburger from './Hamburger'
-import Tracks from './Tracks'
+import SideMenu from '../panel/SideMenu'
+import Hamburger from '../panel/Hamburger'
+import Tracks from '../tracks/Tracks'
 
 import style from './MainView.module.css'
 

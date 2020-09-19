@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { WithAppContext } from './AppContext'
 import { getAssets } from './utils/http'
-import { Player } from './main/Player'
-import MainView from './main/MainView'
-import LoadingPlaceholder from './main/LoadingPlaceholder'
+import { Player } from './view/player/Player'
+import MainView from './view/scheme/MainView'
+import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
 import { API } from './types'
 
 import style from './App.module.css'
