@@ -21,14 +21,15 @@ function matchTitle(phrase: string) {
 }
 
 export default function MainView(props: MainViewProps) {
+  const { fetchAssets } = props
   const [filteringPhrase, setFilteringPhrase] = useState<string>('')
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
   const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
 
   const fetchAndCloseSidebar = useCallback(() => {
-    props.fetchAssets().then(() => setSidebarOpen(false))
-  }, [setSidebarOpen, props.fetchAssets])
+    fetchAssets().then(() => setSidebarOpen(false))
+  }, [setSidebarOpen, fetchAssets])
 
   return (
     <Fragment>
