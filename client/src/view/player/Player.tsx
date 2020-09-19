@@ -2,9 +2,9 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react'
 import FontAwesome from 'react-fontawesome'
 import VolumeSetter from './VolumeSetter'
-import { formatDuration } from '../utils/lib'
-import { STATICS } from '../utils/http'
-import { FILE_SEPARATOR } from '../utils/constans'
+import { formatDuration } from '../../utils/lib'
+import { STATICS } from '../../utils/http'
+import { FILE_SEPARATOR } from '../../utils/constans'
 
 import style from './Player.module.css'
 

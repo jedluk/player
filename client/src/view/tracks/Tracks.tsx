@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
-import { API } from '../types'
-import { joinClasses } from '../utils/lib'
+import Header from './Header'
+import { API } from '../../types'
+import { joinClasses } from '../../utils/lib'
 
 import style from './Tracks.module.css'
 
@@ -86,15 +87,7 @@ function MyTracks(props: MyTracksProps) {
         <table className={style['tracks-grid']}>
           {!noTracks ? (
             <React.Fragment>
-              <thead>
-                <tr ref={theadRowRef}>
-                  <th>Title</th>
-                  <th>Artist</th>
-                  <th>Album</th>
-                  <th>Year</th>
-                  <th>Genre</th>
-                </tr>
-              </thead>
+              <Header ref={theadRowRef} />
               <tbody>
                 {props.tracks.map((track, idx) => (
                   <tr

@@ -1,6 +1,6 @@
 import React from 'react'
 import Directories from './Directories'
-import { API } from '../types'
+import { API } from '../../types'
 
 type SideMenuProps = {
   isOpen: boolean
