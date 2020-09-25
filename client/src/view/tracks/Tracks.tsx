@@ -107,7 +107,7 @@ function MyTracks(props: MyTracksProps) {
                       {track.title}
                     </td>
                     <td>{track.artist}</td>
-                    <td>{track.album.slice(0, 10)}</td>
+                    <td>{track.album?.slice(0, 10)}</td>
                     <td>{track.year}</td>
                     <td>{track.genre}</td>
                   </tr>
