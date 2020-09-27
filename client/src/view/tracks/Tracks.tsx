@@ -28,7 +28,6 @@ function MyTracks(props: MyTracksProps) {
 
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
-  const [gridTouched, setGridTouched] = useState<boolean>(false)
   const serializedTracks = serializeTracks(props.tracks)
 
   useEffect(() => {
@@ -49,26 +48,24 @@ function MyTracks(props: MyTracksProps) {
     }
   }, [serializedTracks])
 
-  const handleScroll = useCallback(
-    e => {
-      if ((e.target as HTMLDivElement).scrollTop > 0 && !gridTouched) {
-        setGridTouched(true)
-        if (theadRowRef.current !== null) {
-          theadRowRef.current.childNodes.forEach((node: any) =>
-            node.classList.toggle(style.active)
-          )
-        }
-      } else if ((e.target as HTMLDivElement).scrollTop <= 0) {
-        setGridTouched(false)
-        if (theadRowRef.current !== null) {
-          theadRowRef.current.childNodes.forEach((node: any) =>
-            node.classList.toggle(style.active)
-          )
-        }
+  const handleScroll = useCallback(e => {
+    if (theadRowRef.current !== null) {
+      const target = e.target as HTMLDivElement
+      const isActive = Array.from(
+        theadRowRef.current.childNodes
+      ).some((node: any) => [...node.classList].includes(style.active))
+
+      if (target.scrollTop > 0 && !isActive) {
+        theadRowRef.current.childNodes.forEach((node: any) =>
+          node.classList.toggle(style.active)
+        )
+      } else if (target.scrollTop <= 0) {
+        theadRowRef.current.childNodes.forEach((node: any) =>
+          node.classList.toggle(style.active)
+        )
       }
-    },
-    [setGridTouched, gridTouched]
-  )
+    }
+  }, [])
 
   const setFiltered = useCallback(() => {
     if (tracks.length > 0) setTrack(tracks[0].url)
