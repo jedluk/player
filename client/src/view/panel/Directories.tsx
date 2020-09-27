@@ -7,9 +7,10 @@ import style from './Directories.module.css'
 
 interface DirectoriesProps {
   visible: boolean
-  fetchAssets: (path?: string) => Promise<void>
   tracks: API.Track[]
   dirs: API.Directory[]
+  cleanFilters: () => void
+  fetchAssets: (path?: string) => Promise<void>
 }
 
 const nestedLevel = (path: string): number => {
@@ -36,11 +37,14 @@ function GoBack({ text = '. . /' }: GoBackProps): JSX.Element {
 export default function Directories(
   props: DirectoriesProps
 ): JSX.Element | null {
-  const { dirs, tracks, fetchAssets, visible } = props
+  const { dirs, tracks, fetchAssets, cleanFilters, visible } = props
 
   const handleClickItem = useCallback(
-    (item: string) => fetchAssets(encodeURIComponent(item)),
-    [fetchAssets]
+    (item: string) => {
+      cleanFilters()
+      fetchAssets(encodeURIComponent(item))
+    },
+    [fetchAssets, cleanFilters]
   )
 
   if (!visible) {

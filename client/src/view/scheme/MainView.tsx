@@ -62,6 +62,8 @@ export default function MainView(props: MainViewProps) {
           isOpen={sidebarOpen}
           dirs={props.dirs}
           tracks={props.tracks}
+          modifiers={props.modifiers}
+          changeFilter={props.changeFilter}
           fetchAssets={props.fetchAssets}
         />
       </div>
