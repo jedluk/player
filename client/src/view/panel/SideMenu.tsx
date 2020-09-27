@@ -23,7 +23,7 @@ export default function SideMenu(props: SideMenuProps): JSX.Element {
           value: null,
         })
       ),
-    [modifiers]
+    [modifiers, changeFilter]
   )
 
   return (
