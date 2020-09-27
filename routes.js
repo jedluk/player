@@ -41,6 +41,7 @@ router.get('/assets', async (req, res) => {
           )
         ),
       ])
+      console.log(tags.map(console.log))
       res.status(200).send({
         dirs: directories.map(dir => ({
           name: dir.slice(dir.lastIndexOf(path.sep) + 1),
@@ -49,6 +50,10 @@ router.get('/assets', async (req, res) => {
         tracks: tags.map((tag, idx) => ({
           uploaded: trackStats[idx].birthtime,
           url: tracks[idx],
+          ...{
+            title: path.basename(tracks[idx]),
+            album: path.basename(path.dirname(tracks[idx])),
+          },
           ...pickTags(tag, ['title', 'artist', 'album', 'year', 'genre']),
         })),
       })
