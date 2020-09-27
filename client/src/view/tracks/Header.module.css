@@ -1,0 +1,22 @@
+.header tr {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  animation: spacing-in forwards linear 0.5s;
+}
+
+.header th {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+}
+
+@keyframes spacing-in {
+  0% {
+    letter-spacing: 0.05rem;
+  }
+
+  100% {
+    letter-spacing: 0.2rem;
+    background-color: var(--ultra-light-grey);
+  }
+}

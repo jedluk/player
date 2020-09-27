@@ -69,4 +69,4 @@ assets/*
 !assets/.gitkeep
 build
 
-Bonobo - Discography
+.DS_Store

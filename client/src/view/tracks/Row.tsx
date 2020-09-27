@@ -13,8 +13,9 @@ interface RowProps {
 
 export default function Row(props: RowProps) {
   const { track, loaded, setTrack, animationDelay, style } = props
+  const { url } = track
 
-  const handleSetTrack = useCallback(() => setTrack(track.url), [setTrack])
+  const handleSetTrack = useCallback(() => setTrack(url), [setTrack, url])
 
   const classes = joinClasses(
     !loaded ? style.animate : '',
@@ -33,7 +34,7 @@ export default function Row(props: RowProps) {
         {track.title}
       </td>
       <td>{track.artist}</td>
-      <td>{track.album?.slice(0, 10)}</td>
+      <td>{track.album}</td>
       <td>{track.year}</td>
       <td>{track.genre}</td>
     </tr>

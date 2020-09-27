@@ -3,6 +3,7 @@ import { WithAppContext } from './AppContext'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
+import { trackFilter, Filter, FilterPayload } from './utils/trackFilter'
 import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
 import { API } from './types'
 
@@ -12,10 +13,12 @@ type AppProps = {
   settleFiles: (assets: API.Assets) => void
   addNewFile: (file: API.Track) => void
   setTrack: (track: string) => void
+  changeFilter: (payload: FilterPayload) => void
   appState: {
     track: string
     tracks: API.Track[]
     dirs: API.Directory[]
+    filters: Filter
   }
 }
 
@@ -26,8 +29,9 @@ function findNextTrack(trackURL: string, tracks: API.Track[]): string | null {
 }
 
 function App(props: AppProps): JSX.Element {
-  const { appState, settleFiles, setTrack } = props
-  const { track, tracks, dirs } = appState
+  const { appState, settleFiles, setTrack, changeFilter } = props
+  const { track, tracks, dirs, filters } = appState
+  console.log(filters)
   const [initialized, setInitialized] = useState<boolean>(false)
 
   const fetchAssets = useCallback(
@@ -49,7 +53,8 @@ function App(props: AppProps): JSX.Element {
   const content = initialized ? (
     <MainView
       track={track}
-      tracks={tracks}
+      tracks={trackFilter(tracks, filters)}
+      changeFilter={changeFilter}
       dirs={dirs}
       fetchAssets={fetchAssets}
       setTrack={setTrack}

@@ -3,6 +3,7 @@ import Search from './Search'
 import Header from './Header'
 import Row from './Row'
 import { API } from '../../types'
+import { FilterPayload } from '../../utils/trackFilter'
 
 import style from './Tracks.module.css'
 
@@ -12,6 +13,7 @@ type MyTracksProps = {
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
+  changeFilter: (payload: FilterPayload) => void
 }
 
 function serializeTracks(tracks: API.Track[]): string {
@@ -53,7 +55,7 @@ function MyTracks(props: MyTracksProps) {
             node.classList.toggle(style.active)
           )
         }
-      } else if ((e.target as HTMLDivElement).scrollTop === 0) {
+      } else if ((e.target as HTMLDivElement).scrollTop <= 0) {
         setGridTouched(false)
         if (theadRowRef.current !== null) {
           theadRowRef.current.childNodes.forEach((node: any) =>
@@ -87,7 +89,11 @@ function MyTracks(props: MyTracksProps) {
         <table className={style['tracks-grid']}>
           {!noTracks ? (
             <React.Fragment>
-              <Header ref={theadRowRef} />
+              <Header
+                changeFilter={props.changeFilter}
+                rowRef={theadRowRef}
+                tracks={props.tracks}
+              />
               <tbody>
                 {props.tracks.map((track, idx) => (
                   <Row
