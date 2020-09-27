@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
+import { API } from './types'
 import { WithAppContext } from './AppContext'
+import { findNextTrack, generateModifiers, serializeTracks } from './App.utils'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
-import { trackFilter, Filter, FilterPayload } from './utils/trackFilter'
+import { Filter, FilterPayload, trackFilter } from './utils/trackFilter'
 import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
-import { API } from './types'
 
 import style from './App.module.css'
 
@@ -20,12 +21,6 @@ type AppProps = {
     dirs: API.Directory[]
     filters: Filter
   }
-}
-
-function findNextTrack(trackURL: string, tracks: API.Track[]): string | null {
-  if (trackURL === '') return null
-  const idx = tracks.findIndex(track => trackURL === track.url)
-  return idx + 1 < tracks.length ? tracks[idx + 1].url : null
 }
 
 function App(props: AppProps): JSX.Element {
@@ -49,10 +44,20 @@ function App(props: AppProps): JSX.Element {
     fetchAssets().then(() => setInitialized(true))
   }, [fetchAssets])
 
+  const modifiers = useMemo(
+    () => generateModifiers(tracks),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [serializeTracks(tracks)]
+  )
+
+  const filteredTracks = trackFilter(tracks, filters)
+
   const content = initialized ? (
     <MainView
       track={track}
-      tracks={trackFilter(tracks, filters)}
+      isFiltered={filteredTracks.length !== tracks.length}
+      tracks={filteredTracks}
+      modifiers={modifiers}
       changeFilter={changeFilter}
       dirs={dirs}
       fetchAssets={fetchAssets}

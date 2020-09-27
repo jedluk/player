@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useState } from 'react'
-import { API } from '../../types'
+import { API, Modifier } from '../../types'
 import { FilterPayload } from '../../utils/trackFilter'
 import EmptyView from './EmptyView'
 import SideMenu from '../panel/SideMenu'
@@ -11,8 +11,10 @@ import style from './MainView.module.css'
 
 interface MainViewProps {
   track: string
+  isFiltered: boolean
   tracks: API.Track[]
   dirs: API.Directory[]
+  modifiers: Modifier[]
   fetchAssets: (path?: string) => Promise<void>
   setTrack: (track: string) => void
   changeFilter: (payload: FilterPayload) => void
@@ -24,7 +26,7 @@ function matchTitle(phrase: string) {
 }
 
 export default function MainView(props: MainViewProps) {
-  const { fetchAssets, tracks, dirs } = props
+  const { fetchAssets, tracks, dirs, isFiltered } = props
   const [filteringPhrase, setFilteringPhrase] = useState<string>('')
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
@@ -34,9 +36,9 @@ export default function MainView(props: MainViewProps) {
     fetchAssets().then(() => setSidebarOpen(false))
   }, [setSidebarOpen, fetchAssets])
 
-  const isEmpty = tracks.length === 0 && dirs.length === 0
-  const someFolders = tracks.length === 0 && dirs.length > 0
-  const someTracks = tracks.length > 0
+  const isEmpty = tracks.length === 0 && dirs.length === 0 && !isFiltered
+  const someFolders = tracks.length === 0 && dirs.length > 0 && !isFiltered
+  const displayTracks = tracks.length > 0 || isFiltered
 
   return (
     <Fragment>
@@ -44,12 +46,14 @@ export default function MainView(props: MainViewProps) {
       <div className={style.container}>
         {someFolders ? <SomeAvailable /> : null}
         {isEmpty ? <EmptyView action={fetchAndCloseSidebar} /> : null}
-        {someTracks ? (
+        {displayTracks ? (
           <Tracks
+            isFiltered={isFiltered}
             fetchAssets={props.fetchAssets}
             changeFilter={props.changeFilter}
             currentTrack={props.track}
-            tracks={props.tracks.filter(matchTitle(filteringPhrase))}
+            modifiers={props.modifiers}
+            tracks={tracks.filter(matchTitle(filteringPhrase))}
             setTrack={props.setTrack}
             setFilteringPhrase={setFilteringPhrase}
           />

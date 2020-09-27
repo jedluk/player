@@ -29,6 +29,7 @@
   scrollbar-color: var(--dark-grey) var(--ultra-light-grey);
   scrollbar-width: thin;
   width: 100%;
+  min-height: 70px;
 }
 
 .grid-container .tracks-grid {

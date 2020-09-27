@@ -2,14 +2,17 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
 import Header from './Header'
 import Row from './Row'
-import { API } from '../../types'
+import NoMatch from './NoMatch'
+import { API, Modifier } from '../../types'
 import { FilterPayload } from '../../utils/trackFilter'
 
 import style from './Tracks.module.css'
 
 type MyTracksProps = {
+  isFiltered: boolean
   currentTrack: string
   tracks: API.Track[]
+  modifiers: Modifier[]
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
@@ -87,30 +90,29 @@ function MyTracks(props: MyTracksProps) {
       </div>
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
-          {!noTracks ? (
-            <React.Fragment>
-              <Header
-                changeFilter={props.changeFilter}
-                rowRef={theadRowRef}
-                tracks={props.tracks}
-              />
-              <tbody>
-                {props.tracks.map((track, idx) => (
-                  <Row
-                    key={track.title}
-                    style={style}
-                    isCurrentTrack={props.currentTrack === track.url}
-                    animationDelay={0.2 + ((idx * 0.5) % 6)}
-                    track={track}
-                    setTrack={props.setTrack}
-                    loaded={loaded}
-                  />
-                ))}
-              </tbody>
-            </React.Fragment>
+          <Header
+            changeFilter={props.changeFilter}
+            rowRef={theadRowRef}
+            modifiers={props.modifiers}
+          />
+          {!noTracks || props.isFiltered ? (
+            <tbody>
+              {props.tracks.map((track, idx) => (
+                <Row
+                  key={track.title}
+                  style={style}
+                  isCurrentTrack={props.currentTrack === track.url}
+                  animationDelay={0.2 + ((idx * 0.5) % 6)}
+                  track={track}
+                  setTrack={props.setTrack}
+                  loaded={loaded}
+                />
+              ))}
+            </tbody>
           ) : null}
         </table>
       </div>
+      <NoMatch isFiltered={props.isFiltered} noTracks={noTracks} />
     </div>
   )
 }
