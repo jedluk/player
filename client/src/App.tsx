@@ -31,7 +31,6 @@ function findNextTrack(trackURL: string, tracks: API.Track[]): string | null {
 function App(props: AppProps): JSX.Element {
   const { appState, settleFiles, setTrack, changeFilter } = props
   const { track, tracks, dirs, filters } = appState
-  console.log(filters)
   const [initialized, setInitialized] = useState<boolean>(false)
 
   const fetchAssets = useCallback(
