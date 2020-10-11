@@ -22,8 +22,9 @@ function FilteringItem(props: FileringItemProps) {
   const { property, changeFilter, values } = props
   const [isSelectable, setSelectable] = useState<boolean>(false)
   const [selected, setSelected] = useState<Option[]>([])
+  const serializedValues = values.join(',')
 
-  useEffect(() => setSelected([]), [values.join(',')])
+  useEffect(() => setSelected([]), [serializedValues])
 
   const showFilter = useCallback(() => setSelectable(true), [setSelectable])
   const hideFilter = useCallback(() => setSelectable(false), [setSelectable])
