@@ -1,5 +1,11 @@
 export type Maybe<T> = T | null
 
+export type Modifier = {
+  name: string
+  property: keyof API.Track
+  values: string[]
+}
+
 export namespace API {
   export type Assets = {
     dirs: Directory[]

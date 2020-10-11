@@ -8,9 +8,9 @@ import GoBackItem from './GoBackItem'
 
 interface DirectoriesProps {
   visible: boolean
-  fetchAssets: (path?: string) => Promise<void>
   tracks: API.Track[]
   dirs: API.Directory[]
+  fetchAssets: (path?: string) => Promise<void>
 }
 
 export default function Directories(

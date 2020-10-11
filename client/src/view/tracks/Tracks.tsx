@@ -1,18 +1,23 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
 import Header from './Header'
-import { API } from '../../types'
-import { joinClasses } from '../../utils/lib'
 import { serializeTracks } from '../../utils/tracks'
+import Row from './Row'
+import NoMatch from './NoMatch'
+import { API, Modifier } from '../../types'
+import { FilterPayload } from '../../utils/trackFilter'
 
 import style from './Tracks.module.css'
 
 type MyTracksProps = {
+  isFiltered: boolean
   currentTrack: string
   tracks: API.Track[]
+  modifiers: Modifier[]
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
+  changeFilter: (payload: FilterPayload) => void
 }
 
 function MyTracks(props: MyTracksProps) {
@@ -20,7 +25,6 @@ function MyTracks(props: MyTracksProps) {
 
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
-  const [gridTouched, setGridTouched] = useState<boolean>(false)
 
   useEffect(() => {
     setLoaded(false)
@@ -41,26 +45,24 @@ function MyTracks(props: MyTracksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serializeTracks(props.tracks)])
 
-  const handleScroll = useCallback(
-    e => {
-      if ((e.target as HTMLDivElement).scrollTop > 0 && !gridTouched) {
-        setGridTouched(true)
-        if (theadRowRef.current !== null) {
-          theadRowRef.current.childNodes.forEach((node: any) =>
-            node.classList.toggle(style.active)
-          )
-        }
-      } else if ((e.target as HTMLDivElement).scrollTop === 0) {
-        setGridTouched(false)
-        if (theadRowRef.current !== null) {
-          theadRowRef.current.childNodes.forEach((node: any) =>
-            node.classList.toggle(style.active)
-          )
-        }
+  const handleScroll = useCallback(e => {
+    if (theadRowRef.current !== null) {
+      const target = e.target as HTMLDivElement
+      const isActive = Array.from(
+        theadRowRef.current.childNodes
+      ).some((node: any) => [...node.classList].includes(style.active))
+
+      if (target.scrollTop > 0 && !isActive) {
+        theadRowRef.current.childNodes.forEach((node: any) =>
+          node.classList.toggle(style.active)
+        )
+      } else if (target.scrollTop <= 0) {
+        theadRowRef.current.childNodes.forEach((node: any) =>
+          node.classList.toggle(style.active)
+        )
       }
-    },
-    [setGridTouched, gridTouched]
-  )
+    }
+  }, [])
 
   const setFiltered = useCallback(() => {
     if (tracks.length > 0) setTrack(tracks[0].url)
@@ -82,38 +84,29 @@ function MyTracks(props: MyTracksProps) {
       </div>
       <div className={style['grid-container']} onScroll={handleScroll}>
         <table className={style['tracks-grid']}>
-          {!noTracks ? (
-            <React.Fragment>
-              <Header headerRef={theadRowRef} />
-              <tbody>
-                {props.tracks.map((track, idx) => (
-                  <tr
-                    key={track.title}
-                    className={joinClasses(
-                      !loaded ? style.animate : '',
-                      props.currentTrack === track.url ? style.active : ''
-                    )}
-                    style={{
-                      animationDuration: `${0.2 + ((idx * 0.5) % 6)}s`,
-                    }}
-                  >
-                    <td
-                      className={style['action-play']}
-                      onClick={() => props.setTrack(track.url)}
-                    >
-                      {track.title}
-                    </td>
-                    <td>{track.artist}</td>
-                    <td>{track.album?.slice(0, 10)}</td>
-                    <td>{track.year}</td>
-                    <td>{track.genre}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </React.Fragment>
+          <Header
+            changeFilter={props.changeFilter}
+            rowRef={theadRowRef}
+            modifiers={props.modifiers}
+          />
+          {!noTracks || props.isFiltered ? (
+            <tbody>
+              {props.tracks.map((track, idx) => (
+                <Row
+                  key={track.title}
+                  style={style}
+                  isCurrentTrack={props.currentTrack === track.url}
+                  animationDelay={0.2 + ((idx * 0.5) % 6)}
+                  track={track}
+                  setTrack={props.setTrack}
+                  loaded={loaded}
+                />
+              ))}
+            </tbody>
           ) : null}
         </table>
       </div>
+      <NoMatch isFiltered={props.isFiltered} noTracks={noTracks} />
     </div>
   )
 }

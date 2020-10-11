@@ -24,6 +24,7 @@ Visit & enjoy the app on `http://localhost:8080/index.html`.
 - handy track list with columns: title, artist, album, year and genre
 - quick search for songs
 - traversing directories in side panel
+- filtering by artist, album and year
 
 ## DEV mode
 
@@ -32,3 +33,9 @@ npm run start
 ```
 
 (processes will run simultaneously)
+
+## TODO LIST
+
+- [ ] fork project and create Electron based desktop app
+- [ ] basic e2e test suite with Cypress
+- [ ] HATEOAS driven API
