@@ -1,4 +1,11 @@
-import { formatDuration, joinClasses, isNil, isNull, formatTime } from './lib'
+import {
+  formatDuration,
+  joinClasses,
+  isNil,
+  isNull,
+  formatTime,
+  unique,
+} from './lib'
 
 describe('lib test suite', () => {
   describe('isNull function', () => {
@@ -56,6 +63,12 @@ describe('lib test suite', () => {
     it('adds 0 to single digit', () => {
       const date = '2020-8-7'
       expect(formatTime(date as any)).toEqual('08.07.2020')
+    })
+  })
+
+  describe('unique function', () => {
+    it('returns unique values from collection', () => {
+      expect(unique([1, 2, 2, 3, 3, 3, 1, 2, 3])).toEqual([1, 2, 3])
     })
   })
 })

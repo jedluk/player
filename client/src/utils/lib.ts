@@ -25,3 +25,7 @@ export function formatTime(fromDate: Date): string {
 export function joinClasses(...classes: any[]) {
   return classes.filter(className => typeof className === 'string').join(' ')
 }
+
+export function unique<R>(collection: R[]): R[] {
+  return Array.from(new Set(collection))
+}
