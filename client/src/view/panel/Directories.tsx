@@ -9,7 +9,6 @@ interface DirectoriesProps {
   visible: boolean
   tracks: API.Track[]
   dirs: API.Directory[]
-  cleanFilters: () => void
   fetchAssets: (path?: string) => Promise<void>
 }
 
@@ -37,14 +36,13 @@ function GoBack({ text = '. . /' }: GoBackProps): JSX.Element {
 export default function Directories(
   props: DirectoriesProps
 ): JSX.Element | null {
-  const { dirs, tracks, fetchAssets, cleanFilters, visible } = props
+  const { dirs, tracks, fetchAssets, visible } = props
 
   const handleClickItem = useCallback(
     (item: string) => {
-      cleanFilters()
       fetchAssets(encodeURIComponent(item))
     },
-    [fetchAssets, cleanFilters]
+    [fetchAssets]
   )
 
   if (!visible) {
@@ -57,7 +55,6 @@ export default function Directories(
   }
 
   if (dirs.length === 0 && nestedLevel(tracks[0].url) > 1) {
-    console.group(tracks)
     return (
       <div className={style['dirs-container']}>
         <div

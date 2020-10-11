@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FilterPayload } from '../../utils/trackFilter'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
@@ -19,9 +19,11 @@ type Option = {
 }
 
 function FilteringItem(props: FileringItemProps) {
-  const { property, changeFilter } = props
+  const { property, changeFilter, values } = props
   const [isSelectable, setSelectable] = useState<boolean>(false)
   const [selected, setSelected] = useState<Option[]>([])
+
+  useEffect(() => setSelected([]), [values.join(',')])
 
   const showFilter = useCallback(() => setSelectable(true), [setSelectable])
   const hideFilter = useCallback(() => setSelectable(false), [setSelectable])
@@ -38,7 +40,7 @@ function FilteringItem(props: FileringItemProps) {
     [property, setSelected, changeFilter, hideFilter]
   )
 
-  const options = props.values.map(value => ({ value, label: value }))
+  const options = values.map(value => ({ value, label: value }))
 
   const content =
     isSelectable && options.length > 1 ? (

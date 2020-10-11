@@ -11,8 +11,9 @@ export function WithAppContext(Component, appProps) {
       assets => {
         addTracks(assets.tracks)
         addDirs(assets.dirs)
+        setFilters({})
       },
-      [addTracks, addDirs]
+      [addTracks, addDirs, setFilters]
     )
 
     const changeFilter = useCallback(
