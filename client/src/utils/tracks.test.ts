@@ -1,4 +1,11 @@
-import { serializeTracks, matchTitle, hasParent, previousDir } from './tracks'
+import {
+  serializeTracks,
+  matchTitle,
+  findNextTrack,
+  hasParent,
+  previousDir,
+  generateModifiers,
+} from './tracks'
 
 jest.mock('./config', () => ({
   FILE_SEPARATOR: '/',
@@ -45,6 +52,76 @@ describe('track utils test suite', () => {
 
     it('returns parent URI otherwise', () => {
       expect(previousDir({ url: 'root/dir/item' } as any)).toEqual('root')
+    })
+  })
+
+  describe('findNextTrack function', () => {
+    it('return null if current track is empty', () => {
+      expect(findNextTrack('', [])).toEqual(null)
+    })
+
+    it('returns null if track is last on the list', () => {
+      const url = 'someDir/someTrack'
+      expect(findNextTrack(url, [{ url }] as any)).toEqual(null)
+    })
+
+    it('returns next track url otherwise', () => {
+      const url = 'someDir/someTrack'
+      const nextUrl = 'someDir/nextTrack'
+      expect(findNextTrack(url, [{ url }, { url: nextUrl }] as any)).toEqual(
+        nextUrl
+      )
+    })
+  })
+
+  describe('generateModifiers', () => {
+    const tracks = [
+      {
+        artist: 'artist1',
+        album: 'album1',
+        year: '2001',
+      },
+      {
+        artist: 'artist1',
+        album: 'album2',
+        year: '2010',
+      },
+      {
+        artist: 'artist2',
+        album: 'album3',
+        year: '2010',
+      },
+      {
+        artist: 'artist3',
+        album: 'album3',
+        year: '2020',
+      },
+    ] as any
+
+    it('returns modifiers array with object containing unique artists', () => {
+      expect(generateModifiers(tracks)).toContainEqual(
+        expect.objectContaining({
+          property: 'artist',
+          values: ['artist1', 'artist2', 'artist3'],
+        })
+      )
+    })
+
+    it('returns modifiers array with object containing unique albums', () => {
+      expect(generateModifiers(tracks)).toContainEqual(
+        expect.objectContaining({
+          property: 'album',
+          values: ['album1', 'album2', 'album3'],
+        })
+      )
+    })
+    it('returns modifiers array with object containing unique years', () => {
+      expect(generateModifiers(tracks)).toContainEqual(
+        expect.objectContaining({
+          property: 'year',
+          values: ['2001', '2010', '2020'],
+        })
+      )
     })
   })
 })

@@ -1,7 +1,11 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { API } from './types'
 import { WithAppContext } from './AppContext'
-import { findNextTrack, generateModifiers, serializeTracks } from './App.utils'
+import {
+  findNextTrack,
+  generateModifiers,
+  serializeTracks,
+} from './utils/tracks'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
@@ -27,6 +31,7 @@ function App(props: AppProps): JSX.Element {
   const { appState, settleFiles, setTrack, changeFilter } = props
   const { track, tracks, dirs, filters } = appState
   const [initialized, setInitialized] = useState<boolean>(false)
+  const serializedTracks = serializeTracks(tracks)
 
   const fetchAssets = useCallback(
     (path?: string): Promise<void> => {
@@ -44,11 +49,8 @@ function App(props: AppProps): JSX.Element {
     fetchAssets().then(() => setInitialized(true))
   }, [fetchAssets])
 
-  const modifiers = useMemo(
-    () => generateModifiers(tracks),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [serializeTracks(tracks)]
-  )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])
 
   const filteredTracks = trackFilter(tracks, filters)
 

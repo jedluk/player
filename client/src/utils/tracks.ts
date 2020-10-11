@@ -1,5 +1,6 @@
-import { API } from '../types'
+import { API, Maybe, Modifier } from '../types'
 import { FILE_SEPARATOR } from './config'
+import { unique } from './lib'
 
 type Item = API.Track | API.Directory
 
@@ -16,9 +17,38 @@ export function hasParent(item: Item): boolean {
   return item.url.split(FILE_SEPARATOR).length > 2
 }
 
-export const previousDir = (item: Item): string | undefined => {
+export function previousDir(item: Item): string | undefined {
   if (hasParent(item)) {
     return item.url.split(FILE_SEPARATOR).slice(0, -2).join(FILE_SEPARATOR)
   }
   return undefined
+}
+
+export function findNextTrack(
+  trackURL: string,
+  tracks: API.Track[]
+): Maybe<string> {
+  if (trackURL === '') return null
+  const idx = tracks.findIndex(track => trackURL === track.url)
+  return idx + 1 < tracks.length ? tracks[idx + 1].url : null
+}
+
+export function generateModifiers(tracks: API.Track[]): Modifier[] {
+  return [
+    {
+      name: 'Artist',
+      property: 'artist',
+      values: unique(tracks.map(track => track.artist)),
+    },
+    {
+      name: 'Album',
+      property: 'album',
+      values: unique(tracks.map(track => track.album)),
+    },
+    {
+      name: 'Year',
+      property: 'year',
+      values: unique(tracks.map(track => track.year)),
+    },
+  ]
 }
