@@ -53,11 +53,11 @@ export function generateModifiers(tracks: API.Track[]): Modifier[] {
   ]
 }
 
-export function trackFilter(tracks: API.Track[], filters: Filter) {
-  if (Object.keys(filters).length === 0) {
+export function filterTracks(tracks: API.Track[], filters: Filter) {
+  const filterNames = Object.keys(filters)
+  if (filterNames.length === 0) {
     return tracks
   }
-  const filterNames = Object.keys(filters)
   return tracks.reduce((result: API.Track[], track: API.Track) => {
     if (
       filterNames

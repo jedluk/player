@@ -6,11 +6,13 @@ export type Modifier = {
   values: string[]
 }
 
-export type Filter = Record<string, string[]>
+type FilteringProps = 'artist' | 'album' | 'year'
+
+export type Filter = Record<FilteringProps, string[]>
 
 export type FilterPayload = {
-  property: keyof API.Track
-  value: string[] | null
+  property: FilteringProps
+  value: Maybe<string[]>
 }
 
 export namespace API {

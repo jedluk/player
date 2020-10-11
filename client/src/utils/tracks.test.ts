@@ -5,6 +5,7 @@ import {
   hasParent,
   previousDir,
   generateModifiers,
+  filterTracks,
 } from './tracks'
 
 jest.mock('./config', () => ({
@@ -122,6 +123,56 @@ describe('track utils test suite', () => {
           values: ['2001', '2010', '2020'],
         })
       )
+    })
+  })
+
+  describe('trackFilter function', () => {
+    const tracks = [
+      {
+        year: '2010',
+        artist: 'artist1',
+        album: 'album1',
+      },
+      {
+        year: '2020',
+        artist: 'artist1',
+        album: 'album1',
+      },
+      {
+        year: '2010',
+        artist: 'artist1',
+        album: 'album2',
+      },
+      {
+        year: '2011',
+        artist: 'artist2',
+        album: 'album1',
+      },
+      {
+        year: '2011',
+        artist: 'artist1',
+        album: 'album2',
+      },
+    ] as any
+
+    it('returns all tracks if filter is empty object', () => {
+      expect(filterTracks(tracks, {} as any)).toEqual(tracks)
+    })
+
+    it('applies single filtering property to given tracks', () => {
+      const filter = {
+        year: ['2020'],
+      }
+      expect(filterTracks(tracks, filter as any)).toEqual([tracks[1]])
+    })
+
+    it('applies multiple filtering properties to given tracks', () => {
+      const filter = {
+        year: ['2010', '2011'],
+        album: ['album1'],
+        artist: ['artist1'],
+      }
+      expect(filterTracks(tracks, filter as any)).toEqual([tracks[0]])
     })
   })
 })

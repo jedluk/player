@@ -5,7 +5,7 @@ import {
   findNextTrack,
   generateModifiers,
   serializeTracks,
-  trackFilter,
+  filterTracks,
 } from './utils/tracks'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
@@ -52,7 +52,7 @@ function App(props: AppProps): JSX.Element {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])
 
-  const filteredTracks = trackFilter(tracks, filters)
+  const filteredTracks = filterTracks(tracks, filters)
 
   const content = initialized ? (
     <MainView
