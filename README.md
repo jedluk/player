@@ -38,3 +38,4 @@ npm run start
 
 - [ ] fork project and create Electron based desktop app
 - [ ] basic e2e test suite with Cypress
+- [ ] HATEOAS driven API
