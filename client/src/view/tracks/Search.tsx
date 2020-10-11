@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
+import { ENTER_KEY_CODE } from '../../utils/globals'
 
 import style from './Search.module.css'
-
-const ENTER_KEY_CODE = 13
 
 type SeatchProps = {
   visible: boolean

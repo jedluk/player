@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
-import FontAwesome from 'react-fontawesome'
-import { FILE_SEPARATOR } from '../../utils/config'
+import React from 'react'
+import GoBack from './GoBack'
 import { API } from '../../types'
+import { hasParent, previousDir } from '../../utils/tracks'
 
 import style from './Directories.module.css'
+import GoBackItem from './GoBackItem'
 
 interface DirectoriesProps {
   visible: boolean
@@ -12,36 +13,10 @@ interface DirectoriesProps {
   dirs: API.Directory[]
 }
 
-const nestedLevel = (path: string): number => {
-  return path.split(FILE_SEPARATOR).length - 1
-}
-
-const previousDir = (path: string): string => {
-  return path.split(FILE_SEPARATOR).slice(0, -2).join(FILE_SEPARATOR)
-}
-
-type GoBackProps = {
-  text?: string
-}
-
-function GoBack({ text = '. . /' }: GoBackProps): JSX.Element {
-  return (
-    <div>
-      <FontAwesome name="folder-open-o" style={{ marginRight: 5 }} />
-      <span>{text}</span>
-    </div>
-  )
-}
-
 export default function Directories(
   props: DirectoriesProps
 ): JSX.Element | null {
   const { dirs, tracks, fetchAssets, visible } = props
-
-  const handleClickItem = useCallback(
-    (item: string) => fetchAssets(encodeURIComponent(item)),
-    [fetchAssets]
-  )
 
   if (!visible) {
     // TODO: reversed animation based on visible property
@@ -52,37 +27,26 @@ export default function Directories(
     return <div className={style['dirs-container']} />
   }
 
-  if (dirs.length === 0 && nestedLevel(tracks[0].url) > 1) {
-    console.group(tracks)
+  if (dirs.length === 0 && hasParent(tracks[0])) {
     return (
       <div className={style['dirs-container']}>
-        <div
-          className={style['dirs-folder']}
-          onClick={() => handleClickItem(previousDir(tracks[0].url))}
-        >
-          <GoBack />
-        </div>
+        <GoBack onClick={() => fetchAssets(previousDir(tracks[0]))} />
       </div>
     )
   }
 
   return (
     <div className={style['dirs-container']}>
-      {dirs.length > 0 && nestedLevel(dirs[0].url) > 1 ? (
-        <div
-          className={style['dirs-folder']}
-          onClick={() => handleClickItem(previousDir(dirs[0].url))}
-        >
-          <GoBack />
-        </div>
+      {dirs.length > 0 && hasParent(dirs[0]) ? (
+        <GoBack onClick={() => fetchAssets(previousDir(dirs[0]))} />
       ) : null}
       {dirs.map(dir => (
         <div
           key={dir.name}
           className={style['dirs-folder']}
-          onClick={() => handleClickItem(dir.url)}
+          onClick={() => fetchAssets(dir.url)}
         >
-          <GoBack text={dir.name} />
+          <GoBackItem text={dir.name} />
         </div>
       ))}
     </div>

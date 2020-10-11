@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
 import Header from './Header'
 import { API } from '../../types'
-import { joinClasses, serializeTracks } from '../../utils/lib'
+import { joinClasses } from '../../utils/lib'
+import { serializeTracks } from '../../utils/tracks'
 
 import style from './Tracks.module.css'
 
@@ -20,7 +21,6 @@ function MyTracks(props: MyTracksProps) {
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
   const [gridTouched, setGridTouched] = useState<boolean>(false)
-  const serializedTracks = serializeTracks(props.tracks)
 
   useEffect(() => {
     setLoaded(false)
@@ -38,7 +38,8 @@ function MyTracks(props: MyTracksProps) {
       )
       if (scrollContainer !== null) scrollContainer.scrollTop = 0
     }
-  }, [serializedTracks])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serializeTracks(props.tracks)])
 
   const handleScroll = useCallback(
     e => {

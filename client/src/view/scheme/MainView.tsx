@@ -4,6 +4,7 @@ import EmptyView from './EmptyView'
 import SideMenu from '../panel/SideMenu'
 import Hamburger from '../panel/Hamburger'
 import Tracks from '../tracks/Tracks'
+import { matchTitle } from '../../utils/tracks'
 
 import style from './MainView.module.css'
 
@@ -13,11 +14,6 @@ interface MainViewProps {
   dirs: API.Directory[]
   fetchAssets: (path?: string) => Promise<void>
   setTrack: (track: string) => void
-}
-
-function matchTitle(phrase: string) {
-  return (track: API.Track) =>
-    phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())
 }
 
 export default function MainView(props: MainViewProps) {

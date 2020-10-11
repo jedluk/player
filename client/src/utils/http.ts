@@ -1,9 +1,9 @@
 import { API } from '../types'
-import { fetch } from './globals'
+import { fetch, encodeURIComponent } from './globals'
 import { ERROR_CODES, API_URL } from './config'
 
 export function getAssets(path?: string): Promise<API.Assets> {
-  const query = path !== undefined ? `?path=${path}` : ''
+  const query = path !== undefined ? `?path=${encodeURIComponent(path)}` : ''
   return new Promise((resolve, reject) =>
     fetch(`${API_URL}/assets${query}`)
       .then(res => res.json())

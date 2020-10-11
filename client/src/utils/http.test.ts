@@ -1,5 +1,5 @@
 import { getAssets } from './http'
-import { fetch } from './globals'
+import { fetch, encodeURIComponent } from './globals'
 
 jest.mock('./globals')
 jest.mock('./config', () => ({
@@ -11,6 +11,11 @@ jest.mock('./config', () => ({
 
 describe('http test suite', () => {
   let fetchMock = fetch as jest.Mock
+  let encodeURIComponentMock = encodeURIComponent as jest.Mock
+
+  beforeAll(() => {
+    encodeURIComponentMock.mockImplementation(text => text)
+  })
 
   beforeEach(() => {
     fetchMock.mockClear()
