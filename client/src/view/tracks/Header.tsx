@@ -1,17 +1,32 @@
 import React from 'react'
+import { FilterPayload } from '../../utils/trackFilter'
+import { Modifier } from '../../types'
+import FilteringItem from './FilteringItem'
+
+import style from './Header.module.css'
 
 interface HeaderProps {
-  ref: React.Ref<HTMLTableRowElement>
+  rowRef: React.Ref<HTMLTableRowElement>
+  modifiers: Modifier[]
+  changeFilter: (payload: FilterPayload) => void
 }
 
 export default function Header(props: HeaderProps): JSX.Element {
+  const { modifiers } = props
+
   return (
-    <thead>
-      <tr ref={props.ref}>
+    <thead className={style.header}>
+      <tr ref={props.rowRef}>
         <th>Title</th>
-        <th>Artist</th>
-        <th>Album</th>
-        <th>Year</th>
+        {modifiers.map(modifier => (
+          <FilteringItem
+            changeFilter={props.changeFilter}
+            key={modifier.name}
+            property={modifier.property}
+            name={modifier.name}
+            values={modifier.values}
+          />
+        ))}
         <th>Genre</th>
       </tr>
     </thead>

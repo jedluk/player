@@ -7,9 +7,9 @@ import style from './Directories.module.css'
 
 interface DirectoriesProps {
   visible: boolean
-  fetchAssets: (path?: string) => Promise<void>
   tracks: API.Track[]
   dirs: API.Directory[]
+  fetchAssets: (path?: string) => Promise<void>
 }
 
 const nestedLevel = (path: string): number => {
@@ -39,7 +39,9 @@ export default function Directories(
   const { dirs, tracks, fetchAssets, visible } = props
 
   const handleClickItem = useCallback(
-    (item: string) => fetchAssets(encodeURIComponent(item)),
+    (item: string) => {
+      fetchAssets(encodeURIComponent(item))
+    },
     [fetchAssets]
   )
 
@@ -53,7 +55,6 @@ export default function Directories(
   }
 
   if (dirs.length === 0 && nestedLevel(tracks[0].url) > 1) {
-    console.group(tracks)
     return (
       <div className={style['dirs-container']}>
         <div
