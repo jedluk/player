@@ -4,7 +4,8 @@ import Header from './Header'
 import { serializeTracks } from '../../utils/tracks'
 import Row from './Row'
 import NoMatch from './NoMatch'
-import { API, Modifier, FilterPayload } from '../../types'
+import { API, Modifier } from '../../types'
+import { ChangeFilterPayload } from '../../App.reducer'
 
 import style from './Tracks.module.css'
 
@@ -16,7 +17,7 @@ type MyTracksProps = {
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
-  changeFilter: (payload: FilterPayload) => void
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 function MyTracks(props: MyTracksProps) {

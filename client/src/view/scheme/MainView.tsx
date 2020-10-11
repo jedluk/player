@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback, useState } from 'react'
-import { API, Modifier, FilterPayload } from '../../types'
+import { API, Modifier } from '../../types'
+import { ChangeFilterPayload } from '../../App.reducer'
 import EmptyView from './EmptyView'
 import SideMenu from '../panel/SideMenu'
 import Hamburger from '../panel/Hamburger'
@@ -17,7 +18,7 @@ interface MainViewProps {
   modifiers: Modifier[]
   fetchAssets: (path?: string) => Promise<void>
   setTrack: (track: string) => void
-  changeFilter: (payload: FilterPayload) => void
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 export default function MainView(props: MainViewProps) {

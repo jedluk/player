@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { ChangeFilterPayload } from '../../App.reducer'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
-import { API, FilterPayload } from '../../types'
 
 import style from './FilteringItem.module.css'
 
 interface FileringItemProps {
   name: string
   values: string[]
-  property: keyof API.Track
-  changeFilter: (payload: FilterPayload) => void
+  property: 'album' | 'artist' | 'year'
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 type Option = {

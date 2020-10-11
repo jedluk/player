@@ -2,18 +2,11 @@ export type Maybe<T> = T | null
 
 export type Modifier = {
   name: string
-  property: keyof API.Track
+  property: 'artist' | 'album' | 'year'
   values: string[]
 }
 
-type FilteringProps = 'artist' | 'album' | 'year'
-
-export type Filter = Record<FilteringProps, string[]>
-
-export type FilterPayload = {
-  property: FilteringProps
-  value: Maybe<string[]>
-}
+export type Filter = Record<Modifier[property], string[]>
 
 export namespace API {
   type Assets = {
