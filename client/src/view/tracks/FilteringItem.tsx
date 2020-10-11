@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FilterPayload } from '../../utils/trackFilter'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
-import { API } from '../../types'
+import { API, FilterPayload } from '../../types'
 
 import style from './FilteringItem.module.css'
 

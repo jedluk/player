@@ -6,6 +6,13 @@ export type Modifier = {
   values: string[]
 }
 
+export type Filter = Record<string, string[]>
+
+export type FilterPayload = {
+  property: keyof API.Track
+  value: string[] | null
+}
+
 export namespace API {
   type Assets = {
     dirs: Directory[]

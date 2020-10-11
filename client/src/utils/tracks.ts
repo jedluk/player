@@ -1,4 +1,4 @@
-import { API, Maybe, Modifier } from '../types'
+import { API, Filter, Maybe, Modifier } from '../types'
 import { FILE_SEPARATOR } from './config'
 import { unique } from './lib'
 
@@ -51,4 +51,22 @@ export function generateModifiers(tracks: API.Track[]): Modifier[] {
       values: unique(tracks.map(track => track.year)),
     },
   ]
+}
+
+export function trackFilter(tracks: API.Track[], filters: Filter) {
+  if (Object.keys(filters).length === 0) {
+    return tracks
+  }
+  const filterNames = Object.keys(filters)
+  return tracks.reduce((result: API.Track[], track: API.Track) => {
+    if (
+      filterNames
+        // @ts-ignore
+        .map(name => filters[name].includes(track[name]))
+        .every(Boolean)
+    ) {
+      result.push(track)
+    }
+    return result
+  }, [])
 }

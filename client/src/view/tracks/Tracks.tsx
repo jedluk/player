@@ -4,8 +4,7 @@ import Header from './Header'
 import { serializeTracks } from '../../utils/tracks'
 import Row from './Row'
 import NoMatch from './NoMatch'
-import { API, Modifier } from '../../types'
-import { FilterPayload } from '../../utils/trackFilter'
+import { API, Modifier, FilterPayload } from '../../types'
 
 import style from './Tracks.module.css'
 

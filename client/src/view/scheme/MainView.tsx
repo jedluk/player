@@ -1,6 +1,5 @@
 import React, { Fragment, useCallback, useState } from 'react'
-import { API, Modifier } from '../../types'
-import { FilterPayload } from '../../utils/trackFilter'
+import { API, Modifier, FilterPayload } from '../../types'
 import EmptyView from './EmptyView'
 import SideMenu from '../panel/SideMenu'
 import Hamburger from '../panel/Hamburger'

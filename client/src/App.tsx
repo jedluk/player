@@ -1,15 +1,15 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react'
-import { API } from './types'
+import { API, Filter, FilterPayload } from './types'
 import { WithAppContext } from './AppContext'
 import {
   findNextTrack,
   generateModifiers,
   serializeTracks,
+  trackFilter,
 } from './utils/tracks'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
-import { Filter, FilterPayload, trackFilter } from './utils/trackFilter'
 import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
 
 import style from './App.module.css'

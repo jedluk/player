@@ -1,6 +1,5 @@
 import React from 'react'
-import { FilterPayload } from '../../utils/trackFilter'
-import { Modifier } from '../../types'
+import { Modifier, FilterPayload } from '../../types'
 import FilteringItem from './FilteringItem'
 
 import style from './Header.module.css'
