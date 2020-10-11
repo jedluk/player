@@ -3,8 +3,9 @@ import React, { useCallback, useState, useRef, useEffect } from 'react'
 import FontAwesome from 'react-fontawesome'
 import VolumeSetter from './VolumeSetter'
 import { formatDuration } from '../../utils/lib'
-import { STATICS } from '../../utils/http'
-import { FILE_SEPARATOR } from '../../utils/constans'
+// TODO: move this to higher level
+import { STATICS } from '../../utils/config'
+import { FILE_SEPARATOR } from '../../utils/config'
 
 import style from './Player.module.css'
 

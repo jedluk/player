@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import FontAwesome from 'react-fontawesome'
-import { FILE_SEPARATOR } from '../../utils/constans'
+import { FILE_SEPARATOR } from '../../utils/config'
 import { API } from '../../types'
 
 import style from './Directories.module.css'
