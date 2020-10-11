@@ -7,12 +7,12 @@ export type Modifier = {
 }
 
 export namespace API {
-  export type Assets = {
+  type Assets = {
     dirs: Directory[]
     tracks: Track[]
   }
 
-  export type Track = {
+  type Track = {
     url: string
     uploaded: Date
     title: string
@@ -22,12 +22,12 @@ export namespace API {
     album: string
   }
 
-  export type Directory = {
+  type Directory = {
     name: string
     url: string
   }
 
-  export type Error = {
+  type Error = {
     message: string
     code: number
   }
