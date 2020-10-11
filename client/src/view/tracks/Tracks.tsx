@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
 import Header from './Header'
 import { API } from '../../types'
-import { joinClasses } from '../../utils/lib'
+import { joinClasses, serializeTracks } from '../../utils/lib'
 
 import style from './Tracks.module.css'
 
@@ -12,10 +12,6 @@ type MyTracksProps = {
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
-}
-
-function serializeTracks(tracks: API.Track[]): string {
-  return tracks.map(track => track.title).join(',')
 }
 
 function MyTracks(props: MyTracksProps) {

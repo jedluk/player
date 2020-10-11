@@ -1,3 +1,5 @@
+import { API } from '../types'
+
 export function isNull(sth: any): boolean {
   return sth === null
 }
@@ -24,4 +26,8 @@ export function formatTime(fromDate: Date): string {
 
 export function joinClasses(...classes: any[]) {
   return classes.filter(className => typeof className === 'string').join(' ')
+}
+
+export function serializeTracks(tracks: API.Track[]): string {
+  return tracks.map(track => track.title).join(',')
 }

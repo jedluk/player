@@ -1,4 +1,11 @@
-import { formatDuration, joinClasses, isNil, isNull, formatTime } from './lib'
+import {
+  formatDuration,
+  serializeTracks,
+  joinClasses,
+  isNil,
+  isNull,
+  formatTime,
+} from './lib'
 
 describe('lib test suite', () => {
   describe('isNull function', () => {
@@ -56,6 +63,13 @@ describe('lib test suite', () => {
     it('adds 0 to single digit', () => {
       const date = '2020-8-7'
       expect(formatTime(date as any)).toEqual('08.07.2020')
+    })
+  })
+
+  describe('serializeTracks', () => {
+    it('return serialized version of tracks', () => {
+      const tracks = [{ title: 'song1' }, { title: 'song2' }]
+      expect(serializeTracks(tracks as any)).toEqual('song1,song2')
     })
   })
 })
