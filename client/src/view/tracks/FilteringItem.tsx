@@ -40,24 +40,25 @@ function FilteringItem(props: FileringItemProps) {
 
   const options = props.values.map(value => ({ value, label: value }))
 
-  const content = isSelectable ? (
-    <Select
-      value={selected}
-      placeholder={`Select ${props.name}`}
-      className={style.select}
-      onChange={handleChange}
-      items={options}
-    />
-  ) : (
-    <React.Fragment>
-      <div className={style.content}>{props.name}</div>
-      {selected.length > 0 ? (
-        <span className={style.indicator}>
-          <FontAwesome name="filter" />
-        </span>
-      ) : null}
-    </React.Fragment>
-  )
+  const content =
+    isSelectable && options.length > 1 ? (
+      <Select
+        value={selected}
+        placeholder={`Select ${props.name}`}
+        className={style.select}
+        onChange={handleChange}
+        items={options}
+      />
+    ) : (
+      <React.Fragment>
+        <div className={style.content}>{props.name}</div>
+        {selected.length > 0 ? (
+          <span className={style.indicator}>
+            <FontAwesome name="filter" />
+          </span>
+        ) : null}
+      </React.Fragment>
+    )
 
   return (
     <th
