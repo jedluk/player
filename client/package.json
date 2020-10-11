@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^26.0.14",
     "@types/react-fontawesome": "^1.6.4",
     "@types/react-modal": "^3.10.6",
     "react": "^16.13.1",
@@ -19,7 +20,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=node",
+    "coverage": "react-scripts test --coverage --watchAll=false --env=node",
+    "lint": "eslint \"src/**/*.ts\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -35,6 +38,28 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {},
+  "jest": {
+    "globalSetup": "./setup.test.js",
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!**/config.ts",
+      "!**/globals.ts",
+      "!**/*.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
     ]
   }
 }

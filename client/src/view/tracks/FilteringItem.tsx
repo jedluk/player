@@ -1,16 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FilterPayload } from '../../utils/trackFilter'
+import { ChangeFilterPayload } from '../../App.reducer'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
-import { API } from '../../types'
 
 import style from './FilteringItem.module.css'
 
 interface FileringItemProps {
   name: string
   values: string[]
-  property: keyof API.Track
-  changeFilter: (payload: FilterPayload) => void
+  property: 'album' | 'artist' | 'year'
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 type Option = {
@@ -22,8 +21,9 @@ function FilteringItem(props: FileringItemProps) {
   const { property, changeFilter, values } = props
   const [isSelectable, setSelectable] = useState<boolean>(false)
   const [selected, setSelected] = useState<Option[]>([])
+  const serializedValues = values.join(',')
 
-  useEffect(() => setSelected([]), [values.join(',')])
+  useEffect(() => setSelected([]), [serializedValues])
 
   const showFilter = useCallback(() => setSelectable(true), [setSelectable])
   const hideFilter = useCallback(() => setSelectable(false), [setSelectable])

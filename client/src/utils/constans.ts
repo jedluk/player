@@ -1,1 +1,0 @@
-export const FILE_SEPARATOR: string = /win/i.test(window.navigator.appVersion) ? '\\': '/'

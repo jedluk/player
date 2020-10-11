@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Search from './Search'
 import Header from './Header'
+import { serializeTracks } from '../../utils/tracks'
 import Row from './Row'
 import NoMatch from './NoMatch'
 import { API, Modifier } from '../../types'
-import { FilterPayload } from '../../utils/trackFilter'
+import { ChangeFilterPayload } from '../../App.reducer'
 
 import style from './Tracks.module.css'
 
@@ -16,11 +17,7 @@ type MyTracksProps = {
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
-  changeFilter: (payload: FilterPayload) => void
-}
-
-function serializeTracks(tracks: API.Track[]): string {
-  return tracks.map(track => track.title).join(',')
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 function MyTracks(props: MyTracksProps) {
@@ -28,7 +25,6 @@ function MyTracks(props: MyTracksProps) {
 
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
-  const serializedTracks = serializeTracks(props.tracks)
 
   useEffect(() => {
     setLoaded(false)
@@ -46,7 +42,8 @@ function MyTracks(props: MyTracksProps) {
       )
       if (scrollContainer !== null) scrollContainer.scrollTop = 0
     }
-  }, [serializedTracks])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serializeTracks(props.tracks)])
 
   const handleScroll = useCallback(e => {
     if (theadRowRef.current !== null) {

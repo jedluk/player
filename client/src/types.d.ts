@@ -2,17 +2,19 @@ export type Maybe<T> = T | null
 
 export type Modifier = {
   name: string
-  property: keyof API.Track
+  property: 'artist' | 'album' | 'year'
   values: string[]
 }
 
+export type Filter = Record<Modifier[property], string[]>
+
 export namespace API {
-  export type Assets = {
+  type Assets = {
     dirs: Directory[]
     tracks: Track[]
   }
 
-  export type Track = {
+  type Track = {
     url: string
     uploaded: Date
     title: string
@@ -22,12 +24,12 @@ export namespace API {
     album: string
   }
 
-  export type Directory = {
+  type Directory = {
     name: string
     url: string
   }
 
-  export type Error = {
+  type Error = {
     message: string
     code: number
   }

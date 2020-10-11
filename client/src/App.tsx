@@ -1,56 +1,71 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useReducer,
+  useMemo,
+  useEffect,
+  useState,
+} from 'react'
 import { API } from './types'
-import { WithAppContext } from './AppContext'
-import { findNextTrack, generateModifiers, serializeTracks } from './App.utils'
+import {
+  findNextTrack,
+  generateModifiers,
+  serializeTracks,
+  filterTracks,
+} from './utils/tracks'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
-import { Filter, FilterPayload, trackFilter } from './utils/trackFilter'
 import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
+import { rootReducer, State, ChangeFilterPayload } from './App.reducer'
 
 import style from './App.module.css'
 
-type AppProps = {
-  settleFiles: (assets: API.Assets) => void
-  addNewFile: (file: API.Track) => void
-  setTrack: (track: string) => void
-  changeFilter: (payload: FilterPayload) => void
-  appState: {
-    track: string
-    tracks: API.Track[]
-    dirs: API.Directory[]
-    filters: Filter
-  }
+const initialState: State = {
+  dirs: [],
+  tracks: [],
+  filters: {},
 }
 
-function App(props: AppProps): JSX.Element {
-  const { appState, settleFiles, setTrack, changeFilter } = props
-  const { track, tracks, dirs, filters } = appState
+function App(): JSX.Element {
+  const [state, dispatch] = useReducer(rootReducer, initialState)
+
+  const { tracks, dirs, filters } = state
+
+  const [track, setTrack] = useState<string>('')
   const [initialized, setInitialized] = useState<boolean>(false)
+  const serializedTracks = serializeTracks(tracks)
 
   const fetchAssets = useCallback(
     (path?: string): Promise<void> => {
       return new Promise(resolve => {
         getAssets(path)
-          .then((assets: API.Assets) => settleFiles(assets))
+          .then((assets: API.Assets) =>
+            dispatch({ type: 'SETTLE_FILES', payload: assets })
+          )
           .catch((err: API.Error) => console.error(err.message))
           .finally(resolve)
       })
     },
-    [settleFiles]
+    [dispatch]
+  )
+
+  const changeFilter = useCallback(
+    (payload: ChangeFilterPayload): void =>
+      dispatch({
+        type: 'CHANGE_FILTER',
+        payload,
+      }),
+    [dispatch]
   )
 
   useEffect(() => {
     fetchAssets().then(() => setInitialized(true))
   }, [fetchAssets])
 
-  const modifiers = useMemo(
-    () => generateModifiers(tracks),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [serializeTracks(tracks)]
-  )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])
 
-  const filteredTracks = trackFilter(tracks, filters)
+  const filteredTracks = filterTracks(tracks, filters)
 
   const content = initialized ? (
     <MainView
@@ -79,4 +94,4 @@ function App(props: AppProps): JSX.Element {
   )
 }
 
-export default WithAppContext(App)
+export default App

@@ -1,11 +1,12 @@
 import React, { Fragment, useCallback, useState } from 'react'
 import { API, Modifier } from '../../types'
-import { FilterPayload } from '../../utils/trackFilter'
+import { ChangeFilterPayload } from '../../App.reducer'
 import EmptyView from './EmptyView'
 import SideMenu from '../panel/SideMenu'
 import Hamburger from '../panel/Hamburger'
 import SomeAvailable from './SomeAvailable'
 import Tracks from '../tracks/Tracks'
+import { matchTitle } from '../../utils/tracks'
 
 import style from './MainView.module.css'
 
@@ -17,12 +18,7 @@ interface MainViewProps {
   modifiers: Modifier[]
   fetchAssets: (path?: string) => Promise<void>
   setTrack: (track: string) => void
-  changeFilter: (payload: FilterPayload) => void
-}
-
-function matchTitle(phrase: string) {
-  return (track: API.Track) =>
-    phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 export default function MainView(props: MainViewProps) {

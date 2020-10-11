@@ -1,5 +1,5 @@
 import React from 'react'
-import { FilterPayload } from '../../utils/trackFilter'
+import { ChangeFilterPayload } from '../../App.reducer'
 import { Modifier } from '../../types'
 import FilteringItem from './FilteringItem'
 
@@ -8,7 +8,7 @@ import style from './Header.module.css'
 interface HeaderProps {
   rowRef: React.Ref<HTMLTableRowElement>
   modifiers: Modifier[]
-  changeFilter: (payload: FilterPayload) => void
+  changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 export default function Header(props: HeaderProps): JSX.Element {
