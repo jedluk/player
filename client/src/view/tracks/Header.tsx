@@ -1,13 +1,13 @@
 import React from 'react'
 
 interface HeaderProps {
-  ref: React.Ref<HTMLTableRowElement>
+  headerRef: React.Ref<HTMLTableRowElement>
 }
 
 export default function Header(props: HeaderProps): JSX.Element {
   return (
     <thead>
-      <tr ref={props.ref}>
+      <tr ref={props.headerRef}>
         <th>Title</th>
         <th>Artist</th>
         <th>Album</th>

@@ -84,7 +84,7 @@ function MyTracks(props: MyTracksProps) {
         <table className={style['tracks-grid']}>
           {!noTracks ? (
             <React.Fragment>
-              <Header ref={theadRowRef} />
+              <Header headerRef={theadRowRef} />
               <tbody>
                 {props.tracks.map((track, idx) => (
                   <tr
