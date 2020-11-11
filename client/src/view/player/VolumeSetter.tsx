@@ -36,7 +36,7 @@ export default function VolumeSetter({ audio: audioRef }: VolumeSetterProps) {
           [
             'to top',
             `var(--dark-grey) ${volume * 100}%`,
-            'var(--light-grey))`',
+            'var(--light-grey)',
           ].join(',') +
           ')',
       }}
