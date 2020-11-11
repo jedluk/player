@@ -6,6 +6,10 @@ export function isNil(sth: any): boolean {
   return sth == null
 }
 
+export function defaultsTo<R>(sth: R | null | undefined, fallback: R): R {
+  return sth != undefined ? sth : fallback
+}
+
 export function formatDuration(seconds: number): string {
   const minutes: number = Math.floor(seconds / 60)
   const secondsLeft: number = seconds - minutes * 60
