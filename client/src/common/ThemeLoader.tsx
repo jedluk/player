@@ -11,12 +11,8 @@ export function ThemeLoader() {
   )
 
   useEffect(() => {
-    const theme = themeQueue[0]
-    Object.entries(themeMap[theme]).forEach(
-      ([kind, value]: [string, string]) => {
-        console.log({ kind, value })
-        document.documentElement.style.setProperty(kind, value)
-      }
+    Object.entries(themeMap[themeQueue[0]]).forEach(([kind, value]) =>
+      document.documentElement.style.setProperty(kind, value)
     )
   }, [themeQueue])
 
@@ -27,8 +23,17 @@ export function ThemeLoader() {
     })
   }, [setThemeQueue])
 
+  const currentTheme = themeMap[themeQueue[0]]
+
   return (
-    <button className={styles.icon} onClick={handleThemeChange}>
+    <button
+      className={styles.icon}
+      onClick={handleThemeChange}
+      style={{
+        border: `2px solid ${currentTheme['--dark-grey']}`,
+        color: currentTheme['--dark-grey'],
+      }}
+    >
       <FontAwesome name="cubes" />
     </button>
   )

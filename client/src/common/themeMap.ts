@@ -17,9 +17,9 @@ const lightTheme: Theme = {
 }
 
 const randomTheme: Theme = {
-  '--dark-grey': ' #FFDE03',
-  '--light-grey': '#0336FF',
-  '--ultra-light-grey': '#FF0266',
+  '--dark-grey': ' #0097A7',
+  '--light-grey': '#FFC107',
+  '--ultra-light-grey': '#B2EBF2',
 }
 
 export type ThemeMap = {
