@@ -39,13 +39,12 @@ function App(): JSX.Element {
   const fetchAssets = useCallback(
     (path?: string): Promise<void> => {
       return new Promise(resolve => {
-        resolve()
-        // getAssets(path)
-        //   .then((assets: API.Assets) =>
-        //     dispatch({ type: 'SETTLE_FILES', payload: assets })
-        //   )
-        //   .catch((err: API.Error) => console.error(err.message))
-        //   .finally(resolve)
+        getAssets(path)
+          .then((assets: API.Assets) =>
+            dispatch({ type: 'SETTLE_FILES', payload: assets })
+          )
+          .catch((err: API.Error) => console.error(err.message))
+          .finally(resolve)
       })
     },
     [dispatch]
