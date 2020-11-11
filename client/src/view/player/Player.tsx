@@ -3,8 +3,6 @@ import React, { useCallback, useState, useRef, useEffect } from 'react'
 import FontAwesome from 'react-fontawesome'
 import VolumeSetter from './VolumeSetter'
 import { formatDuration } from '../../utils/lib'
-// TODO: move this to higher level
-import { STATICS } from '../../utils/config'
 import { FILE_SEPARATOR } from '../../utils/config'
 
 import style from './Player.module.css'
@@ -23,17 +21,10 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
   const [currentSec, setCurrentSec] = useState<number>(0)
 
   const audioReady = audioRef !== null && audioRef.current !== null
-  const playerReady =
-    audioReady && assetURL.endsWith('.mp3') && museDuration > 0
+  const playerReady = audioReady && museDuration > 0
+  console.log({ audioRef, museDuration })
 
-  useEffect(() => {
-    if (track !== '') {
-      const asset =
-        'http://localhost:8083/static/Game of Thrones Season 6 Soudtrack 02 -  Blood of My Blood.mp3'
-      console.log({ asset })
-      setAssetURL(asset)
-    }
-  }, [track])
+  useEffect(() => setAssetURL('http://localhdost:8083/api/stream/file'), [])
 
   useEffect(() => {
     if (assetURL !== '') {
@@ -42,7 +33,7 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
       audioRef.current.currentTime = 0
       // @ts-ignore: Object is possibly 'null'.
       audioRef.current.play()
-      setPlayed(true)
+      // setPlayed(true)
     }
   }, [assetURL])
 

@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { isUndefined } = require('../lib/utils')
+const { isUndefined, isString } = require('../lib/utils')
 
 const fsPromises = fs.promises
 
@@ -12,14 +12,15 @@ module.exports = async function checkQuery(req, res, next) {
     return res.status(400).send({ msg: '"path" query param must be defined' })
   }
 
-  if (!isUndefined(fileTypes) && !SUPPORTED_TYPES.includes(fileTypes)) {
-    return res
-      .status(400)
-      .send({
-        msg: `fileTypes query param must match given types: ${String(
-          SUPPORTED_TYPES
-        )}`,
-      })
+  if (
+    isString(fileTypes) &&
+    !fileTypes.split(',').every(type => SUPPORTED_TYPES.includes(type))
+  ) {
+    return res.status(400).send({
+      msg: `fileTypes query param must match given types: ${String(
+        SUPPORTED_TYPES
+      )}`,
+    })
   }
 
   try {
