@@ -49,11 +49,17 @@
 
 .grid-container::-webkit-scrollbar-thumb {
   background-color: var(--dark-grey);
+  opacity: 0.9;
 }
 
 .tracks-grid td {
   border-bottom: 1px solid var(--light-grey);
   text-align: left;
+}
+
+.tracks-grid tbody tr:hover {
+  background-color: var(--light-grey);
+  opacity: 0.6;
 }
 
 .tracks-grid tr td:not(:first-child) {
@@ -64,7 +70,7 @@
   width: 30%;
 }
 
-.tracks-grid thead th {
+.tracks-grid thead th:not(:last-child):not(:first-child) {
   border-left: 1px solid var(--light-grey);
   border-right: 1px solid var(--light-grey);
   z-index: 1000;
@@ -90,10 +96,6 @@
 
 .tracks-grid tbody tr:last-child {
   text-align: right;
-}
-
-.tracks-grid tbody tr td:first-child:hover {
-  font-weight: bold;
 }
 
 .tracks-grid .action-play > span {
