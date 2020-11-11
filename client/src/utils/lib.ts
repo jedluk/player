@@ -7,6 +7,7 @@ export function isNil(sth: any): boolean {
 }
 
 export function defaultsTo<R>(sth: R | null | undefined, fallback: R): R {
+  // eslint-disable-next-line
   return sth != undefined ? sth : fallback
 }
 
