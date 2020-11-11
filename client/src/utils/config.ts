@@ -17,4 +17,4 @@ export const API_URL =
     : '/api'
 
 export const STATICS =
-  process.env.NODE_ENV !== 'production' ? `http://localhost:8083/` : '/'
+  process.env.NODE_ENV !== 'production' ? `http://localhost:8083/static` : '/static'
