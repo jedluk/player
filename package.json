@@ -2,25 +2,50 @@
   "name": "file_server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "electron-starter.js",
   "scripts": {
     "start": "concurrently \"npm run server:dev\" \"cd client && npm start\"",
-    "server:dev": "nodemon index.js"
+    "server:dev": "SERVER_MODE=standalone nodemon server/index.js",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "test": "jest --watchAll=true --env=node",
+    "coverage": "jest --coverage --watchAll=false --env=node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/react-select": "^3.0.20",
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "formidable": "^1.2.2",
     "morgan": "^1.10.0",
     "node-id3": "^0.1.18",
-    "react-select": "^3.1.0"
+    "serve-static": "^1.14.1"
   },
   "devDependencies": {
+    "electron": "^10.1.5",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "server/**/*.js",
+      "!server/index.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/client",
+      "<rootDir>/server/__mocks__"
+    ],
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ]
   }
 }

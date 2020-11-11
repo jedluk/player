@@ -28,7 +28,10 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
 
   useEffect(() => {
     if (track !== '') {
-      setAssetURL(STATICS + track)
+      const asset =
+        'http://localhost:8083/static/Game of Thrones Season 6 Soudtrack 02 -  Blood of My Blood.mp3'
+      console.log({ asset })
+      setAssetURL(asset)
     }
   }, [track])
 
