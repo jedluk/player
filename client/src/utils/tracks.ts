@@ -5,6 +5,7 @@ import { unique } from './lib'
 type Item = API.Track | API.Directory
 
 export function serializeTracks(tracks: API.Track[]): string {
+  if (!Array.isArray(tracks)) return ''
   return tracks.map(track => track.title).join(',')
 }
 
