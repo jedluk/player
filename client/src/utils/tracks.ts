@@ -8,7 +8,6 @@ export function serializeTracks(tracks: API.Track[]): string {
   if (!Array.isArray(tracks)) return ''
   return tracks.map(track => track.title).join(',')
 }
-
 export function matchTitle(phrase: string) {
   return (track: API.Track) =>
     phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())

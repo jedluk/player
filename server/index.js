@@ -30,8 +30,9 @@ function makeServer(port = parseInt(PORT, 10)) {
   )
   app.all('*', (_, res) => res.status(400).send({ msg: 'Not found!' }))
   app.use(function (err, req, res, next) {
-    console.error(err.stack)
-    res.status(500).send('Something broken!')
+    res
+      .status(err.status || 500)
+      .send({ msg: err.message || 'Internal server error' })
   })
   app.listen(port, () => console.log(`Listening on port ${PORT}`))
 }
@@ -39,5 +40,4 @@ function makeServer(port = parseInt(PORT, 10)) {
 if (SERVER_MODE === 'standalone') {
   makeServer()
 }
-
 module.exports = { run: makeServer }

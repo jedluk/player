@@ -13,6 +13,15 @@ function isUndefined(any) {
   return any === undefined
 }
 
+function isString(any) {
+  return typeof any === 'string'
+}
+
+function noExt(name) {
+  const lastDot = name.lastIndexOf('.')
+  return name.slice(0, lastDot)
+}
+
 function defaultsTo(any, fallback) {
   return !isNil(any) ? any : fallback
 }
@@ -40,7 +49,9 @@ module.exports = {
   isNil,
   isNull,
   isUndefined,
+  isString,
   pick,
+  noExt,
   defaultsTo,
   getTrackTags,
   nameOnly,

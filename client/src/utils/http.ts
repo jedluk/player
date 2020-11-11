@@ -3,7 +3,7 @@ import { fetch, encodeURIComponent } from './globals'
 import { ERROR_CODES, API_URL } from './config'
 
 export function getAssets(
-  path: string = '/home/jedrzej-dev/Desktop/player/assets'
+  path: string = '.'
 ): Promise<API.Assets> {
   const query = `?path=${encodeURIComponent(path)}`
   return new Promise((resolve, reject) =>

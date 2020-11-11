@@ -17,10 +17,10 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1600,
-    height: 900,
-    minWidth: 1400,
-    minHeight: 790,
+    width: 1066,
+    height: 600,
+    // minWidth: 1400,
+    // minHeight: 790,
   })
   // mainWindow.setIcon( path.join(__dirname, 'icon.jpg'))
 
