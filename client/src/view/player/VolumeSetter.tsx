@@ -31,9 +31,9 @@ export default function VolumeSetter({ audio: audioRef }: VolumeSetterProps) {
       className={style.root}
       style={{
         color: 'black',
-        background: `linear-gradient(to top, #545454 ${
+        background: `linear-gradient(to top, var(--light-grey) ${
           volume * 100
-        }%, #d3d3d3)`,
+        }%, var(--dark-grey))`,
       }}
     >
       <FontAwesome name="volume-off" />
