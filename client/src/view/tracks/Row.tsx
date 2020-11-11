@@ -29,10 +29,9 @@ export default function Row(props: RowProps) {
       style={{
         animationDuration: `${animationDelay}s`,
       }}
+      onClick={handleSetTrack}
     >
-      <td className={style['action-play']} onClick={handleSetTrack}>
-        {track.title}
-      </td>
+      <td className={style['action-play']}>{track.title}</td>
       <td>{track.artist}</td>
       <td>{track.album}</td>
       <td>{track.year}</td>
