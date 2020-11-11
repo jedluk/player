@@ -7,6 +7,10 @@
   align-items: center;
 }
 
+.player-buttons {
+  white-space: nowrap;
+}
+
 .player-buttons button {
   border: 1px solid var(--dark-grey);
   outline: none;
@@ -16,7 +20,7 @@
   margin-right: 10px;
   cursor: pointer;
   background: transparent;
-  color: black;
+  color: var(--dark-grey);
   transition: all 0.4s;
 }
 

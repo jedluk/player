@@ -19,6 +19,7 @@ import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
 import { rootReducer, State, ChangeFilterPayload } from './App.reducer'
 
 import style from './App.module.css'
+import { ThemeLoader } from './common/ThemeLoader'
 
 const initialState: State = {
   dirs: [],
@@ -38,12 +39,13 @@ function App(): JSX.Element {
   const fetchAssets = useCallback(
     (path?: string): Promise<void> => {
       return new Promise(resolve => {
-        getAssets(path)
-          .then((assets: API.Assets) =>
-            dispatch({ type: 'SETTLE_FILES', payload: assets })
-          )
-          .catch((err: API.Error) => console.error(err.message))
-          .finally(resolve)
+        resolve()
+        // getAssets(path)
+        //   .then((assets: API.Assets) =>
+        //     dispatch({ type: 'SETTLE_FILES', payload: assets })
+        //   )
+        //   .catch((err: API.Error) => console.error(err.message))
+        //   .finally(resolve)
       })
     },
     [dispatch]
@@ -84,6 +86,7 @@ function App(): JSX.Element {
 
   return (
     <div className={style.App}>
+      <ThemeLoader />
       {content}
       <Player
         track={track}
