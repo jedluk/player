@@ -1,42 +1,35 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { themeMap, ThemeMap } from './themeMap'
+import { defaultsTo } from '../utils/lib'
 
 import styles from './ThemeLoader.module.css'
 
 export function ThemeLoader() {
-  const drawTheme = useCallback(() => {
-    const themeNumber = Math.floor(Math.random() * 3)
-    const theme = Object.keys(themeMap)[themeNumber] as keyof ThemeMap
+  const [themeQueue, setThemeQueue] = useState(
+    Object.keys(themeMap) as Array<keyof ThemeMap>
+  )
+
+  useEffect(() => {
+    const theme = themeQueue[0]
     Object.entries(themeMap[theme]).forEach(
       ([kind, value]: [string, string]) => {
         console.log({ kind, value })
         document.documentElement.style.setProperty(kind, value)
       }
     )
-  }, [])
+  }, [themeQueue])
+
+  const handleThemeChange = useCallback(() => {
+    setThemeQueue(prev => {
+      const copy = [...prev]
+      return copy.slice(1).concat(defaultsTo(copy.shift(), 'light'))
+    })
+  }, [setThemeQueue])
 
   return (
-    <div className={styles.icon} onClick={drawTheme}>
-      <FontAwesome name="globe" />
-      <div className={styles.themePicker}>
-        {Object.values(themeMap).map(theme => (
-          <div
-            className={styles.theme}
-            style={{
-              backgroundImage:
-                'linear-gradient(' +
-                [
-                  'to-right',
-                  theme['--light-grey'],
-                  theme['--dark-grey'],
-                  theme['--ultra-light-grey'],
-                ].join(',') +
-                ')',
-            }}
-          />
-        ))}
-      </div>
-    </div>
+    <button className={styles.icon} onClick={handleThemeChange}>
+      <FontAwesome name="cubes" />
+    </button>
   )
 }

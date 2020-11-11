@@ -5,27 +5,9 @@
   padding: 5px;
   width: 30px;
   height: 30px;
+  transition: all 0.4s ease-out;
 }
 
-.themePicker {
-  position: fixed;
-  top: 2px;
-  left: 45px;
-  display: flex;
-  flex-direction: column;
-  /* opacity: 0; */
-  height: 50px;
-  width: 30px;
-  /* transition: all 0.4s all; */
-}
-
-.icon:hover .themePicker {
-  /* opacity: 1; */
-}
-
-.theme {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin-bottom: 5px;
+.icon:hover {
+  transform: scale(1.4);
 }
