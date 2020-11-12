@@ -57,6 +57,10 @@
   text-align: left;
 }
 
+.tracks-grid tbody tr {
+  cursor: pointer;
+}
+
 .tracks-grid tbody tr:hover {
   background-color: var(--accent-color);
   opacity: 0.6;
