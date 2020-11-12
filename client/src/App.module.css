@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   height: 100%;
-  background-color: var(--ultra-light-grey);
+  background-color: var(--light-primary-color);
 }
 
 .drop-container {
@@ -9,7 +9,7 @@
   min-height: 300px;
   padding: 10px;
   border-radius: 5px;
-  border: 10px dashed var(--light-grey);
+  border: 10px dashed var(--accent-color);
   outline: 0;
   display: flex;
   flex-direction: column;

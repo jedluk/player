@@ -26,7 +26,7 @@
 .grid-container {
   overflow-y: scroll;
   overflow-x: hidden;
-  scrollbar-color: var(--dark-grey) var(--ultra-light-grey);
+  scrollbar-color: var(--dark-primary-color) var(--light-primary-color);
   scrollbar-width: thin;
   width: 100%;
   min-height: 70px;
@@ -44,16 +44,26 @@
 
 .grid-container::-webkit-scrollbar {
   width: 4px;
-  background-color: var(--ultra-light-grey);
+  background-color: var(--light-primary-color);
 }
 
 .grid-container::-webkit-scrollbar-thumb {
-  background-color: var(--dark-grey);
+  background-color: var(--dark-primary-color);
+  opacity: 0.9;
 }
 
 .tracks-grid td {
-  border-bottom: 1px solid var(--light-grey);
+  border-bottom: 1px solid var(--accent-color);
   text-align: left;
+}
+
+.tracks-grid tbody tr {
+  cursor: pointer;
+}
+
+.tracks-grid tbody tr:hover {
+  background-color: var(--accent-color);
+  opacity: 0.6;
 }
 
 .tracks-grid tr td:not(:first-child) {
@@ -64,15 +74,15 @@
   width: 30%;
 }
 
-.tracks-grid thead th {
-  border-left: 1px solid var(--light-grey);
-  border-right: 1px solid var(--light-grey);
+.tracks-grid thead th:not(:last-child):not(:first-child) {
+  border-left: 1px solid var(--accent-color);
+  border-right: 1px solid var(--accent-color);
   z-index: 1000;
 }
 
 .tracks-grid thead th.active {
-  border-left: 1px solid var(--ultra-light-grey);
-  border-right: 1px solid var(--ultra-light-grey);
+  border-left: 1px solid var(--light-primary-color);
+  border-right: 1px solid var(--light-primary-color);
   animation: sticky-thead 0.8s linear forwards;
 }
 
@@ -92,10 +102,6 @@
   text-align: right;
 }
 
-.tracks-grid tbody tr td:first-child:hover {
-  font-weight: bold;
-}
-
 .tracks-grid .action-play > span {
   display: inline-block;
   margin-left: 10px;
@@ -111,7 +117,7 @@
 
 @keyframes sticky-thead {
   100% {
-    background-color: var(--light-grey);
+    background-color: var(--accent-color);
   }
 }
 

@@ -19,6 +19,7 @@ import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
 import { rootReducer, State, ChangeFilterPayload } from './App.reducer'
 
 import style from './App.module.css'
+import { ThemeLoader } from './common/ThemeLoader'
 
 const initialState: State = {
   dirs: [],
@@ -84,6 +85,7 @@ function App(): JSX.Element {
 
   return (
     <div className={style.App}>
+      <ThemeLoader />
       {content}
       <Player
         track={track}

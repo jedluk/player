@@ -22,15 +22,11 @@ interface MainViewProps {
 }
 
 export default function MainView(props: MainViewProps) {
-  const { fetchAssets, tracks, dirs, isFiltered } = props
+  const { tracks, dirs, isFiltered } = props
   const [filteringPhrase, setFilteringPhrase] = useState<string>('')
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
   const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
-
-  const fetchAndCloseSidebar = useCallback(() => {
-    fetchAssets().then(() => setSidebarOpen(false))
-  }, [setSidebarOpen, fetchAssets])
 
   const isEmpty = tracks.length === 0 && dirs.length === 0 && !isFiltered
   const someFolders = tracks.length === 0 && dirs.length > 0 && !isFiltered
@@ -41,7 +37,7 @@ export default function MainView(props: MainViewProps) {
       <Hamburger toggle={toggleSidebar} isOpen={sidebarOpen} />
       <div className={style.container}>
         {someFolders ? <SomeAvailable /> : null}
-        {isEmpty ? <EmptyView action={fetchAndCloseSidebar} /> : null}
+        {isEmpty ? <EmptyView /> : null}
         {displayTracks ? (
           <Tracks
             isFiltered={isFiltered}
