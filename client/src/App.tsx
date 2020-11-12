@@ -20,6 +20,7 @@ import { rootReducer, State, ChangeFilterPayload } from './App.reducer'
 
 import style from './App.module.css'
 import { ThemeLoader } from './common/ThemeLoader'
+import { SettingsPanel } from './common/SettingsPanel'
 
 const initialState: State = {
   dirs: [],
@@ -85,7 +86,7 @@ function App(): JSX.Element {
 
   return (
     <div className={style.App}>
-      <ThemeLoader />
+      <SettingsPanel />
       {content}
       <Player
         track={track}

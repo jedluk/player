@@ -1,37 +1,35 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import FontAwesome from 'react-fontawesome'
-import { themeMap, ThemeMap } from './themeMap'
+import { Theme, ThemeMap } from './themeMap'
 import { defaultsTo } from '../utils/lib'
 
-import styles from './ThemeLoader.module.css'
+interface ThemeLoaderProps {
+  theme: Theme
+  setThemeQueue: (prev: any) => void
+}
 
-export function ThemeLoader() {
-  const [themeQueue, setThemeQueue] = useState(
-    Object.keys(themeMap) as Array<keyof ThemeMap>
-  )
+export function ThemeLoader(props: ThemeLoaderProps) {
+  const { theme, setThemeQueue } = props
 
   useEffect(() => {
-    Object.entries(themeMap[themeQueue[0]]).forEach(([kind, value]) =>
+    Object.entries(theme).forEach(([kind, value]) =>
       document.documentElement.style.setProperty(kind, value)
     )
-  }, [themeQueue])
+  }, [theme])
 
   const handleThemeChange = useCallback(() => {
-    setThemeQueue(prev => {
-      const copy = [...prev]
-      return copy.slice(1).concat(defaultsTo(copy.shift(), 'theme1'))
-    })
+    // @ts-expect-error
+    setThemeQueue(prev =>
+      [...prev].slice(1).concat(defaultsTo([...prev].shift(), 'theme1'))
+    )
   }, [setThemeQueue])
-
-  const currentTheme = themeMap[themeQueue[0]]
 
   return (
     <button
-      className={styles.icon}
       onClick={handleThemeChange}
       style={{
-        border: `2px solid ${currentTheme['--dark-primary-color']}`,
-        color: currentTheme['--dark-primary-color'],
+        border: `1px solid ${theme['--dark-primary-color']}`,
+        color: theme['--dark-primary-color'],
       }}
     >
       <FontAwesome name="cubes" />

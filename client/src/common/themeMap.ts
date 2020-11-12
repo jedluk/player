@@ -1,4 +1,4 @@
-type Theme = {
+export type Theme = {
   '--dark-primary-color': string
   '--accent-color': string
   '--light-primary-color': string
