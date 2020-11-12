@@ -19,7 +19,7 @@ export function ThemeLoader() {
   const handleThemeChange = useCallback(() => {
     setThemeQueue(prev => {
       const copy = [...prev]
-      return copy.slice(1).concat(defaultsTo(copy.shift(), 'light'))
+      return copy.slice(1).concat(defaultsTo(copy.shift(), 'theme1'))
     })
   }, [setThemeQueue])
 
@@ -30,8 +30,8 @@ export function ThemeLoader() {
       className={styles.icon}
       onClick={handleThemeChange}
       style={{
-        border: `2px solid ${currentTheme['--dark-grey']}`,
-        color: currentTheme['--dark-grey'],
+        border: `2px solid ${currentTheme['--dark-primary-color']}`,
+        color: currentTheme['--dark-primary-color'],
       }}
     >
       <FontAwesome name="cubes" />

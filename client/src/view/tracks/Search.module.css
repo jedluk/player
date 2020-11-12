@@ -1,11 +1,11 @@
 .search {
   -webkit-appearance: none;
   border: 0;
-  border-bottom: 1px solid var(--dark-grey);
-  background: var(--ultra-light-grey);
+  border-bottom: 1px solid var(--dark-primary-color);
+  background: var(--light-primary-color);
   font: inherit;
   font-size: 2.2rem;
-  color: var(--dark-grey);
+  color: var(--dark-primary-color);
   width: 100%;
   padding: 0 4px;
   padding-left: 1.8rem;

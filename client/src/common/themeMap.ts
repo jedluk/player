@@ -1,35 +1,51 @@
 type Theme = {
-  '--ultra-light-grey': string
-  '--light-grey': string
-  '--dark-grey': string
+  '--dark-primary-color': string
+  '--accent-color': string
+  '--light-primary-color': string
 }
 
-const greyTheme: Theme = {
-  '--dark-grey': '#545454',
-  '--light-grey': '#d3d3d3',
-  '--ultra-light-grey': '#f0f0f0',
+const theme1: Theme = {
+  '--light-primary-color': '#CFD8DC',
+  '--accent-color': '#9E9E9E',
+  '--dark-primary-color': '#455A64',
 }
 
-const lightTheme: Theme = {
-  '--dark-grey': ' #6200EE',
-  '--light-grey': '#03DAC6',
-  '--ultra-light-grey': '#018786',
+const theme2: Theme = {
+  '--light-primary-color': '#018786',
+  '--accent-color': '#03DAC6',
+  '--dark-primary-color': '#6200EE',
 }
 
-const randomTheme: Theme = {
-  '--dark-grey': ' #0097A7',
-  '--light-grey': '#FFC107',
-  '--ultra-light-grey': '#B2EBF2',
+const theme3: Theme = {
+  '--light-primary-color': '#B2EBF2',
+  '--accent-color': '#FFC107',
+  '--dark-primary-color': '#0097A7',
 }
 
-export type ThemeMap = {
-  light: Theme
-  dark: Theme
-  random: Theme
+const theme4: Theme = {
+  '--light-primary-color': '#F0F4C3',
+  '--accent-color': '#536DFE',
+  '--dark-primary-color': '#AFB42B',
+}
+
+const theme5: Theme = {
+  '--light-primary-color': '#D1C4E9',
+  '--accent-color': '#FF5722',
+  '--dark-primary-color': '#512DA8',
 }
 
 export const themeMap = {
-  light: lightTheme,
-  dark: greyTheme,
-  random: randomTheme,
+  theme1,
+  theme2,
+  theme3,
+  theme4,
+  theme5,
+}
+
+export type ThemeMap = {
+  theme1: Theme
+  theme2: Theme
+  theme3: Theme
+  theme4: Theme
+  theme5: Theme
 }
