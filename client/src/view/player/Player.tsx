@@ -41,7 +41,7 @@ export const Player = ({
       audioRef.current.currentTime = 0
       // @ts-ignore: Object is possibly 'null'.
       audioRef.current.play()
-      // setPlayed(true)
+      setPlayed(true)
     }
   }, [assetURL])
 
