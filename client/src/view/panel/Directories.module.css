@@ -1,9 +1,16 @@
 .dirs-container {
-  height: 88%;
+  height: 85%;
   overflow: hidden;
   padding-top: 120px;
   animation: moveWidth 0.4s ease-out forwards;
-  box-shadow: -10px -10px 5px -6px rgba(0, 0, 0, 0.05);
+  border-left-width: 1px;
+  border-style: solid;
+  border-image: linear-gradient(
+      to bottom,
+      var(--accent-color),
+      var(--dark-primary-color)
+    )
+    1 100%;
 }
 
 .dirs-folder {

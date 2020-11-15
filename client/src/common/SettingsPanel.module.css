@@ -7,22 +7,55 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border-right: 2px solid rgba(0, 0, 0, 0.05);
+  border-right-width: 1px;
+  border-left-width: 0;
+  border-style: solid;
+  border-image: linear-gradient(
+      to bottom,
+      var(--dark-primary-color),
+      var(--accent-color)
+    )
+    1 100%;
+}
+
+.panel:hover {
+  border-image: linear-gradient(
+      to bottom,
+      var(--accent-color),
+      var(--dark-primary-color)
+    )
+    1 100%;
 }
 
 .panel button {
   width: 30px;
   height: 30px;
-  background: transparent;
-  transition: all 0.4s ease-out;
-  border-radius: 4px;
+  color: var(--accent-color);
+  background: none;
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+  border-image-source: linear-gradient(
+    to left,
+    var(--dark-primary-color),
+    var(--accent-color)
+  );
+
   margin-bottom: 10px;
+}
+
+.panel button:hover {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+
+  border-image-source: linear-gradient(
+    to left,
+    var(--accent-color),
+    var(--dark-primary-color)
+  );
 }
 
 .panel button:focus {
   outline: 0;
-}
-
-.panel button:hover {
-  transform: scale(1.4);
 }

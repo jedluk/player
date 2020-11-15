@@ -21,16 +21,8 @@ export function ThemeLoader() {
     })
   }, [setThemeQueue])
 
-  const currentTheme = themeMap[themeQueue[0]]
-
   return (
-    <button
-      onClick={handleThemeChange}
-      style={{
-        border: `2px solid ${currentTheme['--dark-primary-color']}`,
-        color: currentTheme['--dark-primary-color'],
-      }}
-    >
+    <button onClick={handleThemeChange}>
       <FontAwesome name="cubes" />
     </button>
   )
