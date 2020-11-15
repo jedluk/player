@@ -7,9 +7,11 @@ module.exports = async function checkQuery(req, res, next) {
     return res.status(400).send({ msg: '"path" query param must be defined' })
   }
 
-  await fs.exists(path, (err, callback) => {
-    if (err === null) {
-      return res.status(400).send({ msg: '"path" query param must be defined' })
+  await fs.exists(path, err => {
+    if (err !== null) {
+      return res
+        .status(400)
+        .send({ msg: '"path" is not pointing to valid file' })
     }
     next()
   })

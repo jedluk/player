@@ -1,4 +1,4 @@
-const validateQuery = require('./validateQuery')
+const validateQuery = require('./validateDirQuery')
 
 describe('validateQuery middleware test suite', () => {
   let req, res

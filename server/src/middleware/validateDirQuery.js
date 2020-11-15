@@ -17,7 +17,7 @@ module.exports = async function checkQuery(req, res, next) {
     !fileTypes.split(',').every(type => SUPPORTED_TYPES.includes(type))
   ) {
     return res.status(400).send({
-      msg: `fileTypes query param must match given types: ${String(
+      msg: `fileTypes query param must match one of types: ${String(
         SUPPORTED_TYPES
       )}`,
     })
