@@ -1,0 +1,19 @@
+.playerButtons button {
+  border: 1px solid var(--dark-primary-color);
+  outline: none;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--dark-primary-color);
+  transition: all 0.4s;
+}
+
+.playerButtons button:hover {
+  transform: scale(1.2);
+  border: 1px solid var(--accent-color);
+  background: var(--dark-primary-color);
+  color: var(--accent-color);
+}
