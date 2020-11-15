@@ -4,7 +4,6 @@ function getPartials(range, total) {
   const [partialStart, partialEnd] = range.replace(/bytes=/, '').split('-')
   const start = parseInt(partialStart, 10) || 0
   const end = partialEnd ? parseInt(partialEnd, 10) : total - 1
-  console.log({ start, end })
   return { start, end }
 }
 
