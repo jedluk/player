@@ -24,6 +24,13 @@ describe('utils test suite', () => {
       expect(pick(obj, ['a', 'c'])).toEqual({ a: obj.a, c: obj.c })
     })
 
+    it('uses fallback value if defined', () => {
+      expect(pick(obj, ['a', 'g'], 'some')).toEqual({
+        a: obj.a,
+        g: 'some',
+      })
+    })
+
     it('return original object if keys are undefined', () => {
       expect(pick(obj)).toEqual(obj)
     })
@@ -87,16 +94,13 @@ describe('utils test suite', () => {
   describe('getTrackTags', () => {
     it('returns tags if there is no error', async () => {
       const tags = { tag1: '1', tag2: '2' }
-      ID3.read.mockImplementation((track, callback) =>
-        Promise.resolve(callback(null, tags))
-      )
+      ID3.Promise.read.mockImplementation(() => Promise.resolve(tags))
       const result = await getTrackTags('some track')
       expect(result).toEqual(tags)
     })
+
     it('return empty object if ID3 read returns error', async () => {
-      ID3.read.mockImplementation((track, callback) =>
-        Promise.resolve(callback(new Error()))
-      )
+      ID3.Promise.read.mockImplementation(() => Promise.reject(new Error()))
       const result = await getTrackTags('some track')
       expect(result).toEqual({})
     })

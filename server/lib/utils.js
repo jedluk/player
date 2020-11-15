@@ -1,4 +1,4 @@
-const { read } = require('node-id3')
+const ID3Promise = require('node-id3').Promise
 const path = require('path')
 
 function isNil(any) {
@@ -26,18 +26,21 @@ function defaultsTo(any, fallback) {
   return !isNil(any) ? any : fallback
 }
 
-function pick(obj, keys) {
-  if (!Array.isArray(keys) || (Array.isArray(keys) && keys.length === 0)) {
+function pick(obj, keys, fallback) {
+  if (!Array.isArray(keys) || keys.length === 0) {
     return obj
   }
-  return Object.fromEntries(
-    Object.entries(obj).filter(([key]) => keys.includes(key))
-  )
+  return keys.reduce((accum, key) => {
+    accum[key] = obj[key] || fallback
+    return accum
+  }, {})
 }
 
 function getTrackTags(track) {
   return new Promise(resolve =>
-    read(track, (err, tags) => resolve(isNull(err) ? tags : {}))
+    ID3Promise.read(track)
+      .then(resolve)
+      .catch(() => resolve({}))
   )
 }
 
