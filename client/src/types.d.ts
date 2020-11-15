@@ -11,8 +11,8 @@ export type Filter = Record<Modifier[property], string[]>
 export namespace API {
   type Assets = {
     content: {
-      dirs: Directory[]
-      files?: Record<string, Track[]>
+      dirs: Directory
+      files?: Track
     }
     _links: {
       self: Link
@@ -21,7 +21,9 @@ export namespace API {
     }
   }
 
-  type Track = {
+  type Track = Record<string, TrackDetails>
+
+  type TrackDetails = {
     fullPath: string
     title: string
     artist: string
@@ -30,9 +32,7 @@ export namespace API {
     album: string
   }
 
-  type Directory = {
-    [name: string]: string
-  }
+  type Directory = Record<string, string>
 
   type Link = {
     method: 'GET' | 'POST' | 'PUT' | 'PATCH'

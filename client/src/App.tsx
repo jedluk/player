@@ -22,15 +22,20 @@ import style from './App.module.css'
 import { ThemeLoader } from './common/ThemeLoader'
 
 const initialState: State = {
-  dirs: [],
-  tracks: [],
+  dirs: {},
+  links: {
+    children: null,
+    parent: null,
+    self: null,
+  },
+  tracks: {},
   filters: {},
 }
 
 function App(): JSX.Element {
   const [state, dispatch] = useReducer(rootReducer, initialState)
 
-  const { tracks, dirs, filters } = state
+  const { tracks, dirs, filters, links } = state
 
   const [track, setTrack] = useState<string>('')
   const [initialized, setInitialized] = useState<boolean>(false)
@@ -76,6 +81,7 @@ function App(): JSX.Element {
       modifiers={modifiers}
       changeFilter={changeFilter}
       dirs={dirs}
+      links={links}
       fetchAssets={fetchAssets}
       setTrack={setTrack}
     />
@@ -89,6 +95,9 @@ function App(): JSX.Element {
       {content}
       <Player
         track={track}
+        trackDetails={Object.values(tracks).find(
+          trackDetails => trackDetails.fullPath === track
+        )}
         nextTrack={findNextTrack(track, tracks)}
         setTrack={setTrack}
       />

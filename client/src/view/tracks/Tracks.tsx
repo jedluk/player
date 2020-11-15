@@ -12,7 +12,7 @@ import style from './Tracks.module.css'
 type MyTracksProps = {
   isFiltered: boolean
   currentTrack: string
-  tracks: API.Track[]
+  tracks: API.Track
   modifiers: Modifier[]
   setTrack: (track: string) => void
   setFilteringPhrase: (text: string) => void
@@ -22,6 +22,7 @@ type MyTracksProps = {
 
 function MyTracks(props: MyTracksProps) {
   const { tracks, setFilteringPhrase, setTrack } = props
+  const size = Object.keys(tracks).length
 
   const theadRowRef = useRef<HTMLTableRowElement>(null)
   const [loaded, setLoaded] = useState<boolean>(false)
@@ -30,10 +31,10 @@ function MyTracks(props: MyTracksProps) {
     setLoaded(false)
     const timeout = setTimeout(
       () => setLoaded(true),
-      (0.5 + ((tracks.length * 0.5) % 6)) * 1000
+      (0.5 + ((size * 0.5) % 6)) * 1000
     )
     return () => clearTimeout(timeout)
-  }, [tracks.length])
+  }, [size])
 
   useEffect(() => {
     if (theadRowRef.current !== null) {
@@ -65,10 +66,10 @@ function MyTracks(props: MyTracksProps) {
   }, [])
 
   const setFiltered = useCallback(() => {
-    if (tracks.length > 0) setTrack(tracks[0].url)
-  }, [tracks, setTrack])
+    if (size > 0) setTrack(Object.values(tracks)[0].fullPath)
+  }, [tracks, setTrack, size])
 
-  const noTracks = tracks.length === 0
+  const noTracks = size === 0
 
   return (
     <div className={style['tracks-container']}>
@@ -91,11 +92,11 @@ function MyTracks(props: MyTracksProps) {
           />
           {!noTracks || props.isFiltered ? (
             <tbody>
-              {props.tracks.map((track, idx) => (
+              {Object.values(props.tracks).map((track, idx) => (
                 <Row
                   key={track.title}
                   style={style}
-                  isCurrentTrack={props.currentTrack === track.url}
+                  isCurrentTrack={props.currentTrack === track.fullPath}
                   animationDelay={0.2 + ((idx * 0.5) % 6)}
                   track={track}
                   setTrack={props.setTrack}
