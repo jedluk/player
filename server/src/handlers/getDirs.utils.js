@@ -15,7 +15,8 @@ module.exports = {
   combineFilePathWitTags(files, tags) {
     return files.map((file, idx) => ({
       fullPath: file,
-      ...pick(tags[idx], ['title', 'artist', 'album', 'year', 'genre'], ''),
+      title: tags[idx].title || nameOnly(file),
+      ...pick(tags[idx], ['artist', 'album', 'year', 'genre'], ''),
     }))
   },
   withStats: async function (files) {

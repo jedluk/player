@@ -35,15 +35,15 @@ describe('getDirs utils test suite', () => {
         },
       ])
     })
-    it('fullfills expected tags with empty strings if not available', () => {
+    it('fullfills expected tags with empty strings and tille from path if they are not available', () => {
       const files = ['/path/to/file1']
       expect(combineFilePathWitTags(files, [{}])).toEqual([
         {
           album: '',
           artist: '',
           genre: '',
-          title: '',
           year: '',
+          title: 'file1',
           fullPath: files[0],
         },
       ])
