@@ -44,14 +44,15 @@ export function filterTracks(tracks: API.Track, filters: Filter) {
   }
 
   return Object.values(tracks).reduce(
-    (result: API.Track, track: API.TrackDetails) => {
+    (result: API.Track, trackDetails: API.TrackDetails) => {
       if (
         filterNames
-          // @ts-ignore
-          .map(name => filters[name].includes(track[name]))
+          .map(name =>
+            filters[name].includes(trackDetails[name as keyof API.TrackDetails])
+          )
           .every(Boolean)
       ) {
-        result[track.title] = track
+        result[trackDetails.title] = trackDetails
       }
       return result
     },

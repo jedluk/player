@@ -112,33 +112,38 @@ describe('track utils test suite', () => {
   })
 
   describe('trackFilter function', () => {
-    const tracks = [
-      {
+    const tracks = {
+      track1: {
+        title: 'track1',
         year: '2010',
         artist: 'artist1',
         album: 'album1',
       },
-      {
+      track2: {
+        title: 'track2',
         year: '2020',
         artist: 'artist1',
         album: 'album1',
       },
-      {
+      track3: {
+        title: 'track3',
         year: '2010',
         artist: 'artist1',
         album: 'album2',
       },
-      {
+      track4: {
+        title: 'track4',
         year: '2011',
         artist: 'artist2',
         album: 'album1',
       },
-      {
+      track5: {
+        title: 'track5',
         year: '2011',
         artist: 'artist1',
         album: 'album2',
       },
-    ] as any
+    } as any
 
     it('returns all tracks if filter is empty object', () => {
       expect(filterTracks(tracks, {} as any)).toEqual(tracks)
@@ -148,7 +153,9 @@ describe('track utils test suite', () => {
       const filter = {
         year: ['2020'],
       }
-      expect(filterTracks(tracks, filter as any)).toEqual([tracks[1]])
+      expect(filterTracks(tracks, filter as any)).toEqual({
+        track2: tracks.track2,
+      })
     })
 
     it('applies multiple filtering properties to given tracks', () => {
@@ -157,7 +164,9 @@ describe('track utils test suite', () => {
         album: ['album1'],
         artist: ['artist1'],
       }
-      expect(filterTracks(tracks, filter as any)).toEqual([tracks[0]])
+      expect(filterTracks(tracks, filter as any)).toEqual({
+        track1: tracks.track1,
+      })
     })
   })
 })
