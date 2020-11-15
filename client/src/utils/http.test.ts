@@ -29,16 +29,18 @@ describe('http test suite', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('calls server with no query if it is not specified', async () => {
+  it('calls server with fallback query params if they are not spcified', async () => {
     await getAssets()
-    expect(fetchMock).toHaveBeenCalledWith('http://test.com/assets')
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://test.com/dirs?path=home&fileTypes=mp3'
+    )
   })
 
   it('calls server with query parameter "path" if it is specifed', async () => {
     const path = 'myDir'
     await getAssets(path)
     expect(fetchMock).toHaveBeenCalledWith(
-      `http://test.com/assets?path=${path}`
+      `http://test.com/dirs?path=${path}&fileTypes=mp3`
     )
   })
 
