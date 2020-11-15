@@ -9,7 +9,9 @@ function makeServer(port = parseInt(PORT, 10)) {
   app.use(morgan('common'))
   app.use(
     cors({
-      origin: NODE_ENV !== 'production' ? 'http://localhost:3000' : undefined,
+      origin: ['production', 'development'].includes(NODE_ENV)
+        ? 'http://localhost:3000'
+        : undefined,
     })
   )
   app.use('/api', require('./routes'))

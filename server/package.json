@@ -1,5 +1,5 @@
 {
-  "name": "file_server",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "electron-starter.js",

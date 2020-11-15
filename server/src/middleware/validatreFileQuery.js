@@ -16,12 +16,10 @@ module.exports = async function checkQuery(req, res, next) {
       .send({ msg: `Only ${String(SUPPORTED_FILES)} are suppoerted` })
   }
 
-  await fs.exists(path, err => {
-    if (err !== null) {
-      return res
-        .status(400)
-        .send({ msg: '"path" is not pointing to valid file' })
-    }
+  try {
+    await fs.access(path)
     return next()
-  })
+  } catch (err) {
+    return res.status(400).send({ msg: '"path" is not pointing to valid file' })
+  }
 }
