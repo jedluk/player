@@ -1,4 +1,4 @@
-import { getAssets } from './http'
+import { getAssets, streamURL, stripPath } from './http'
 import { fetch, encodeURIComponent } from './globals'
 
 jest.mock('./globals')
@@ -60,6 +60,23 @@ describe('http test suite', () => {
     expect.assertions(1)
     await getAssets().catch(err => {
       expect(err.code).toEqual('request-failed')
+    })
+  })
+
+  describe('streamURL', () => {
+    it('returns correctly encoded URL for streaming file', () => {
+      const path = 'some/path/to/file/1'
+      expect(streamURL(path)).toEqual(
+        'http://test.com/stream/file?path=some%2Fpath%2Fto%2Ffile%2F1'
+      )
+    })
+  })
+
+  describe('stripPath', () => {
+    it('returns value of path query string from full URL', () => {
+      expect(stripPath('http://someserver.com?path=myPath/toFile')).toEqual(
+        'myPath/toFile'
+      )
     })
   })
 })
