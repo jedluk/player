@@ -33,8 +33,8 @@ export default function MainView(props: MainViewProps) {
   const tracksEmpty = Object.keys(tracks).length === 0
   const dirsEmpty = Object.keys(dirs).length === 0
 
-  const isEmpty = tracksEmpty && dirsEmpty && !isFiltered
-  const someFolders = tracksEmpty && !dirsEmpty && !isFiltered
+  const isEmpty = !isFiltered && tracksEmpty && dirsEmpty
+  const someFolders = !isFiltered && tracksEmpty && !dirsEmpty
   const displayTracks = !tracksEmpty || isFiltered
 
   return (

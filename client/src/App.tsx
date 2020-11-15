@@ -76,7 +76,7 @@ function App(): JSX.Element {
   const content = initialized ? (
     <MainView
       track={track}
-      isFiltered={filteredTracks.length !== tracks.length}
+      isFiltered={!Object.is(tracks, filteredTracks)}
       tracks={filteredTracks}
       modifiers={modifiers}
       changeFilter={changeFilter}
