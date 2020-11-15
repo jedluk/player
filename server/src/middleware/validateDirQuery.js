@@ -12,10 +12,6 @@ module.exports = async function checkQuery(req, res, next) {
     return res.status(400).send({ msg: '"path" query param must be defined' })
   }
 
-  if (path.toLowerCase() === 'home') {
-    return next()
-  }
-
   if (
     isString(fileTypes) &&
     !fileTypes.split(',').every(type => SUPPORTED_TYPES.includes(type))
@@ -27,14 +23,17 @@ module.exports = async function checkQuery(req, res, next) {
     })
   }
 
+  if (path.toLowerCase() === 'home') {
+    return next()
+  }
+
   try {
     const lstat = await fsPromises.lstat(path)
     if (!lstat.isDirectory()) {
       throw new Error('Not a directory')
     }
+    return next()
   } catch {
     return res.status(400).send({ msg: `"${path}" is not a valid directory` })
   }
-
-  next()
 }
