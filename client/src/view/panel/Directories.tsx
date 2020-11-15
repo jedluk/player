@@ -9,7 +9,6 @@ import { stripPath } from '../../utils/http'
 
 interface DirectoriesProps {
   visible: boolean
-  tracks: API.Track
   dirs: API.Directory
   links: Links
   fetchAssets: (path?: string) => Promise<void>
@@ -18,18 +17,13 @@ interface DirectoriesProps {
 export default function Directories(
   props: DirectoriesProps
 ): Maybe<JSX.Element> {
-  const { dirs, tracks, links, fetchAssets, visible } = props
+  const { dirs, links, fetchAssets, visible } = props
 
   const emptyDirs = Object.keys(dirs).length === 0
-  const emptyTracks = Object.keys(tracks).length === 0
 
   if (!visible) {
     // TODO: reversed animation based on visible property
     return null
-  }
-
-  if (emptyDirs && emptyTracks) {
-    return <div className={style['dirs-container']} />
   }
 
   const { parent } = links

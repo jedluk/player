@@ -64,7 +64,6 @@ export default function MainView(props: MainViewProps) {
           isOpen={sidebarOpen}
           dirs={props.dirs}
           links={props.links}
-          tracks={props.tracks}
           fetchAssets={props.fetchAssets}
         />
       </div>

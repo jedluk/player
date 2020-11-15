@@ -6,7 +6,6 @@ import { Links } from '../../App.reducer'
 type SideMenuProps = {
   isOpen: boolean
   dirs: API.Directory
-  tracks: API.Track
   links: Links
   fetchAssets: (path?: string) => Promise<void>
 }
@@ -16,7 +15,6 @@ export default function SideMenu(props: SideMenuProps): JSX.Element {
     <Directories
       visible={props.isOpen}
       fetchAssets={props.fetchAssets}
-      tracks={props.tracks}
       links={props.links}
       dirs={props.dirs}
     />
