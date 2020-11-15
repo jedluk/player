@@ -1,13 +1,17 @@
 import { API } from '../types'
-import { fetch, encodeURIComponent } from './globals'
+import { fetch } from './globals'
 import { ERROR_CODES, API_URL } from './config'
+import { defaultsTo } from './lib'
 
-export function getAssets(path?: string): Promise<API.Assets> {
-  const query = path !== undefined ? `?path=${encodeURIComponent(path)}` : ''
+export function getAssets(path: string = 'home'): Promise<API.Assets> {
+  const queryParams = new URLSearchParams()
+  queryParams.append('path', path)
+  queryParams.append('fileTypes', 'mp3')
+
   return new Promise((resolve, reject) =>
-    fetch(`${API_URL}/assets${query}`)
+    fetch(`${API_URL}/dirs?${queryParams.toString()}`)
       .then(res => res.json())
-      .then(json => resolve(json))
+      .then(resolve)
       .catch(() =>
         reject({
           code: ERROR_CODES.REQUEST_FAILED,
@@ -15,4 +19,13 @@ export function getAssets(path?: string): Promise<API.Assets> {
         })
       )
   )
+}
+
+export function streamURL(path: string) {
+  return `${API_URL}/stream/file?path=${encodeURIComponent(path)}`
+}
+
+export function stripPath(url: string): string {
+  const searchParams = new URL(url).searchParams
+  return defaultsTo(searchParams.get('path'), 'home')
 }

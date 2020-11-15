@@ -1,52 +1,52 @@
 import React from 'react'
 import GoBack from './GoBack'
-import { API } from '../../types'
-import { hasParent, previousDir } from '../../utils/tracks'
+import { API, Maybe } from '../../types'
 
 import style from './Directories.module.css'
 import GoBackItem from './GoBackItem'
+import { Links } from '../../App.reducer'
+import { stripPath } from '../../utils/http'
 
 interface DirectoriesProps {
   visible: boolean
-  tracks: API.Track[]
-  dirs: API.Directory[]
+  dirs: API.Directory
+  links: Links
   fetchAssets: (path?: string) => Promise<void>
 }
 
 export default function Directories(
   props: DirectoriesProps
-): JSX.Element | null {
-  const { dirs, tracks, fetchAssets, visible } = props
+): Maybe<JSX.Element> {
+  const { dirs, links, fetchAssets, visible } = props
+
+  const emptyDirs = Object.keys(dirs).length === 0
 
   if (!visible) {
     // TODO: reversed animation based on visible property
     return null
   }
 
-  if (dirs.length === 0 && tracks.length === 0) {
-    return <div className={style['dirs-container']} />
-  }
-
-  if (dirs.length === 0 && hasParent(tracks[0])) {
+  const { parent } = links
+  if (emptyDirs && parent !== null) {
     return (
       <div className={style['dirs-container']}>
-        <GoBack onClick={() => fetchAssets(previousDir(tracks[0]))} />
+        <GoBack onClick={() => fetchAssets(stripPath(parent.href))} />
       </div>
     )
   }
 
   return (
     <div className={style['dirs-container']}>
-      {dirs.length > 0 && hasParent(dirs[0]) ? (
-        <GoBack onClick={() => fetchAssets(previousDir(dirs[0]))} />
+      {!emptyDirs && parent !== null ? (
+        <GoBack onClick={() => fetchAssets(stripPath(parent.href))} />
       ) : null}
-      {dirs.map(dir => (
+      {Object.entries(dirs).map(([name, location]) => (
         <div
-          key={dir.name}
+          key={name}
           className={style['dirs-folder']}
-          onClick={() => fetchAssets(dir.url)}
+          onClick={() => fetchAssets(location)}
         >
-          <GoBackItem text={dir.name} />
+          <GoBackItem text={name} />
         </div>
       ))}
     </div>

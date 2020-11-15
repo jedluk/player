@@ -1,0 +1,50 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "electron-starter.js",
+  "scripts": {
+    "start": "concurrently \"npm run server:prod\" \"cd ../client && npm start\"",
+    "server:dev": "NODE_ENV=development nodemon src/index.js",
+    "server:prod": "NODE_ENV=production node src/index.js",
+    "test": "jest --watchAll=true --env=node",
+    "coverage": "jest --coverage --watchAll=false --env=node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "node-id3": "^0.2.1"
+  },
+  "devDependencies": {
+    "jest": "24.9.0",
+    "nodemon": "^2.0.4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!src/routes.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/client",
+      "<rootDir>/server/__mocks__"
+    ],
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ]
+  }
+}

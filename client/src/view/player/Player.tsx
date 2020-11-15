@@ -3,19 +3,24 @@ import React, { useCallback, useState, useRef, useEffect } from 'react'
 import FontAwesome from 'react-fontawesome'
 import VolumeSetter from './VolumeSetter'
 import { formatDuration } from '../../utils/lib'
-// TODO: move this to higher level
-import { STATICS } from '../../utils/config'
-import { FILE_SEPARATOR } from '../../utils/config'
 
 import style from './Player.module.css'
+import { streamURL } from '../../utils/http'
+import { API } from '../../types'
 
 type PlayerProps = {
   track: string
+  trackDetails?: API.TrackDetails
   nextTrack: string | null
   setTrack: (track: string) => void
 }
 
-export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
+export const Player = ({
+  track,
+  nextTrack,
+  trackDetails,
+  setTrack,
+}: PlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [assetURL, setAssetURL] = useState<string>('')
   const [isPlayed, setPlayed] = useState<boolean>(false)
@@ -23,13 +28,10 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
   const [currentSec, setCurrentSec] = useState<number>(0)
 
   const audioReady = audioRef !== null && audioRef.current !== null
-  const playerReady =
-    audioReady && assetURL.endsWith('.mp3') && museDuration > 0
+  const playerReady = audioReady && museDuration > 0
 
   useEffect(() => {
-    if (track !== '') {
-      setAssetURL(STATICS + track)
-    }
+    if (track !== '') setAssetURL(streamURL(track))
   }, [track])
 
   useEffect(() => {
@@ -123,9 +125,7 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
         <VolumeSetter audio={audioRef} />
       </div>
       <div className={style['player-slider']}>
-        {playerReady ? (
-          <h3>{track.slice(track.lastIndexOf(FILE_SEPARATOR) + 1, -4)}</h3>
-        ) : null}
+        {playerReady ? <h3>{trackDetails?.title}</h3> : null}
         <input
           type="range"
           name="playbackRate"

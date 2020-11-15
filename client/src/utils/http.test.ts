@@ -1,4 +1,4 @@
-import { getAssets } from './http'
+import { getAssets, streamURL, stripPath } from './http'
 import { fetch, encodeURIComponent } from './globals'
 
 jest.mock('./globals')
@@ -29,16 +29,18 @@ describe('http test suite', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
-  it('calls server with no query if it is not specified', async () => {
+  it('calls server with fallback query params if they are not spcified', async () => {
     await getAssets()
-    expect(fetchMock).toHaveBeenCalledWith('http://test.com/assets')
+    expect(fetchMock).toHaveBeenCalledWith(
+      'http://test.com/dirs?path=home&fileTypes=mp3'
+    )
   })
 
   it('calls server with query parameter "path" if it is specifed', async () => {
     const path = 'myDir'
     await getAssets(path)
     expect(fetchMock).toHaveBeenCalledWith(
-      `http://test.com/assets?path=${path}`
+      `http://test.com/dirs?path=${path}&fileTypes=mp3`
     )
   })
 
@@ -58,6 +60,23 @@ describe('http test suite', () => {
     expect.assertions(1)
     await getAssets().catch(err => {
       expect(err.code).toEqual('request-failed')
+    })
+  })
+
+  describe('streamURL', () => {
+    it('returns correctly encoded URL for streaming file', () => {
+      const path = 'some/path/to/file/1'
+      expect(streamURL(path)).toEqual(
+        'http://test.com/stream/file?path=some%2Fpath%2Fto%2Ffile%2F1'
+      )
+    })
+  })
+
+  describe('stripPath', () => {
+    it('returns value of path query string from full URL', () => {
+      expect(stripPath('http://someserver.com?path=myPath/toFile')).toEqual(
+        'myPath/toFile'
+      )
     })
   })
 })

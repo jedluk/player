@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useState } from 'react'
 import { API, Modifier } from '../../types'
-import { ChangeFilterPayload } from '../../App.reducer'
+import { ChangeFilterPayload, Links } from '../../App.reducer'
 import EmptyView from './EmptyView'
 import SideMenu from '../panel/SideMenu'
 import Hamburger from '../panel/Hamburger'
@@ -9,12 +9,14 @@ import Tracks from '../tracks/Tracks'
 import { matchTitle } from '../../utils/tracks'
 
 import style from './MainView.module.css'
+import { pickBy } from '../../utils/lib'
 
 interface MainViewProps {
   track: string
   isFiltered: boolean
-  tracks: API.Track[]
-  dirs: API.Directory[]
+  tracks: API.Track
+  dirs: API.Directory
+  links: Links
   modifiers: Modifier[]
   fetchAssets: (path?: string) => Promise<void>
   setTrack: (track: string) => void
@@ -28,9 +30,12 @@ export default function MainView(props: MainViewProps) {
 
   const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), [])
 
-  const isEmpty = tracks.length === 0 && dirs.length === 0 && !isFiltered
-  const someFolders = tracks.length === 0 && dirs.length > 0 && !isFiltered
-  const displayTracks = tracks.length > 0 || isFiltered
+  const tracksEmpty = Object.keys(tracks).length === 0
+  const dirsEmpty = Object.keys(dirs).length === 0
+
+  const isEmpty = !isFiltered && tracksEmpty && dirsEmpty
+  const someFolders = !isFiltered && tracksEmpty && !dirsEmpty
+  const displayTracks = !tracksEmpty || isFiltered
 
   return (
     <Fragment>
@@ -45,7 +50,12 @@ export default function MainView(props: MainViewProps) {
             changeFilter={props.changeFilter}
             currentTrack={props.track}
             modifiers={props.modifiers}
-            tracks={tracks.filter(matchTitle(filteringPhrase))}
+            tracks={
+              pickBy(tracks, matchTitle(filteringPhrase)) as Record<
+                string,
+                API.TrackDetails
+              >
+            }
             setTrack={props.setTrack}
             setFilteringPhrase={setFilteringPhrase}
           />
@@ -53,7 +63,7 @@ export default function MainView(props: MainViewProps) {
         <SideMenu
           isOpen={sidebarOpen}
           dirs={props.dirs}
-          tracks={props.tracks}
+          links={props.links}
           fetchAssets={props.fetchAssets}
         />
       </div>

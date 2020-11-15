@@ -6,14 +6,14 @@ interface RowProps {
   loaded: boolean
   isCurrentTrack: boolean
   animationDelay: number
-  track: API.Track
+  track: API.TrackDetails
   style: Record<string, string>
   setTrack: (track: string) => void
 }
 
 export default function Row(props: RowProps) {
   const { track, loaded, setTrack, animationDelay, style } = props
-  const { url } = track
+  const { fullPath: url } = track
 
   const handleSetTrack = useCallback(() => setTrack(url), [setTrack, url])
 
