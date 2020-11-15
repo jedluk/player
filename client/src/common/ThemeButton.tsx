@@ -3,8 +3,6 @@ import FontAwesome from 'react-fontawesome'
 import { themeMap, ThemeMap } from './themeMap'
 import { defaultsTo } from '../utils/lib'
 
-import styles from './ThemeLoader.module.css'
-
 export function ThemeLoader() {
   const [themeQueue, setThemeQueue] = useState(
     Object.keys(themeMap) as Array<keyof ThemeMap>
@@ -27,7 +25,6 @@ export function ThemeLoader() {
 
   return (
     <button
-      className={styles.icon}
       onClick={handleThemeChange}
       style={{
         border: `2px solid ${currentTheme['--dark-primary-color']}`,

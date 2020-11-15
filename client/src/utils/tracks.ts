@@ -16,6 +16,12 @@ export function findNextTrack(track: string, tracks: API.Track): Maybe<string> {
   return details[nextIndex] !== undefined ? details[nextIndex].fullPath : null
 }
 
+export function matchByURL(trackURL: string, tracks: API.Track) {
+  return Object.values(tracks).find(
+    trackDetails => trackDetails.fullPath === trackURL
+  )
+}
+
 export function generateModifiers(tracks: API.Track): Modifier[] {
   const trackDetails = Object.values(tracks)
   return [

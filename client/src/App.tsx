@@ -11,15 +11,16 @@ import {
   generateModifiers,
   serializeTracks,
   filterTracks,
+  matchByURL,
 } from './utils/tracks'
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
 import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
 import { rootReducer, State, ChangeFilterPayload } from './App.reducer'
+import { SettingsPanel } from './common/SettingsPanel'
 
 import style from './App.module.css'
-import { ThemeLoader } from './common/ThemeLoader'
 
 const initialState: State = {
   dirs: {},
@@ -91,13 +92,12 @@ function App(): JSX.Element {
 
   return (
     <div className={style.App}>
-      <ThemeLoader />
+      <SettingsPanel />
       {content}
+      {/* <SideMenu /> */}
       <Player
         track={track}
-        trackDetails={Object.values(tracks).find(
-          trackDetails => trackDetails.fullPath === track
-        )}
+        trackDetails={matchByURL(track, tracks)}
         nextTrack={findNextTrack(track, tracks)}
         setTrack={setTrack}
       />
