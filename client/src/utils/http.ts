@@ -1,13 +1,17 @@
 import { API } from '../types'
-import { fetch, encodeURIComponent } from './globals'
+import { fetch } from './globals'
 import { ERROR_CODES, API_URL } from './config'
 
 export function getAssets(
-  path: string = '.'
+  path: string = 'home',
+  withFiles: boolean = false
 ): Promise<API.Assets> {
-  const query = `?path=${encodeURIComponent(path)}`
+  const queryParams = new URLSearchParams()
+  queryParams.append('path', path)
+  if (withFiles) queryParams.append('fileTypes', 'mp3')
+
   return new Promise((resolve, reject) =>
-    fetch(`${API_URL}/assets${query}`)
+    fetch(`${API_URL}/dirs?${queryParams.toString()}`)
       .then(res => res.json())
       .then(resolve)
       .catch(() =>
