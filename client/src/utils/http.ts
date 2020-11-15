@@ -22,3 +22,7 @@ export function getAssets(
       )
   )
 }
+
+export function streamURL(path: string) {
+  return `${API_URL}/stream/file?path=${encodeURIComponent(path)}`
+}
