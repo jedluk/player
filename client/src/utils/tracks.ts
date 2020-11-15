@@ -11,9 +11,9 @@ export function matchTitle(phrase: string) {
 
 export function findNextTrack(track: string, tracks: API.Track): Maybe<string> {
   if (track === '') return null
-  const keys = Object.values(tracks).map(details => details.fullPath)
-  const nextKey = keys[keys.indexOf(track) + 1]
-  return tracks[nextKey] !== undefined ? tracks[nextKey].fullPath : null
+  const details = Object.values(tracks)
+  const nextIndex = details.findIndex(detail => detail.fullPath === track) + 1
+  return details[nextIndex] !== undefined ? details[nextIndex].fullPath : null
 }
 
 export function generateModifiers(tracks: API.Track): Modifier[] {

@@ -8,9 +8,13 @@ import {
 
 describe('track utils test suite', () => {
   describe('serializeTracks', () => {
-    it('return serialized version of tracks', () => {
-      const tracks = [{ title: 'song1' }, { title: 'song2' }]
-      expect(serializeTracks(tracks as any)).toEqual('song1,song2')
+    it('returnd serialized version of tracks', () => {
+      const tracks = {
+        song1: {},
+        song2: {},
+        song3: {},
+      }
+      expect(serializeTracks(tracks as any)).toEqual('song1,song2,song3')
     })
   })
 
@@ -32,20 +36,27 @@ describe('track utils test suite', () => {
 
   describe('findNextTrack function', () => {
     it('return null if current track is empty', () => {
-      expect(findNextTrack('', [])).toEqual(null)
+      expect(findNextTrack('', {})).toEqual(null)
     })
 
     it('returns null if track is last on the list', () => {
       const url = 'someDir/someTrack'
-      expect(findNextTrack(url, [{ url }] as any)).toEqual(null)
+      const tracks = {
+        track1: { fullPath: 'some/path' },
+        track2: { fullPath: url },
+      }
+      expect(findNextTrack(url, tracks as any)).toEqual(null)
     })
 
     it('returns next track url otherwise', () => {
       const url = 'someDir/someTrack'
       const nextUrl = 'someDir/nextTrack'
-      expect(findNextTrack(url, [{ url }, { url: nextUrl }] as any)).toEqual(
-        nextUrl
-      )
+      const tracks = {
+        track1: { fullPath: 'some' },
+        track2: { fullPath: url },
+        track3: { fullPath: nextUrl },
+      }
+      expect(findNextTrack(url, tracks as any)).toEqual(nextUrl)
     })
   })
 
