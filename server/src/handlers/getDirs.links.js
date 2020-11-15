@@ -37,6 +37,7 @@ function getSelfLink(req) {
 }
 
 module.exports = {
+  getServerURL,
   getSelfLink,
   getParentLink,
   getChildrenLinks,

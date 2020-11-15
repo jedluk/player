@@ -2,7 +2,11 @@ const fs = require('fs').promises
 const homedir = require('os').homedir()
 const path = require('path')
 const { getTrackTags, isNull, isUndefined, nameOnly } = require('../lib/utils')
-const { getSelfLink, getParentLink, getChildrenLinks } = require('../lib/links')
+const {
+  getSelfLink,
+  getParentLink,
+  getChildrenLinks,
+} = require('./getDirs.links')
 const { byDirectory, byGivenTypes } = require('../lib/predicates')
 const {
   combineFilePathWitTags,
