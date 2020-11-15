@@ -1,36 +1,28 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs').promises
 
-async function streamFile(req, res, next) {
-  const file = path.join(__dirname, '03 Flutter.mp3')
-  const stat = fs.statSync(file)
-  const total = stat.size
-  fs.exists(file, exists => {
-    if (exists) {
-      const range = req.headers.range
-      const parts = range.replace(/bytes=/, '').split('-')
-      const partialStart = parts[0]
-      const partialEnd = parts[1]
+function getPartials(range, total) {
+  const [partialStart, partialEnd] = range.replace(/bytes=/, '').split('-')
+  const start = parseInt(partialStart, 10) || 0
+  const end = partialEnd ? parseInt(partialEnd, 10) : total - 1
+  return { start, end }
+}
 
-      const start = parseInt(partialStart, 10)
-      const end = partialEnd ? parseInt(partialEnd, 10) : total - 1
-      const chunksize = end - start + 1
-      const rstream = fs.createReadStream(file, { start: start, end: end })
+async function streamFile(req, res) {
+  const stat = await fs.stat(file)
+  const { size: total } = stat
+  const { range } = req.headers
 
-      res.writeHead(206, {
-        'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': chunksize,
-        'Content-Type': 'audio/mpeg',
-      })
-      rstream.pipe(res)
-    } else {
-      res.send('Error - 404')
-      res.end()
-      // res.writeHead(200, { 'Content-Length': total, 'Content-Type': 'audio/mpeg' });
-      // fs.createReadStream(path).pipe(res);
-    }
+  const { start, end } = getPartials(range, total)
+  const chunkSize = end - start + 1
+  const rstream = fs.createReadStream(file, { start, end })
+
+  res.writeHead(206, {
+    'Content-Range': ['bytes ', start, '-', end, '/', total].join(''),
+    'Accept-Ranges': 'bytes',
+    'Content-Length': chunkSize,
+    'Content-Type': 'audio/mpeg',
   })
+  rstream.pipe(res)
 }
 
 module.exports = streamFile
