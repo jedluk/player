@@ -4,17 +4,26 @@ Fully functional web based mp3 player built with React and Node
 
 ![Alt Demo](https://raw.githubusercontent.com/jedluk/random/master/player/player_demo.gif)
 
-Running app with Docker is extremely easy !
+Currently under migration to electron
 
 ## Launch the app
 
 (Assuming you are in the root dir)
 
+1. Install dependencies
+
 ```
-> docker-compose up
+> cd client && yarn install
+> cd ../server && yarn install
 ```
 
-Next put your files inside assets directory (it can be either mp3 files or folders containing mp3 files). You are ready to go now !
+2. Fire app
+
+```
+> yarn run start // from server dir
+```
+
+You are ready to go now !
 Visit & enjoy the app on `http://localhost:8080/index.html`.
 
 ## Features
@@ -25,17 +34,10 @@ Visit & enjoy the app on `http://localhost:8080/index.html`.
 - quick search for songs
 - traversing directories in side panel
 - filtering by artist, album and year
-
-## DEV mode
-
-```
-npm run start
-```
-
-(processes will run simultaneously)
+- theme picker (5 available themes!)
 
 ## TODO LIST
 
-- [ ] fork project and create Electron based desktop app
+- [ ] fork project and create Electron based desktop app (WIP)
 - [ ] basic e2e test suite with Cypress
-- [ ] HATEOAS driven API
+- [x] HATEOAS driven API
