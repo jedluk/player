@@ -10,16 +10,20 @@ type AppContext = {
   changeTheme?: () => void
   gridExpanded: boolean
   toggleGridExpanded?: () => void
+  sidebarOpen: boolean
+  toggleSidebarOpen?: () => void
 }
 
 export const Context = React.createContext<AppContext>({
   theme: themeMap.theme1,
   gridExpanded: false,
+  sidebarOpen: false,
 })
 
 export function AppContext(props: AppContextProps) {
   const [theme, setTheme] = useState<Theme>(themeMap.theme1)
   const [gridExpanded, setGridExpanded] = useState<boolean>(false)
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
   const nextTheme = useCallback((previousTheme: Theme): Theme => {
     let themeIndex = Object.entries(themeMap).findIndex(
@@ -35,10 +39,14 @@ export function AppContext(props: AppContextProps) {
     setTheme(prev => nextTheme(prev))
   }, [nextTheme])
 
-  const toggleGridExpanded = useCallback(
-    () => setGridExpanded(prev => !prev),
-    []
-  )
+  const toggleGridExpanded = useCallback(() => {
+    if (!gridExpanded) setSidebarOpen(false)
+    setGridExpanded(!gridExpanded)
+  }, [gridExpanded])
+
+  const toggleSidebarOpen = useCallback(() => {
+    setSidebarOpen(prev => !prev)
+  }, [])
 
   useEffect(() => {
     Object.entries(theme).forEach(([kind, value]) =>
@@ -51,6 +59,8 @@ export function AppContext(props: AppContextProps) {
     changeTheme,
     gridExpanded,
     toggleGridExpanded,
+    sidebarOpen,
+    toggleSidebarOpen,
   }
   return <Context.Provider value={context}>{props.children}</Context.Provider>
 }
