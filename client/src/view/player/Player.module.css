@@ -5,6 +5,11 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.hide {
+  transform: translateY(90%);
 }
 
 .player-buttons {

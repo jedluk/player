@@ -1,12 +1,19 @@
 /* tslint:disable:: Object is possibly 'null'. */
-import React, { useCallback, useState, useRef, useEffect } from 'react'
+import React, {
+  useCallback,
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react'
+import { Context } from '../../AppContext'
+import { API } from '../../types'
 import FontAwesome from 'react-fontawesome'
 import VolumeSetter from './VolumeSetter'
-import { formatDuration } from '../../utils/lib'
+import { formatDuration, joinClasses } from '../../utils/lib'
+import { streamURL } from '../../utils/http'
 
 import style from './Player.module.css'
-import { streamURL } from '../../utils/http'
-import { API } from '../../types'
 
 type PlayerProps = {
   track: string
@@ -21,6 +28,7 @@ export const Player = ({
   trackDetails,
   setTrack,
 }: PlayerProps) => {
+  const { gridExpanded } = useContext(Context)
   const audioRef = useRef<HTMLAudioElement>(null)
   const [assetURL, setAssetURL] = useState<string>('')
   const [isPlayed, setPlayed] = useState<boolean>(false)
@@ -108,7 +116,12 @@ export const Player = ({
   }, [setTrack, nextTrack])
 
   return (
-    <div className={style['player-container']}>
+    <div
+      className={joinClasses(
+        style['player-container'],
+        gridExpanded ? style.hide : undefined
+      )}
+    >
       <div className={style['player-buttons']}>
         <button onClick={handleRestart}>
           <FontAwesome name="refresh" />
