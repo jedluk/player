@@ -24,7 +24,7 @@ Currently under migration to electron
 ```
 
 You are ready to go now !
-Visit & enjoy the app on `http://localhost:8080/index.html`.
+Visit & enjoy the app on `http://localhost:3000`.
 
 ## Features
 
