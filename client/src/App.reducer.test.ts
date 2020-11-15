@@ -2,33 +2,77 @@ import { rootReducer, Action } from './App.reducer'
 
 describe('rootReducer test suite', () => {
   describe('SETTLE_FILES action', () => {
-    const reducer = {
-      dirs: ['one', 'two'],
-      tracks: ['one', 'two'],
-      filters: { one: ['one', 'two'] },
-    } as any
+    let reducer: any, payload: any
 
-    const payload = {
-      dirs: ['newDir'],
-      tracks: ['new songs'],
-    } as any
+    beforeEach(() => {
+      reducer = {
+        dirs: {
+          dir1: 'full/path/dir1',
+          dir2: 'full/path/dir2',
+        },
+        tracks: {
+          song1: {
+            title: 'song1',
+          },
+          song2: {
+            title: 'song2',
+          },
+        },
+        links: {
+          parent: null,
+          children: null,
+          self: null,
+        },
+        filters: { one: ['one', 'two'] },
+      }
+      payload = {
+        content: {
+          dirs: {
+            newDir: 'path/to/newDir',
+          },
+          files: {
+            newTrack: {
+              title: 'newTrack',
+            },
+          },
+        },
+        _links: {
+          self: 'link',
+          children: [],
+          parent: 'link',
+        },
+      }
+    })
+
     it('resets current filtering state', () => {
       const action: Action = {
         type: 'SETTLE_FILES',
         payload,
       }
-      expect(rootReducer(reducer, action as any)).toEqual(
+      expect(rootReducer(reducer, action)).toEqual(
         expect.objectContaining({ filters: {} })
       )
     })
+
     it('settle files from API', () => {
       const action: Action = {
         type: 'SETTLE_FILES',
         payload,
       }
-      const newState = rootReducer(reducer, action as any)
-      expect(newState.dirs).toEqual(payload.dirs)
-      expect(newState.tracks).toEqual(payload.tracks)
+      const newState = rootReducer(reducer, action)
+      expect(newState.dirs).toEqual(payload.content.dirs)
+      expect(newState.tracks).toEqual(payload.content.files)
+      expect(newState.links).toEqual(payload._links)
+    })
+
+    it('uses fallback null value for undefined parent link', () => {
+      delete payload._links.parent
+      const action: Action = {
+        type: 'SETTLE_FILES',
+        payload,
+      }
+      const newState = rootReducer(reducer, action)
+      expect(newState.links.parent).toEqual(null)
     })
   })
   describe('CHANGE_FILTER action', () => {
