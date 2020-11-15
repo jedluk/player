@@ -12,6 +12,10 @@ module.exports = async function checkQuery(req, res, next) {
     return res.status(400).send({ msg: '"path" query param must be defined' })
   }
 
+  if (path.toLowerCase() === 'home') {
+    return next()
+  }
+
   if (
     isString(fileTypes) &&
     !fileTypes.split(',').every(type => SUPPORTED_TYPES.includes(type))

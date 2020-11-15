@@ -1,4 +1,5 @@
 const fs = require('fs').promises
+const homedir = require('os').homedir()
 const path = require('path')
 const { getTrackTags, isNull, isUndefined, nameOnly } = require('../lib/utils')
 const { getSelfLink, getParentLink, getChildrenLinks } = require('../lib/links')
@@ -11,8 +12,10 @@ const {
 } = require('./getDirs.utils')
 
 async function getDirectories(req, res) {
-  const { path: dirPath, fileTypes } = req.query
+  const { path: requestedPath, fileTypes } = req.query
 
+  const dirPath =
+    requestedPath.toLowerCase() === 'home' ? homedir : requestedPath
   const dir = await fs.readdir(dirPath)
   const files = dir.map(file => path.join(dirPath, file))
 
