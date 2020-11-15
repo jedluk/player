@@ -5,6 +5,8 @@ const {
   isNull,
   isUndefined,
   getTrackTags,
+  isString,
+  noExt,
 } = require('./utils')
 const ID3 = require('node-id3')
 
@@ -64,6 +66,15 @@ describe('utils test suite', () => {
     })
   })
 
+  describe('isString function', () => {
+    it('returns true if typeof item is string', () => {
+      expect(isString('yes')).toEqual(true)
+    })
+    it('returns false if otherwise', () => {
+      expect(isString(false)).toEqual(false)
+    })
+  })
+
   describe('isUndefined function', () => {
     it('returns true if argument is null', () => {
       expect(isUndefined(undefined)).toEqual(true)
@@ -88,6 +99,13 @@ describe('utils test suite', () => {
       const item = 'not nil!'
       const fallback = 1
       expect(defaultsTo(item, fallback)).toEqual(item)
+    })
+  })
+
+  describe('noExt funciton', () => {
+    it('prunes extension from file', () => {
+      const fileName = 'someLongfileName.txt'
+      expect(noExt(fileName)).toEqual('someLongfileName')
     })
   })
 
