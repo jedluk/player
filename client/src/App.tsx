@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react'
+import { AppContext } from './AppContext'
 import { API } from './types'
 import {
   findNextTrack,
@@ -76,13 +77,13 @@ function App(): JSX.Element {
 
   const content = initialized ? (
     <MainView
-      track={track}
       isFiltered={!Object.is(tracks, filteredTracks)}
-      tracks={filteredTracks}
+      track={track}
       modifiers={modifiers}
-      changeFilter={changeFilter}
       dirs={dirs}
       links={links}
+      tracks={filteredTracks}
+      changeFilter={changeFilter}
       fetchAssets={fetchAssets}
       setTrack={setTrack}
     />
@@ -92,15 +93,17 @@ function App(): JSX.Element {
 
   return (
     <div className={style.App}>
-      <SettingsPanel />
-      {content}
-      {/* <SideMenu /> */}
-      <Player
-        track={track}
-        trackDetails={matchByURL(track, tracks)}
-        nextTrack={findNextTrack(track, tracks)}
-        setTrack={setTrack}
-      />
+      <AppContext>
+        <SettingsPanel />
+        {content}
+        {/* <SideMenu /> */}
+        <Player
+          track={track}
+          trackDetails={matchByURL(track, tracks)}
+          nextTrack={findNextTrack(track, tracks)}
+          setTrack={setTrack}
+        />
+      </AppContext>
     </div>
   )
 }

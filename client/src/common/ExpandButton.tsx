@@ -1,15 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FontAwesome from 'react-fontawesome'
+import { Context } from '../AppContext'
 
 export function ExpandButton() {
-  const [name, setName] = useState('expand')
+  const { gridExpanded, toggleGridExpanded } = useContext(Context)
   return (
-    <button
-      onClick={() =>
-        setName(prev => (prev === 'expand' ? 'compress' : 'expand'))
-      }
-    >
-      <FontAwesome name={name} />
+    <button onClick={toggleGridExpanded}>
+      <FontAwesome name={gridExpanded ? 'compress' : 'expand'} />
     </button>
   )
 }

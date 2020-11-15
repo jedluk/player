@@ -1,28 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import FontAwesome from 'react-fontawesome'
-import { themeMap, ThemeMap } from './themeMap'
-import { defaultsTo } from '../utils/lib'
+import { Context } from '../AppContext'
 
 export function ThemeLoader() {
-  const [themeQueue, setThemeQueue] = useState(
-    Object.keys(themeMap) as Array<keyof ThemeMap>
-  )
-
-  useEffect(() => {
-    Object.entries(themeMap[themeQueue[0]]).forEach(([kind, value]) =>
-      document.documentElement.style.setProperty(kind, value)
-    )
-  }, [themeQueue])
-
-  const handleThemeChange = useCallback(() => {
-    setThemeQueue(prev => {
-      const copy = [...prev]
-      return copy.slice(1).concat(defaultsTo(copy.shift(), 'theme1'))
-    })
-  }, [setThemeQueue])
+  const { changeTheme } = useContext(Context)
 
   return (
-    <button onClick={handleThemeChange}>
+    <button onClick={changeTheme}>
       <FontAwesome name="cubes" />
     </button>
   )
