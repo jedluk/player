@@ -8,10 +8,9 @@ import React, {
 } from 'react'
 import { Context } from '../../AppContext'
 import { API } from '../../types'
-import FontAwesome from 'react-fontawesome'
-import VolumeSetter from './VolumeSetter'
 import { formatDuration, joinClasses } from '../../utils/lib'
 import { streamURL } from '../../utils/http'
+import { Buttons } from './Buttons'
 
 import style from './Player.module.css'
 
@@ -122,21 +121,14 @@ export const Player = ({
         gridExpanded ? style.hide : undefined
       )}
     >
-      <div className={style['player-buttons']}>
-        <button onClick={handleRestart}>
-          <FontAwesome name="refresh" />
-        </button>
-        <button onClick={() => handleSkip(-10, currentSec)}>
-          <FontAwesome name="step-backward" />
-        </button>
-        <button onClick={handlePlayOrPause}>
-          <FontAwesome name={isPlayed ? 'pause' : 'play'} />
-        </button>
-        <button onClick={() => handleSkip(10, currentSec)}>
-          <FontAwesome name="step-forward" />
-        </button>
-        <VolumeSetter audio={audioRef} />
-      </div>
+      <Buttons
+        audioRef={audioRef}
+        isPlayed={isPlayed}
+        currentSec={currentSec}
+        handleRestart={handleRestart}
+        handlePlayOrPause={handlePlayOrPause}
+        handleSkip={handleSkip}
+      />
       <div className={style['player-slider']}>
         {playerReady ? <h3>{trackDetails?.title}</h3> : null}
         <input

@@ -50,10 +50,6 @@
   transform-origin: 0% 0%;
 }
 
-.toggle span:nth-last-child(2) {
-  /* transform-origin: 0% 100%; */
-}
-
 .toggle input:checked ~ span:nth-last-child(1) {
   opacity: 1;
   transform: rotate(-45deg) translate(-2px, -1px);

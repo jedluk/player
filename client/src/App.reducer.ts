@@ -22,6 +22,17 @@ export type Action =
   | { type: 'SETTLE_FILES'; payload: API.Assets }
   | { type: 'CHANGE_FILTER'; payload: ChangeFilterPayload }
 
+export const initialState: State = {
+  dirs: {},
+  links: {
+    children: null,
+    parent: null,
+    self: null,
+  },
+  tracks: {},
+  filters: {},
+}
+
 export function rootReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'SETTLE_FILES':

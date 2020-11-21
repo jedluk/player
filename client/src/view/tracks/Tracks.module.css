@@ -1,35 +1,26 @@
 .tracks-container {
-  width: 80%;
-  height: 80%;
-  padding: 20px;
-  padding-left: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  padding: 0 5%;
+  height: 100%;
 }
 
 .tracks-container .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   margin-bottom: 0.5rem;
 }
 
 .tracks-container .header h1 {
   font-weight: 500;
   font-size: 2.5rem;
-  /* opacity: 0.8; */
 }
 
 .grid-container {
   overflow-y: scroll;
   overflow-x: hidden;
+  height: 90%;
   scrollbar-color: var(--dark-primary-color) var(--light-primary-color);
   scrollbar-width: thin;
-  width: 100%;
-  min-height: 70px;
 }
 
 .grid-container .tracks-grid {

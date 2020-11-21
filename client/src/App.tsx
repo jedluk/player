@@ -17,22 +17,12 @@ import {
 import { getAssets } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
+import SideMenu from './view/panel/SideMenu'
 import LoadingPlaceholder from './view/scheme/LoadingPlaceholder'
-import { rootReducer, State, ChangeFilterPayload } from './App.reducer'
+import { rootReducer, ChangeFilterPayload, initialState } from './App.reducer'
 import { SettingsPanel } from './common/SettingsPanel'
 
 import style from './App.module.css'
-
-const initialState: State = {
-  dirs: {},
-  links: {
-    children: null,
-    parent: null,
-    self: null,
-  },
-  tracks: {},
-  filters: {},
-}
 
 function App(): JSX.Element {
   const [state, dispatch] = useReducer(rootReducer, initialState)
@@ -75,7 +65,7 @@ function App(): JSX.Element {
 
   const filteredTracks = filterTracks(tracks, filters)
 
-  const content = initialized ? (
+  const mainContent = initialized ? (
     <MainView
       isFiltered={!Object.is(tracks, filteredTracks)}
       track={track}
@@ -92,19 +82,21 @@ function App(): JSX.Element {
   )
 
   return (
-    <div className={style.App}>
-      <AppContext>
-        <SettingsPanel />
-        {content}
-        {/* <SideMenu /> */}
+    <AppContext>
+      <div className={style.App}>
+        <div className={style.view}>
+          <SettingsPanel />
+          {mainContent}
+          <SideMenu dirs={dirs} links={links} fetchAssets={fetchAssets} />
+        </div>
         <Player
           track={track}
           trackDetails={matchByURL(track, tracks)}
           nextTrack={findNextTrack(track, tracks)}
           setTrack={setTrack}
         />
-      </AppContext>
-    </div>
+      </div>
+    </AppContext>
   )
 }
 

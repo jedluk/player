@@ -28,15 +28,11 @@ export default function Directories(
 
   const { parent } = links
   if (emptyDirs && parent !== null) {
-    return (
-      <div className={style['dirs-container']}>
-        <GoBack onClick={() => fetchAssets(stripPath(parent.href))} />
-      </div>
-    )
+    return <GoBack onClick={() => fetchAssets(stripPath(parent.href))} />
   }
 
   return (
-    <div className={style['dirs-container']}>
+    <React.Fragment>
       {!emptyDirs && parent !== null ? (
         <GoBack onClick={() => fetchAssets(stripPath(parent.href))} />
       ) : null}
@@ -49,6 +45,6 @@ export default function Directories(
           <GoBackItem text={name} />
         </div>
       ))}
-    </div>
+    </React.Fragment>
   )
 }
