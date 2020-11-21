@@ -7,7 +7,7 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
-const server = require('./server')
+const server = require('./src')
 server.run()
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -22,12 +22,11 @@ function createWindow() {
     // minWidth: 1400,
     // minHeight: 790,
   })
-  // mainWindow.setIcon( path.join(__dirname, 'icon.jpg'))
 
   const startUrl =
     process.env.ELECTRON_START_URL ||
     url.format({
-      pathname: path.join(__dirname, 'client', 'build', 'index.html'),
+      pathname: path.join(__dirname, '..', 'client', 'build', 'index.html'),
       protocol: 'file:',
       slashes: true,
     })

@@ -28,9 +28,9 @@ export function ThemeLoader() {
                 'linear-gradient(' +
                 [
                   'to-right',
-                  theme['--light-grey'],
-                  theme['--dark-grey'],
-                  theme['--ultra-light-grey'],
+                  theme['--dark-primary-color'],
+                  theme['--accent-color'],
+                  theme['--light-primary-color'],
                 ].join(',') +
                 ')',
             }}

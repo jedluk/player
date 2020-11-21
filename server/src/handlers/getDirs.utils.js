@@ -20,7 +20,7 @@ module.exports = {
     }))
   },
   withStats: async function (files) {
-    const stats = await Promise.all(files.map(fs.stat))
+    const stats = await Promise.all(files.map(file => fs.stat(file)))
     return files.map((path, idx) => ({ path, stat: stats[idx] }))
   },
 }
