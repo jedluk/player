@@ -5,6 +5,7 @@ import {
   isNull,
   formatTime,
   unique,
+  defaultsTo,
 } from './lib'
 
 describe('lib test suite', () => {
@@ -69,6 +70,20 @@ describe('lib test suite', () => {
   describe('unique function', () => {
     it('returns unique values from collection', () => {
       expect(unique([1, 2, 2, 3, 3, 3, 1, 2, 3])).toEqual([1, 2, 3])
+    })
+  })
+
+  describe('defaultsTo function', () => {
+    it("forwards value if it's neither null or undefined", () => {
+      expect(defaultsTo('some', 'fallback')).toEqual('some')
+    })
+
+    it('uses fallback value if first argument is null', () => {
+      expect(defaultsTo(null, 'fallback')).toEqual('fallback')
+    })
+
+    it('uses fallback value if first argument is undefined', () => {
+      expect(defaultsTo(undefined, 'fallback')).toEqual('fallback')
     })
   })
 })

@@ -1,19 +1,33 @@
 /* tslint:disable:: Object is possibly 'null'. */
-import React, { useCallback, useState, useRef, useEffect } from 'react'
-import FontAwesome from 'react-fontawesome'
-import VolumeSetter from './VolumeSetter'
-import { formatDuration } from '../../utils/lib'
-import { FILE_SEPARATOR } from '../../utils/config'
+import React, {
+  useCallback,
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react'
+import { Context } from '../../AppContext'
+import { API } from '../../types'
+import { formatDuration, joinClasses } from '../../utils/lib'
+import { streamURL } from '../../utils/http'
+import { Buttons } from './Buttons'
 
 import style from './Player.module.css'
 
 type PlayerProps = {
   track: string
+  trackDetails?: API.TrackDetails
   nextTrack: string | null
   setTrack: (track: string) => void
 }
 
-export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
+export const Player = ({
+  track,
+  nextTrack,
+  trackDetails,
+  setTrack,
+}: PlayerProps) => {
+  const { gridExpanded } = useContext(Context)
   const audioRef = useRef<HTMLAudioElement>(null)
   const [assetURL, setAssetURL] = useState<string>('')
   const [isPlayed, setPlayed] = useState<boolean>(false)
@@ -22,9 +36,10 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
 
   const audioReady = audioRef !== null && audioRef.current !== null
   const playerReady = audioReady && museDuration > 0
-  console.log({ audioRef, museDuration })
 
-  useEffect(() => setAssetURL('http://localhdost:8083/api/stream/file'), [])
+  useEffect(() => {
+    if (track !== '') setAssetURL(streamURL(track))
+  }, [track])
 
   useEffect(() => {
     if (assetURL !== '') {
@@ -100,26 +115,22 @@ export const Player = ({ track, nextTrack, setTrack }: PlayerProps) => {
   }, [setTrack, nextTrack])
 
   return (
-    <div className={style['player-container']}>
-      <div className={style['player-buttons']}>
-        <button onClick={handleRestart}>
-          <FontAwesome name="refresh" />
-        </button>
-        <button onClick={() => handleSkip(-10, currentSec)}>
-          <FontAwesome name="step-backward" />
-        </button>
-        <button onClick={handlePlayOrPause}>
-          <FontAwesome name={isPlayed ? 'pause' : 'play'} />
-        </button>
-        <button onClick={() => handleSkip(10, currentSec)}>
-          <FontAwesome name="step-forward" />
-        </button>
-        <VolumeSetter audio={audioRef} />
-      </div>
+    <div
+      className={joinClasses(
+        style['player-container'],
+        gridExpanded ? style.hide : undefined
+      )}
+    >
+      <Buttons
+        audioRef={audioRef}
+        isPlayed={isPlayed}
+        currentSec={currentSec}
+        handleRestart={handleRestart}
+        handlePlayOrPause={handlePlayOrPause}
+        handleSkip={handleSkip}
+      />
       <div className={style['player-slider']}>
-        {playerReady ? (
-          <h3>{track.slice(track.lastIndexOf(FILE_SEPARATOR) + 1, -4)}</h3>
-        ) : null}
+        {playerReady ? <h3>{trackDetails?.title}</h3> : null}
         <input
           type="range"
           name="playbackRate"

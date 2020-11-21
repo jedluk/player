@@ -1,10 +1,24 @@
 .player-container {
-  background-color: var(--light-grey);
-  height: 10%;
+  align-items: center;
+  background-color: var(--accent-color);
   padding: 0 10%;
+  height: 10%;
+  min-height: 10%;
+  max-height: 10%;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  transition: all 0.5s ease-in-out;
+  position: relative;
+  top: -10%;
+  z-index: 4;
+}
+
+.hide {
+  transform: translateY(90%);
+}
+
+.player-buttons {
+  white-space: nowrap;
 }
 
 .player-buttons {
@@ -12,7 +26,7 @@
 }
 
 .player-buttons button {
-  border: 1px solid var(--dark-grey);
+  border: 1px solid var(--dark-primary-color);
   outline: none;
   border-radius: 50%;
   height: 30px;
@@ -20,15 +34,15 @@
   margin-right: 10px;
   cursor: pointer;
   background: transparent;
-  color: var(--dark-grey);
+  color: var(--dark-primary-color);
   transition: all 0.4s;
 }
 
 .player-buttons button:hover {
   transform: scale(1.2);
-  border: 1px solid var(--light-grey);
-  background: var(--dark-grey);
-  color: var(--light-grey);
+  border: 1px solid var(--accent-color);
+  background: var(--dark-primary-color);
+  color: var(--accent-color);
 }
 
 .player-slider {
@@ -70,7 +84,7 @@ input[type='range'] {
   height: 8.4px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: var(--dark-grey);
+  background: var(--dark-primary-color);
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
@@ -81,7 +95,7 @@ input[type='range'] {
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  background: var(--light-grey);
+  background: var(--accent-color);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -12px;
@@ -92,7 +106,7 @@ input[type='range'] {
   height: 10px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: var(--dark-grey);
+  background: var(--dark-primary-color);
   border-radius: 1.3px;
   border: 1.5px solid #010101;
 }
@@ -103,6 +117,6 @@ input[type='range'] {
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  background: var(--light-grey);
+  background: var(--accent-color);
   cursor: pointer;
 }

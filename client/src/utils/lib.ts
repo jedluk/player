@@ -6,6 +6,17 @@ export function isNil(sth: any): boolean {
   return sth == null
 }
 
+export function defaultsTo<R>(sth: R | null | undefined, fallback: R): R {
+  // eslint-disable-next-line
+  return sth != undefined ? sth : fallback
+}
+
+export function pickBy(obj: object, predicate: Function): object {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([k, v]) => predicate(v))
+  )
+}
+
 export function formatDuration(seconds: number): string {
   const minutes: number = Math.floor(seconds / 60)
   const secondsLeft: number = seconds - minutes * 60

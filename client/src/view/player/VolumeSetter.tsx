@@ -35,8 +35,8 @@ export default function VolumeSetter({ audio: audioRef }: VolumeSetterProps) {
           'linear-gradient(' +
           [
             'to top',
-            `var(--dark-grey) ${volume * 100}%`,
-            'var(--light-grey)',
+            `var(--dark-primary-color) ${volume * 100}%`,
+            'var(--accent-color)',
           ].join(',') +
           ')',
       }}

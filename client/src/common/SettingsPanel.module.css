@@ -1,0 +1,63 @@
+:root {
+  --panel-item-size: 30px;
+}
+
+.panel {
+  width: 40px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-right-width: 1px;
+  border-left-width: 0;
+  border-style: solid;
+  border-image: linear-gradient(
+      to bottom,
+      var(--dark-primary-color),
+      var(--accent-color)
+    )
+    1 100%;
+}
+
+.panel:hover {
+  border-image: linear-gradient(
+      to bottom,
+      var(--accent-color),
+      var(--dark-primary-color)
+    )
+    1 100%;
+}
+
+.panel button {
+  width: var(--panel-item-size);
+  height: var(--panel-item-size);
+  color: var(--dark-primary-color);
+  background: none;
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+  border-image-source: linear-gradient(
+    to left,
+    var(--dark-primary-color),
+    var(--accent-color)
+  );
+
+  margin-bottom: calc(var(--panel-item-size) / 3);
+}
+
+.panel button:hover {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+
+  border-image-source: linear-gradient(
+    to left,
+    var(--accent-color),
+    var(--dark-primary-color)
+  );
+}
+
+.panel button:focus {
+  outline: 0;
+}

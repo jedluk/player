@@ -9,7 +9,7 @@
 }
 
 .toggle:hover span {
-  background: var(--dark-grey);
+  background: var(--dark-primary-color);
 }
 
 .toggle input {
@@ -35,7 +35,7 @@
   margin-bottom: 5px;
   position: relative;
 
-  background: var(--light-grey);
+  background: var(--accent-color);
   border-radius: 3px;
 
   z-index: 1;
@@ -48,10 +48,6 @@
 
 .toggle span:first-child {
   transform-origin: 0% 0%;
-}
-
-.toggle span:nth-last-child(2) {
-  /* transform-origin: 0% 100%; */
 }
 
 .toggle input:checked ~ span:nth-last-child(1) {

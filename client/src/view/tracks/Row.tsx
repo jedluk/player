@@ -6,14 +6,14 @@ interface RowProps {
   loaded: boolean
   isCurrentTrack: boolean
   animationDelay: number
-  track: API.Track
+  track: API.TrackDetails
   style: Record<string, string>
   setTrack: (track: string) => void
 }
 
 export default function Row(props: RowProps) {
   const { track, loaded, setTrack, animationDelay, style } = props
-  const { url } = track
+  const { fullPath: url } = track
 
   const handleSetTrack = useCallback(() => setTrack(url), [setTrack, url])
 
@@ -29,10 +29,9 @@ export default function Row(props: RowProps) {
       style={{
         animationDuration: `${animationDelay}s`,
       }}
+      onClick={handleSetTrack}
     >
-      <td className={style['action-play']} onClick={handleSetTrack}>
-        {track.title}
-      </td>
+      <td className={style['action-play']}>{track.title}</td>
       <td>{track.artist}</td>
       <td>{track.album}</td>
       <td>{track.year}</td>

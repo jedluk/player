@@ -1,72 +1,67 @@
 import { API, Filter, Maybe, Modifier } from '../types'
-import { FILE_SEPARATOR } from './config'
 import { unique } from './lib'
 
-type Item = API.Track | API.Directory
-
-export function serializeTracks(tracks: API.Track[]): string {
-  if (!Array.isArray(tracks)) return ''
-  return tracks.map(track => track.title).join(',')
+export function serializeTracks(tracks: API.Track): string {
+  return Object.keys(tracks).join(',')
 }
 export function matchTitle(phrase: string) {
-  return (track: API.Track) =>
+  return (track: API.TrackDetails) =>
     phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())
 }
 
-export function hasParent(item: Item): boolean {
-  return item.url.split(FILE_SEPARATOR).length > 2
+export function findNextTrack(track: string, tracks: API.Track): Maybe<string> {
+  if (track === '') return null
+  const details = Object.values(tracks)
+  const nextIndex = details.findIndex(detail => detail.fullPath === track) + 1
+  return details[nextIndex] !== undefined ? details[nextIndex].fullPath : null
 }
 
-export function previousDir(item: Item): string | undefined {
-  if (hasParent(item)) {
-    return item.url.split(FILE_SEPARATOR).slice(0, -2).join(FILE_SEPARATOR)
-  }
-  return undefined
+export function matchByURL(trackURL: string, tracks: API.Track) {
+  return Object.values(tracks).find(
+    trackDetails => trackDetails.fullPath === trackURL
+  )
 }
 
-export function findNextTrack(
-  trackURL: string,
-  tracks: API.Track[]
-): Maybe<string> {
-  if (trackURL === '') return null
-  const idx = tracks.findIndex(track => trackURL === track.url)
-  return idx + 1 < tracks.length ? tracks[idx + 1].url : null
-}
-
-export function generateModifiers(tracks: API.Track[]): Modifier[] {
+export function generateModifiers(tracks: API.Track): Modifier[] {
+  const trackDetails = Object.values(tracks)
   return [
     {
       name: 'Artist',
       property: 'artist',
-      values: unique(tracks.map(track => track.artist)),
+      values: unique(trackDetails.map(track => track.artist)),
     },
     {
       name: 'Album',
       property: 'album',
-      values: unique(tracks.map(track => track.album)),
+      values: unique(trackDetails.map(track => track.album)),
     },
     {
       name: 'Year',
       property: 'year',
-      values: unique(tracks.map(track => track.year)),
+      values: unique(trackDetails.map(track => track.year)),
     },
   ]
 }
 
-export function filterTracks(tracks: API.Track[], filters: Filter) {
+export function filterTracks(tracks: API.Track, filters: Filter) {
   const filterNames = Object.keys(filters)
   if (filterNames.length === 0) {
     return tracks
   }
-  return tracks.reduce((result: API.Track[], track: API.Track) => {
-    if (
-      filterNames
-        // @ts-ignore
-        .map(name => filters[name].includes(track[name]))
-        .every(Boolean)
-    ) {
-      result.push(track)
-    }
-    return result
-  }, [])
+
+  return Object.values(tracks).reduce(
+    (result: API.Track, trackDetails: API.TrackDetails) => {
+      if (
+        filterNames
+          .map(name =>
+            filters[name].includes(trackDetails[name as keyof API.TrackDetails])
+          )
+          .every(Boolean)
+      ) {
+        result[trackDetails.title] = trackDetails
+      }
+      return result
+    },
+    {}
+  )
 }

@@ -1,15 +1,12 @@
 version: '3.7'
 
 services:
-  player:
+  backend:
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile
     environment:
       - PORT=8083
-      - UPLOAD_DIR=./assets
       - NODE_ENV=production
     ports:
       - 8080:8083
-    volumes:
-      - ./assets:/app/assets

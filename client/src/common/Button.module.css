@@ -1,7 +1,7 @@
 .the-button {
   border-radius: 25px;
-  background-color: var(--dark-grey);
-  border: 1px solid var(--dark-grey);
+  background-color: var(--dark-primary-color);
+  border: 1px solid var(--dark-primary-color);
   color: white;
   font-weight: 500;
   height: 30px;
@@ -12,11 +12,11 @@
 }
 
 .the-button:hover {
-  background-color: var(--ultra-light-grey);
-  color: var(--dark-grey);
-  border: 1px solid var(--dark-grey);
+  background-color: var(--light-primary-color);
+  color: var(--dark-primary-color);
+  border: 1px solid var(--dark-primary-color);
 }
 
 .the-button span {
-  margin-left: 5px;;
+  margin-left: 5px;
 }
