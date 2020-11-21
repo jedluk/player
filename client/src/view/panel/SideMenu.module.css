@@ -1,0 +1,33 @@
+.sideMenu {
+  border-left-width: 1px;
+  border-style: solid;
+  height: 100%;
+  border-image: linear-gradient(
+      to bottom,
+      var(--dark-primary-color),
+      var(--accent-color)
+    )
+    1 100%;
+  width: 0%;
+  transition: width 0.4s;
+}
+
+.sideMenu:hover {
+  border-image: linear-gradient(
+      to bottom,
+      var(--accent-color),
+      var(--dark-primary-color)
+    )
+    1 100%;
+}
+
+.scrollingArea {
+  margin-top: 100px;
+  max-height: 80%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.open {
+  width: 20%;
+}
