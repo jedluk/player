@@ -1,6 +1,6 @@
 import React from 'react'
 
-import style from './MainView.module.css'
+import style from './LoadingPlaceholder.module.css'
 
 export default function LoadingPlaceholder(): JSX.Element {
   return (

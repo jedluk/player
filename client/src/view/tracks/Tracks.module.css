@@ -4,9 +4,7 @@
 }
 
 .tracks-container .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin-top: 3rem;
   margin-bottom: 0.5rem;
 }
 
