@@ -4,10 +4,12 @@
   "description": "",
   "main": "electron-starter.js",
   "scripts": {
-    "start": "concurrently \"npm run server:prod\" \"cd ../client && npm start\"",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 NODE_ENV=production electron electron-starter",
-    "server:dev": "NODE_ENV=development nodemon src/index.js",
-    "server:prod": "NODE_ENV=production node src/index.js",
+    "start": "concurrently \"yarn run server:prod\" \"cross-env BROWSER=chrome yarn run start-client\"",
+    "server:dev": "cross-env NODE_ENV=development WHITE_LIST=http://localhost:3003 nodemon src/index.js",
+    "server:prod": "cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 node src/index.js",
+    "start-client": "cd .. && cd client && cross-env HOST=localhost PORT=3003 yarn start",
+    "start-electron": "wait-on http://localhost:3003 && cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 electron electron-starter",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn run start-client\" \"yarn run start-electron\"",
     "test": "jest --watchAll=true --env=node",
     "coverage": "jest --coverage --watchAll=false --env=node"
   },
@@ -17,9 +19,13 @@
   "dependencies": {
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "electron-builder": "^22.9.1",
+    "electron-is-dev": "^1.2.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
-    "node-id3": "^0.2.1"
+    "node-id3": "^0.2.1",
+    "wait-on": "^5.2.0"
   },
   "devDependencies": {
     "electron": "^11.0.2",

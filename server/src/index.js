@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 
-const { NODE_ENV, PORT = '8083' } = process.env
+const { NODE_ENV, PORT = '8083', WHITE_LIST = [] } = process.env
 
 function makeServer(port = parseInt(PORT, 10)) {
   const app = express()
@@ -10,7 +10,7 @@ function makeServer(port = parseInt(PORT, 10)) {
   app.use(
     cors({
       origin: ['production', 'development'].includes(NODE_ENV)
-        ? 'http://localhost:3000'
+        ? ['http://localhost:3000', ...String(WHITE_LIST).split(',')]
         : undefined,
     })
   )
