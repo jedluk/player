@@ -1,18 +1,25 @@
-.toggle {
+.hamburger {
   display: block;
-  position: fixed;
-  top: 50px;
-  right: 50px;
+  margin-left: auto;
   z-index: 1;
+  position: absolute;
+  right: 30px;
+  top: 30px;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.toggle:hover span {
+@media screen and (max-width: 960px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+.hamburger:hover span {
   background: var(--dark-primary-color);
 }
 
-.toggle input {
+.hamburger input {
   display: block;
   width: 40px;
   height: 32px;
@@ -28,7 +35,7 @@
   -webkit-touch-callout: none;
 }
 
-.toggle span {
+.hamburger span {
   display: block;
   width: 33px;
   height: 4px;
@@ -46,23 +53,23 @@
     background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
 }
 
-.toggle span:first-child {
+.hamburger span:first-child {
   transform-origin: 0% 0%;
 }
 
-.toggle input:checked ~ span:nth-last-child(1) {
+.hamburger input:checked ~ span:nth-last-child(1) {
   opacity: 1;
   transform: rotate(-45deg) translate(-2px, -1px);
 }
 
-.toggle input:checked ~ span:nth-last-child(2) {
+.hamburger input:checked ~ span:nth-last-child(2) {
   opacity: 0;
   transform: scale(0.2, 0.2);
   /* transform: rotate(-45deg) translate(-2px, -1px); */
   background: #232323;
 }
 
-.toggle input:checked ~ span:nth-last-child(3) {
+.hamburger input:checked ~ span:nth-last-child(3) {
   /* opacity: 0; */
   transform: rotate(45deg) translate(1px, 1px);
 }

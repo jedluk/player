@@ -1,5 +1,6 @@
 .container {
   height: 80%;
+  min-width: 800px;
   flex-grow: 2;
   transition: all 0.5s ease-in;
 }

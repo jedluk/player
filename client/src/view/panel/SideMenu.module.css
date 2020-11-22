@@ -10,6 +10,7 @@
     1 100%;
   width: 0%;
   min-width: 0%;
+  position: relative;
   transition: min-width 0.4s ease, width 0.4s ease;
 }
 

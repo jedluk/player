@@ -22,7 +22,7 @@ export default function Hamburger(props: HamburgerProps) {
   }, [prevExpanded, expanded, isOpen])
 
   return (
-    <div className={style.toggle}>
+    <div className={style.hamburger}>
       <input ref={inputRef} type="checkbox" onClick={props.toggle} />
       <span />
       <span />
