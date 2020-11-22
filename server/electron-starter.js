@@ -5,7 +5,7 @@ const path = require('path')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
-const server = require('./src')
+const server = require('./index')
 server.run()
 
 let mainWindow

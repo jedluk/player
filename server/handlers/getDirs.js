@@ -1,50 +1,51 @@
 const fs = require('fs').promises
-const nodePath = require('path')
-// const { pick, byMP3, getTags } = require('./utils')
-const { getSelfLink, getParentLink, getChildrenLinks } = require('../lib/links')
-const { byDirectory } = require('../lib/predicates')
-const { nameOnly, isUndefined, isNull, noExt } = require('../lib/utils')
-
-function byName(accumulator, path) {
-  accumulator[nameOnly(path)] = path
-  return accumulator
-}
-
-function byGivenTypes(types) {
-  return function (accumulator, file) {
-    if (types.some(type => file.toLowerCase().endsWith(type))) {
-      accumulator[noExt(nameOnly(file))] = file
-    }
-    return accumulator
-  }
-}
-
-async function withStats(files) {
-  const stats = await Promise.all(files.map(fs.stat))
-  return files.map((path, idx) => ({ path, stat: stats[idx] }))
-}
+const homedir = require('os').homedir()
+const path = require('path')
+const { getTrackTags, isNull, isUndefined, nameOnly } = require('../lib/utils')
+const {
+  getSelfLink,
+  getParentLink,
+  getChildrenLinks,
+} = require('./getDirs.links')
+const { byDirectory, byGivenTypes } = require('../lib/predicates')
+const {
+  combineFilePathWitTags,
+  withStats,
+  nameToDetails,
+  nameToPath,
+} = require('./getDirs.utils')
 
 async function getDirectories(req, res) {
-  const { path, fileTypes } = req.query
+  const { path: requestedPath, fileTypes } = req.query
 
-  const dir = await fs.readdir(path)
-  const files = dir.map(file => nodePath.join(path, file))
+  const dirPath =
+    requestedPath.toLowerCase() === 'home' ? homedir : requestedPath
+  const dir = await fs.readdir(dirPath)
+  const files = dir.map(file => path.join(dirPath, file))
 
-  const filesWithStats = await withStats(files)
-  const dirsOnly = filesWithStats
+  const stats = await withStats(files)
+  const dirsNotHiddenOnly = stats
     .filter(file => byDirectory(file.stat))
     .map(dir => dir.path)
+    .filter(path => !nameOnly(path).startsWith('.'))
 
-  const types = !isUndefined(fileTypes) ? fileTypes.split(',') : null
+  const filesAndTags = isUndefined(fileTypes)
+    ? await Promise.resolve(null)
+    : await Promise.resolve(files.filter(byGivenTypes(fileTypes.split(','))))
+        .then(ff => Promise.all([ff, Promise.all(ff.map(getTrackTags))]))
+        .then(result => combineFilePathWitTags(...result))
+
   res.status(200).send({
     content: {
-      dirs: dirsOnly.reduce(byName, {}),
-      files: !isNull(types) ? files.reduce(byGivenTypes(types), {}) : undefined,
+      dirs: dirsNotHiddenOnly.reduce(nameToPath, {}),
+      files: !isNull(filesAndTags)
+        ? filesAndTags.reduce(nameToDetails, {})
+        : undefined,
     },
     _links: {
       ...getSelfLink(req),
-      ...getParentLink(req, path),
-      ...getChildrenLinks(req, dirsOnly),
+      ...getParentLink(req, dirPath),
+      ...getChildrenLinks(req, dirsNotHiddenOnly),
     },
   })
 }

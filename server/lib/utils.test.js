@@ -5,6 +5,8 @@ const {
   isNull,
   isUndefined,
   getTrackTags,
+  isString,
+  noExt,
 } = require('./utils')
 const ID3 = require('node-id3')
 
@@ -22,6 +24,13 @@ describe('utils test suite', () => {
     })
     it('return new object with selected keys', () => {
       expect(pick(obj, ['a', 'c'])).toEqual({ a: obj.a, c: obj.c })
+    })
+
+    it('uses fallback value if defined', () => {
+      expect(pick(obj, ['a', 'g'], 'some')).toEqual({
+        a: obj.a,
+        g: 'some',
+      })
     })
 
     it('return original object if keys are undefined', () => {
@@ -57,6 +66,15 @@ describe('utils test suite', () => {
     })
   })
 
+  describe('isString function', () => {
+    it('returns true if typeof item is string', () => {
+      expect(isString('yes')).toEqual(true)
+    })
+    it('returns false if otherwise', () => {
+      expect(isString(false)).toEqual(false)
+    })
+  })
+
   describe('isUndefined function', () => {
     it('returns true if argument is null', () => {
       expect(isUndefined(undefined)).toEqual(true)
@@ -84,19 +102,23 @@ describe('utils test suite', () => {
     })
   })
 
+  describe('noExt funciton', () => {
+    it('prunes extension from file', () => {
+      const fileName = 'someLongfileName.txt'
+      expect(noExt(fileName)).toEqual('someLongfileName')
+    })
+  })
+
   describe('getTrackTags', () => {
     it('returns tags if there is no error', async () => {
       const tags = { tag1: '1', tag2: '2' }
-      ID3.read.mockImplementation((track, callback) =>
-        Promise.resolve(callback(null, tags))
-      )
+      ID3.Promise.read.mockImplementation(() => Promise.resolve(tags))
       const result = await getTrackTags('some track')
       expect(result).toEqual(tags)
     })
+
     it('return empty object if ID3 read returns error', async () => {
-      ID3.read.mockImplementation((track, callback) =>
-        Promise.resolve(callback(new Error()))
-      )
+      ID3.Promise.read.mockImplementation(() => Promise.reject(new Error()))
       const result = await getTrackTags('some track')
       expect(result).toEqual({})
     })
