@@ -1,5 +1,5 @@
 {
-  "name": "shadow",
+  "name": "prodigy",
   "version": "1.0.0",
   "description": "",
   "main": "electron-starter.js",
@@ -12,13 +12,16 @@
     "build-client": "cd .. && cd client && yarn run build && mv build ../server/view",
     "start-electron": "wait-on http://localhost:3003 && cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 PORT=8083 electron electron-starter",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn run start-client\" \"yarn run start-electron\"",
-    "electron-build": "cross-env SERVER_PORT=6008 NODE_ENV=production electron-builder",
+    "electron-build": "electron-builder",
     "build-electron": "yarn run clean && yarn run build-client && yarn run electron-build",
     "test": "jest --watchAll=true --env=node",
     "coverage": "jest --coverage --watchAll=false --env=node"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Jędrzej Łukasiuk",
+    "email": "jedrzej.lukasiuk@gmail.com"
+  },
   "dependencies": {
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",
