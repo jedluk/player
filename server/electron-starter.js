@@ -10,7 +10,6 @@ server.run()
 
 let mainWindow
 
-console.log()
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
@@ -20,7 +19,6 @@ function createWindow() {
   const startUrl = isDev
     ? String(process.env.WHITE_LIST).split(',')[0]
     : `file://${path.join(__dirname, '..', 'client', 'build', 'index.html')}`
-  console.log(startUrl)
 
   mainWindow.loadURL(startUrl)
 
