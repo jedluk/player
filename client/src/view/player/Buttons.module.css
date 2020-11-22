@@ -1,3 +1,8 @@
+.player-buttons {
+  white-space: nowrap;
+  width: 20%;
+}
+
 .playerButtons button {
   border: 1px solid var(--dark-primary-color);
   outline: none;
