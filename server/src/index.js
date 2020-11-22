@@ -20,7 +20,7 @@ function makeServer(port = parseInt(PORT, 10)) {
   app.listen(port, () => console.log(`Listening on port ${PORT}`))
 }
 
-if (['production', 'development'].includes(NODE_ENV)) {
+if ('development' === NODE_ENV) {
   makeServer()
 }
 
