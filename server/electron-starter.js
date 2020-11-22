@@ -6,7 +6,11 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 const server = require('./index')
-server.run()
+server.run(
+  process.env.NODE_ENV,
+  isDev ? 8083 : 6008,
+  isDev ? 'http://localhost:3003' : undefined
+)
 
 let mainWindow
 
@@ -18,8 +22,7 @@ function createWindow() {
 
   const startUrl = isDev
     ? String(process.env.WHITE_LIST).split(',')[0]
-    : `file://${path.join(__dirname, '..', 'client', 'build', 'index.html')}`
-
+    : `file://${path.join(__dirname, 'view', 'index.html')}`
   mainWindow.loadURL(startUrl)
 
   if (isDev) {

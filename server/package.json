@@ -10,10 +10,10 @@
     "server:dev": "cross-env NODE_ENV=development WHITE_LIST=http://localhost:3003 nodemon index.js",
     "start-client": "cd .. && cd client && cross-env HOST=localhost PORT=3003 yarn start",
     "build-client": "cd .. && cd client && yarn run build && mv build ../server/view",
-    "start-electron": "wait-on http://localhost:3003 && cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 electron electron-starter",
+    "start-electron": "wait-on http://localhost:3003 && cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 PORT=8083 electron electron-starter",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn run start-client\" \"yarn run start-electron\"",
-    "electron-build": "electron-builder",
-    "build-electron": "yarn run build-client && yarn run electron-build",
+    "electron-build": "cross-env SERVER_PORT=6008 NODE_ENV=production electron-builder",
+    "build-electron": "yarn run clean && yarn run build-client && yarn run electron-build",
     "test": "jest --watchAll=true --env=node",
     "coverage": "jest --coverage --watchAll=false --env=node"
   },
