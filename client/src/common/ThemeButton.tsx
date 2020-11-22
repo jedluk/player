@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { Context } from '../AppContext'
 
-export function ThemeLoader() {
+export function ThemeButton() {
   const { changeTheme } = useContext(Context)
 
   return (
