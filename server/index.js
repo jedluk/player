@@ -15,7 +15,7 @@ function makeServer(env, port, whiteList) {
   app.use(require('./middleware/errorHandler'))
 
   app.listen(port, () => {
-    console.log('Listening on port:', server.address().port)
+    console.log('Listening on port:', port)
   })
 }
 
