@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"yarn run server:prod\" \"cross-env BROWSER=chrome yarn run start-client\"",
-    "server:dev": "cross-env NODE_ENV=development WHITE_LIST=http://localhost:3003 nodemon src/index.js",
-    "server:prod": "cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 node src/index.js",
+    "server:dev": "cross-env NODE_ENV=development WHITE_LIST=http://localhost:3003 nodemon index.js",
     "start-client": "cd .. && cd client && cross-env HOST=localhost PORT=3003 yarn start",
     "build-client": "cd .. && cd client && yarn run build",
     "start-electron": "wait-on http://localhost:3003 && cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 electron electron-starter",
