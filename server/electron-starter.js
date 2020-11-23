@@ -6,11 +6,8 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 const server = require('./index')
-server.run(
-  process.env.NODE_ENV,
-  isDev ? 8083 : 6008,
-  isDev ? 'http://localhost:3003' : undefined
-)
+const args = isDev ? [8083, 'http://localhost:3003'] : [6008, undefined]
+server.run(...args)
 
 let mainWindow
 
