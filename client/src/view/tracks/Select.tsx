@@ -8,7 +8,7 @@ type Option = {
 
 interface CustomSelectProps {
   className?: string
-  placeholder?: string
+  placeholder?: JSX.Element
   items: Option[]
   value: Option[]
   onChange: (selected?: any) => void

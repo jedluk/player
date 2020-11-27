@@ -6,6 +6,7 @@ import Row from './Row'
 import NoMatch from './NoMatch'
 import { API, Modifier } from '../../types'
 import { ChangeFilterPayload } from '../../App.reducer'
+import { TranslatedText } from '../../common/TranslatedText'
 
 import style from './Tracks.module.css'
 
@@ -75,7 +76,7 @@ function MyTracks(props: MyTracksProps) {
     <div className={style['tracks-container']}>
       <div className={style['header']}>
         <h1>
-          My tracks{' '}
+          <TranslatedText translationKey="mainView.searchbox.header" />{' '}
           <Search
             visible={!noTracks}
             setFiltered={setFiltered}

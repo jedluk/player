@@ -7,10 +7,10 @@ export default function SomeAvailable(): JSX.Element {
   return (
     <div className={style.container}>
       <h1>
-        <TranslatedText translationKey="emptyView.header" />
+        <TranslatedText translationKey="someAvailable.header" />
       </h1>
       <h3>
-        <TranslatedText translationKey="emptyView.subHeader" />
+        <TranslatedText translationKey="someAvailable.subHeader" />
       </h3>
     </div>
   )

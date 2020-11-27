@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { ChangeFilterPayload } from '../../App.reducer'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
+import { TranslatedText } from '../../common/TranslatedText'
 
 import style from './FilteringItem.module.css'
 
@@ -18,7 +19,7 @@ type Option = {
 }
 
 function FilteringItem(props: FileringItemProps) {
-  const { property, changeFilter, values } = props
+  const { property, changeFilter, values, name } = props
   const [isSelectable, setSelectable] = useState<boolean>(false)
   const [selected, setSelected] = useState<Option[]>([])
   const serializedValues = values.join(',')
@@ -41,19 +42,26 @@ function FilteringItem(props: FileringItemProps) {
   )
 
   const options = values.map(value => ({ value, label: value }))
-
   const content =
     isSelectable && options.length > 1 ? (
       <Select
         value={selected}
-        placeholder={`Select ${props.name}`}
+        placeholder={
+          <TranslatedText
+            translationKey={`mainView.grid.headers.${name.toLowerCase()}.search`}
+          />
+        }
         className={style.select}
         onChange={handleChange}
         items={options}
       />
     ) : (
       <React.Fragment>
-        <div className={style.content}>{props.name}</div>
+        <div className={style.content}>
+          <TranslatedText
+            translationKey={`mainView.grid.headers.${name.toLowerCase()}`}
+          />
+        </div>
         {selected.length > 0 ? (
           <span className={style.indicator}>
             <FontAwesome name="filter" />
