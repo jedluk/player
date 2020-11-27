@@ -22,8 +22,8 @@
     "typescript": "^3.9.3"
   },
   "scripts": {
-    "translationTypes": "node scripts/makeTranslationTypes.js",
-    "start": "yarn run translationTypes && PORT=3003 react-scripts start",
+    "i18n": "node scripts/i18n.js",
+    "start": "yarn run i18n && PORT=3003 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=node",
     "coverage": "react-scripts test --coverage --watchAll=false --env=node",
