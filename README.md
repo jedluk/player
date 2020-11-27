@@ -27,7 +27,7 @@ cd client && yarn install
 cd ../server && yarn install
 ```
 
-There are different ways of running app (or it's parts). You can:
+There are different ways of running app (or its parts). You can:
 - run electron in dev environment (fire entire application in dev mode)
 ```sh
 cd server
