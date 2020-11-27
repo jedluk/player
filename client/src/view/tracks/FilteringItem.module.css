@@ -6,6 +6,7 @@
 
 .indicator {
   position: absolute;
+  color: var(--dark-primary-color);
   top: 2px;
   right: 2px;
 }
