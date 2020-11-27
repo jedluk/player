@@ -22,7 +22,7 @@
     "typescript": "^3.9.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3003 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=node",
     "coverage": "react-scripts test --coverage --watchAll=false --env=node",

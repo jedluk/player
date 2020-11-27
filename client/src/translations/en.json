@@ -1,0 +1,5 @@
+{
+  "mainView": "My tracks",
+  "emptyView.header": "Current folder does not contain mp3 file(s)",
+  "emptyView.subHeader": "Please try to choose one of existing subfolder(s)"
+}

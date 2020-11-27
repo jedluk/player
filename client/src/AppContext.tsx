@@ -5,10 +5,14 @@ interface AppContextProps {
   children: React.ReactNode
 }
 
+export type SupportedLocale = 'pl' | 'en'
+
 type AppContext = {
   theme: Theme
-  changeTheme: () => void
+  translations: Record<string, string>
   gridExpanded: boolean
+  changeTheme: () => void
+  changeLocale: () => void
   toggleGridExpanded: () => void
 }
 
@@ -24,19 +28,34 @@ function nextTheme(previousTheme: Theme): Theme {
 
 export const Context = React.createContext<AppContext>({
   theme: themeMap.theme1,
-  changeTheme: () => null,
+  translations: {},
   gridExpanded: false,
+  changeTheme: () => null,
   toggleGridExpanded: () => null,
+  changeLocale: () => null,
 })
 
 export function AppContext(props: AppContextProps) {
   const [theme, setTheme] = useState<Theme>(themeMap.theme1)
+  const [locale, setLocale] = useState<SupportedLocale>('en')
+  const [translations, setTranslations] = useState({})
   const [gridExpanded, setGridExpanded] = useState<boolean>(false)
 
   const changeTheme = useCallback(() => setTheme(prev => nextTheme(prev)), [])
 
+  const changeLocale = useCallback(
+    () => setLocale(prev => (prev === 'en' ? 'pl' : 'en')),
+    []
+  )
+
   const toggleGridExpanded = useCallback(
     () => setGridExpanded(prev => !prev),
+    []
+  )
+
+  const importTranslations = useCallback(
+    async (selectedLanguage: SupportedLocale) =>
+      await import(`./translations/${selectedLanguage}.json`),
     []
   )
 
@@ -46,11 +65,19 @@ export function AppContext(props: AppContextProps) {
     )
   }, [theme])
 
+  useEffect(() => {
+    importTranslations(locale)
+      .then(res => res.default)
+      .then(setTranslations)
+  }, [locale, importTranslations])
+
   const context = {
     theme,
+    translations,
     changeTheme,
     gridExpanded,
     toggleGridExpanded,
+    changeLocale,
   }
   return <Context.Provider value={context}>{props.children}</Context.Provider>
 }
