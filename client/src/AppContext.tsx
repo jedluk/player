@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Theme, themeMap, ThemeMap } from './common/themeMap'
+import { TranslationKey } from './translations/types'
 
 interface AppContextProps {
   children: React.ReactNode
@@ -9,7 +10,7 @@ export type SupportedLocale = 'pl' | 'en'
 
 type AppContext = {
   theme: Theme
-  translations: Record<string, string>
+  translations: Record<TranslationKey, string>
   gridExpanded: boolean
   changeTheme: () => void
   changeLocale: () => void
@@ -28,7 +29,7 @@ function nextTheme(previousTheme: Theme): Theme {
 
 export const Context = React.createContext<AppContext>({
   theme: themeMap.theme1,
-  translations: {},
+  translations: {} as any,
   gridExpanded: false,
   changeTheme: () => null,
   toggleGridExpanded: () => null,

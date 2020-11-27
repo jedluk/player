@@ -9,11 +9,5 @@ interface TranslatedTextProps {
 export function TranslatedText(props: TranslatedTextProps): JSX.Element {
   const { translations } = useContext(Context)
   const { translationKey } = props
-  return (
-    <React.Fragment>
-      {translationKey in translations
-        ? translations[translationKey]
-        : translationKey}
-    </React.Fragment>
-  )
+  return <React.Fragment>{translations[translationKey]}</React.Fragment>
 }
