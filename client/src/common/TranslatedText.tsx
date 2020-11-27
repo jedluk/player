@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { Context } from '../AppContext'
+import { TranslationKey } from '../translations/types'
 
 interface TranslatedTextProps {
-  translationKey: string
+  translationKey: TranslationKey
 }
 
 export function TranslatedText(props: TranslatedTextProps): JSX.Element {

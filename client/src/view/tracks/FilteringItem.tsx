@@ -3,6 +3,7 @@ import { ChangeFilterPayload } from '../../App.reducer'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
 import { TranslatedText } from '../../common/TranslatedText'
+import { TranslationKey } from '../../translations/types'
 
 import style from './FilteringItem.module.css'
 
@@ -48,7 +49,9 @@ function FilteringItem(props: FileringItemProps) {
         value={selected}
         placeholder={
           <TranslatedText
-            translationKey={`mainView.grid.headers.${name.toLowerCase()}.search`}
+            translationKey={
+              `mainView.grid.headers.${name.toLowerCase()}.search` as TranslationKey
+            }
           />
         }
         className={style.select}
@@ -59,7 +62,9 @@ function FilteringItem(props: FileringItemProps) {
       <React.Fragment>
         <div className={style.content}>
           <TranslatedText
-            translationKey={`mainView.grid.headers.${name.toLowerCase()}`}
+            translationKey={
+              `mainView.grid.headers.${name.toLowerCase()}` as TranslationKey
+            }
           />
         </div>
         {selected.length > 0 ? (
