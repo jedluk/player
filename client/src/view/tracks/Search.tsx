@@ -16,6 +16,7 @@ export default function Search({
   setFilteringPhrase,
 }: SeatchProps): JSX.Element | null {
   const [value, setValue] = useState<string>('')
+
   const handleChange = useCallback(
     event => {
       const { value } = event.target

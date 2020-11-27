@@ -1,10 +1,20 @@
+:root {
+  --player-buton-size: 30px;
+}
+
+.playerButtons {
+  white-space: nowrap;
+  min-width: calc(5 * 1.33 * var(--player-buton-size));
+  width: 20%;
+}
+
 .playerButtons button {
   border: 1px solid var(--dark-primary-color);
   outline: none;
   border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  margin-right: 10px;
+  height: var(--player-buton-size);
+  width: var(--player-buton-size);
+  margin-right: calc(var(--player-buton-size) / 3);
   cursor: pointer;
   background: transparent;
   color: var(--dark-primary-color);

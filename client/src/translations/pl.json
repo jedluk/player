@@ -1,0 +1,18 @@
+{
+  "header": "Moje piosenki",
+  "mainView.loader-message": "Ładowanie ścieżek...",
+  "mainView.searchbox.header": "Moje ścieżki",
+  "mainView.grid.headers.title": "Tytuł",
+  "mainView.grid.headers.artist": "Zespół",
+  "mainView.grid.headers.artist.search": "Wybierz zespół",
+  "mainView.grid.headers.album": "Album",
+  "mainView.grid.headers.album.search": "Wybierz album",
+  "mainView.grid.headers.year": "Rok",
+  "mainView.grid.headers.year.search": "Wybierz rok",
+  "mainView.grid.headers.genre": "Gatunek",
+  "mainView.grid.no-match": "Brak ścieżek dla podanych kryteriów!",
+  "someAvailable.header": "Bieżący folder nie zawiera plików mp3",
+  "someAvailable.subHeader": "Spróbuj wybrać jeden z isniejących podfolderów",
+  "emptyView.header": "W bieżącym folderze nie żadnych plików audio",
+  "emptyView.subHeader": "Zmień bieżący folder"
+}

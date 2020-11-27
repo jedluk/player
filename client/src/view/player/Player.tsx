@@ -1,4 +1,3 @@
-/* tslint:disable:: Object is possibly 'null'. */
 import React, {
   useCallback,
   useState,
@@ -42,11 +41,9 @@ export const Player = ({
   }, [track])
 
   useEffect(() => {
-    if (assetURL !== '') {
+    if (assetURL !== '' && audioRef !== null && audioRef.current !== null) {
       setCurrentSec(0)
-      // @ts-ignore: Object is possibly 'null'.
       audioRef.current.currentTime = 0
-      // @ts-ignore: Object is possibly 'null'.
       audioRef.current.play()
       setPlayed(true)
     }
@@ -74,14 +71,12 @@ export const Player = ({
   )
 
   const handlePlayOrPause = useCallback(() => {
-    if (audioRef !== null && audioRef.current !== null) {
-      if (audioRef.current.paused) {
-        audioRef.current.play()
-        setPlayed(true)
-      } else {
-        audioRef?.current.pause()
-        setPlayed(false)
-      }
+    if (audioRef?.current?.paused) {
+      audioRef?.current?.play()
+      setPlayed(true)
+    } else {
+      audioRef?.current?.pause()
+      setPlayed(false)
     }
   }, [audioRef, setPlayed])
 
@@ -114,13 +109,13 @@ export const Player = ({
     if (nextTrack !== null) setTrack(nextTrack)
   }, [setTrack, nextTrack])
 
+  const classes = joinClasses(
+    style.player,
+    gridExpanded ? style.hide : undefined
+  )
+
   return (
-    <div
-      className={joinClasses(
-        style['player-container'],
-        gridExpanded ? style.hide : undefined
-      )}
-    >
+    <div className={classes}>
       <Buttons
         audioRef={audioRef}
         isPlayed={isPlayed}
@@ -129,7 +124,7 @@ export const Player = ({
         handlePlayOrPause={handlePlayOrPause}
         handleSkip={handleSkip}
       />
-      <div className={style['player-slider']}>
+      <div className={style.playerSlider}>
         {playerReady ? <h3>{trackDetails?.title}</h3> : null}
         <input
           type="range"

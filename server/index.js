@@ -2,26 +2,27 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 
-const { NODE_ENV, PORT = '8083' } = process.env
-
-function makeServer(port = parseInt(PORT, 10)) {
+function makeServer(port, whiteList) {
   const app = express()
   app.use(morgan('common'))
   app.use(
     cors({
-      origin: ['production', 'development'].includes(NODE_ENV)
-        ? 'http://localhost:3000'
-        : undefined,
+      origin:
+        whiteList !== undefined ? String(whiteList).split(',') : undefined,
     })
   )
   app.use('/api', require('./routes'))
   app.all('*', (_, res) => res.status(400).send({ msg: 'Not found!' }))
   app.use(require('./middleware/errorHandler'))
-  app.listen(port, () => console.log(`Listening on port ${PORT}`))
+
+  app.listen(port, () => {
+    console.log('Listening on port:', port)
+  })
 }
 
-if (['production', 'development'].includes(NODE_ENV)) {
-  makeServer()
+if ('development' === process.env.NODE_ENV) {
+  const { PORT = 8083, WHITE_LIST = 'http://localhost:3000' } = process.env
+  makeServer(parseInt(PORT, 10), WHITE_LIST)
 }
 
 module.exports = { run: makeServer }

@@ -6,11 +6,12 @@ import Row from './Row'
 import NoMatch from './NoMatch'
 import { API, Modifier } from '../../types'
 import { ChangeFilterPayload } from '../../App.reducer'
+import { TranslatedText } from '../../common/TranslatedText'
 
 import style from './Tracks.module.css'
 
 type MyTracksProps = {
-  isFiltered: boolean
+  isModified: boolean
   currentTrack: string
   tracks: API.Track
   modifiers: Modifier[]
@@ -75,7 +76,7 @@ function MyTracks(props: MyTracksProps) {
     <div className={style['tracks-container']}>
       <div className={style['header']}>
         <h1>
-          My tracks{' '}
+          <TranslatedText translationKey="mainView.searchbox.header" />{' '}
           <Search
             visible={!noTracks}
             setFiltered={setFiltered}
@@ -90,7 +91,7 @@ function MyTracks(props: MyTracksProps) {
             rowRef={theadRowRef}
             modifiers={props.modifiers}
           />
-          {!noTracks || props.isFiltered ? (
+          {!noTracks || props.isModified ? (
             <tbody>
               {Object.values(props.tracks).map((track, idx) => (
                 <Row
@@ -107,7 +108,7 @@ function MyTracks(props: MyTracksProps) {
           ) : null}
         </table>
       </div>
-      <NoMatch isFiltered={props.isFiltered} noTracks={noTracks} />
+      <NoMatch isModified={props.isModified} noTracks={noTracks} />
     </div>
   )
 }

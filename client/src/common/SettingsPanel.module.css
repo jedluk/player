@@ -33,29 +33,25 @@
   width: var(--panel-item-size);
   height: var(--panel-item-size);
   color: var(--dark-primary-color);
-  background: none;
-  border: 10px solid;
-  border-image-slice: 1;
-  border-width: 2px;
-  border-image-source: linear-gradient(
-    to left,
-    var(--dark-primary-color),
-    var(--accent-color)
-  );
-
   margin-bottom: calc(var(--panel-item-size) / 3);
+
+  border: solid 1px transparent;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    linear-gradient(85deg, var(--accent-color), var(--dark-primary-color));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px var(--light-primary-color) inset;
 }
 
 .panel button:hover {
-  border: 10px solid;
-  border-image-slice: 1;
-  border-width: 2px;
-
-  border-image-source: linear-gradient(
-    to left,
-    var(--accent-color),
-    var(--dark-primary-color)
-  );
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    linear-gradient(85deg, var(--dark-primary-color), var(--accent-color));
 }
 
 .panel button:focus {

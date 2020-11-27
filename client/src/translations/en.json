@@ -1,0 +1,17 @@
+{
+  "mainView.searchbox.header": "My tracks",
+  "mainView.loader-message": "Loading tracks...",
+  "mainView.grid.headers.title": "Title",
+  "mainView.grid.headers.artist": "Artist",
+  "mainView.grid.headers.artist.search": "Select artist",
+  "mainView.grid.headers.album": "Album",
+  "mainView.grid.headers.album.search": "Select album",
+  "mainView.grid.headers.year": "Year",
+  "mainView.grid.headers.year.search": "Select year",
+  "mainView.grid.headers.genre": "Genre",
+  "mainView.grid.no-match": "No match found!",
+  "someAvailable.header": "Current folder does not contain mp3 file(s)",
+  "someAvailable.subHeader": "Please try to choose one of existing subfolder(s)",
+  "emptyView.header": "It looks like there is nothing to play",
+  "emptyView.subHeader": "Please change current directory"
+}

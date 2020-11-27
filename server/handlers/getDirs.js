@@ -23,7 +23,8 @@ async function getDirectories(req, res) {
   const dir = await fs.readdir(dirPath)
   const files = dir.map(file => path.join(dirPath, file))
 
-  const dirsNotHiddenOnly = (await withStats(files))
+  const stats = await withStats(files)
+  const dirsNotHiddenOnly = stats
     .filter(file => byDirectory(file.stat))
     .map(dir => dir.path)
     .filter(path => !nameOnly(path).startsWith('.'))

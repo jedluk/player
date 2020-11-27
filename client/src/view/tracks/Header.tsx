@@ -1,5 +1,6 @@
 import React from 'react'
 import { ChangeFilterPayload } from '../../App.reducer'
+import { TranslatedText } from '../../common/TranslatedText'
 import { Modifier } from '../../types'
 import FilteringItem from './FilteringItem'
 
@@ -17,7 +18,9 @@ export default function Header(props: HeaderProps): JSX.Element {
   return (
     <thead className={style.header}>
       <tr ref={props.rowRef}>
-        <th>Title</th>
+        <th>
+          <TranslatedText translationKey="mainView.grid.headers.title" />
+        </th>
         {modifiers.map(modifier => (
           <FilteringItem
             changeFilter={props.changeFilter}
@@ -27,7 +30,9 @@ export default function Header(props: HeaderProps): JSX.Element {
             values={modifier.values}
           />
         ))}
-        <th>Genre</th>
+        <th>
+          <TranslatedText translationKey="mainView.grid.headers.genre" />
+        </th>
       </tr>
     </thead>
   )

@@ -16,7 +16,7 @@
 .grid-container {
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 90%;
+  max-height: 90%;
   scrollbar-color: var(--dark-primary-color) var(--light-primary-color);
   scrollbar-width: thin;
 }

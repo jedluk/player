@@ -1,3 +1,7 @@
+:root {
+  --player-height: 4rem;
+}
+
 .App {
   height: 100%;
   overflow: hidden;
@@ -9,5 +13,5 @@
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: nowrap;
-  height: 100%;
+  height: calc(100% - var(--player-height));
 }

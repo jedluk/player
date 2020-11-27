@@ -1,28 +1,43 @@
 {
-  "name": "server",
+  "name": "prodigy",
   "version": "1.0.0",
   "description": "",
   "main": "electron-starter.js",
+  "license": "MIT",
   "scripts": {
-    "start": "concurrently \"npm run server:prod\" \"cd ../client && npm start\"",
-    "server:dev": "NODE_ENV=development nodemon src/index.js",
-    "server:prod": "NODE_ENV=production node src/index.js",
+    "clean": "rimraf dist && rimraf view",
+    "start": "concurrently \"yarn run server:dev\" \"cross-env BROWSER=chrome yarn run start-client\"",
+    "server:dev": "cross-env NODE_ENV=development WHITE_LIST=http://localhost:3003 nodemon index.js",
+    "start-client": "cd .. && cd client && cross-env HOST=localhost PORT=3003 yarn start",
+    "build-client": "cd .. && cd client && yarn run build && mv build ../server/view",
+    "start-electron": "wait-on http://localhost:3003 && cross-env NODE_ENV=production WHITE_LIST=http://localhost:3003 PORT=8083 electron electron-starter",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn run start-client\" \"yarn run start-electron\"",
+    "electron-build": "electron-builder",
+    "build-electron": "yarn run clean && yarn run build-client && yarn run electron-build",
     "test": "jest --watchAll=true --env=node",
     "coverage": "jest --coverage --watchAll=false --env=node"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Jędrzej Łukasiuk",
+    "email": "jedrzej.lukasiuk@gmail.com"
+  },
   "dependencies": {
     "concurrently": "^5.3.0",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "electron-is-dev": "^1.2.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
-    "node-id3": "^0.2.1"
+    "node-id3": "^0.2.1",
+    "wait-on": "^5.2.0"
   },
   "devDependencies": {
+    "electron": "^11.0.2",
+    "electron-builder": "^22.9.1",
     "jest": "24.9.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "rimraf": "^3.0.2"
   },
   "jest": {
     "collectCoverageFrom": [

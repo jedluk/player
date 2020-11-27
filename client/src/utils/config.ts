@@ -6,6 +6,6 @@ export const ERROR_CODES = Object.freeze({
 })
 
 export const API_URL =
-  process.env.API !== undefined
-    ? String(process.env.API)
-    : 'http://localhost:8083/api'
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8083/api'
+    : 'http://localhost:6008/api'
