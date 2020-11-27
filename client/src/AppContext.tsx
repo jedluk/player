@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Theme, themeMap, ThemeMap } from './common/themeMap'
 import { TranslationKey } from './translations/types'
+import { Maybe } from './types'
 
 interface AppContextProps {
   children: React.ReactNode
@@ -10,7 +11,7 @@ export type SupportedLocale = 'pl' | 'en'
 
 type AppContext = {
   theme: Theme
-  translations: Record<TranslationKey, string>
+  translations: Maybe<Record<TranslationKey, string>>
   gridExpanded: boolean
   changeTheme: () => void
   changeLocale: () => void
@@ -29,7 +30,7 @@ function nextTheme(previousTheme: Theme): Theme {
 
 export const Context = React.createContext<AppContext>({
   theme: themeMap.theme1,
-  translations: {} as any,
+  translations: null,
   gridExpanded: false,
   changeTheme: () => null,
   toggleGridExpanded: () => null,
@@ -39,7 +40,7 @@ export const Context = React.createContext<AppContext>({
 export function AppContext(props: AppContextProps) {
   const [theme, setTheme] = useState<Theme>(themeMap.theme1)
   const [locale, setLocale] = useState<SupportedLocale>('en')
-  const [translations, setTranslations] = useState({})
+  const [translations, setTranslations] = useState(null)
   const [gridExpanded, setGridExpanded] = useState<boolean>(false)
 
   const changeTheme = useCallback(() => setTheme(prev => nextTheme(prev)), [])
