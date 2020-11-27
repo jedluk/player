@@ -38,14 +38,14 @@ export default function MainView(props: MainViewProps) {
     style.container,
     gridExpanded ? style.expanded : ''
   )
-  
+
   return (
     <div className={classes}>
       {someFolders ? <SomeAvailable /> : null}
       {isEmpty ? <EmptyView /> : null}
       {displayTracks ? (
         <Tracks
-          isFiltered={isFiltered}
+          isModified={isFiltered || filteringPhrase !== ''}
           fetchAssets={props.fetchAssets}
           changeFilter={props.changeFilter}
           currentTrack={props.track}

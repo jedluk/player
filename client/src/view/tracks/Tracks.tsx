@@ -11,7 +11,7 @@ import { TranslatedText } from '../../common/TranslatedText'
 import style from './Tracks.module.css'
 
 type MyTracksProps = {
-  isFiltered: boolean
+  isModified: boolean
   currentTrack: string
   tracks: API.Track
   modifiers: Modifier[]
@@ -91,7 +91,7 @@ function MyTracks(props: MyTracksProps) {
             rowRef={theadRowRef}
             modifiers={props.modifiers}
           />
-          {!noTracks || props.isFiltered ? (
+          {!noTracks || props.isModified ? (
             <tbody>
               {Object.values(props.tracks).map((track, idx) => (
                 <Row
@@ -108,7 +108,7 @@ function MyTracks(props: MyTracksProps) {
           ) : null}
         </table>
       </div>
-      <NoMatch isFiltered={props.isFiltered} noTracks={noTracks} />
+      <NoMatch isModified={props.isModified} noTracks={noTracks} />
     </div>
   )
 }
