@@ -34,12 +34,19 @@ const theme5: Theme = {
   '--dark-primary-color': '#512DA8',
 }
 
+const theme6: Theme = {
+  '--light-primary-color': '#B2EBF2',
+  '--accent-color': '#FF9800',
+  '--dark-primary-color': '#0097A7',
+}
+
 export const themeMap = {
   theme1,
   theme2,
   theme3,
   theme4,
   theme5,
+  theme6,
 }
 
 export type ThemeMap = {
@@ -48,4 +55,5 @@ export type ThemeMap = {
   theme3: Theme
   theme4: Theme
   theme5: Theme
+  theme6: Theme
 }

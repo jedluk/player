@@ -12,7 +12,7 @@ Fully functional multi-platform (MacOS/Windows/Linux) mp3 player built with Elec
 - quick search for songs
 - traversing local directories in side panel
 - filtering by artist, album and year
-- theme picker (5 available themes!)
+- theme picker (6 available themes!)
 - i18n (EN, PL, more to come...)
 
 ## Development
