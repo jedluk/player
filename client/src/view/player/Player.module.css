@@ -2,14 +2,13 @@
   align-items: center;
   background-color: var(--accent-color);
   display: flex;
-  height: 10%;
-  min-height: 10%;
-  max-height: 10%;
+  height: var(--player-height);
+  min-height: var(--player-height);
+  max-height: var(--player-height);
   padding: 0 5%;
   justify-content: center;
   transition: all 0.5s ease-out;
   position: relative;
-  top: -10%;
   z-index: 4;
 }
 
@@ -25,20 +24,20 @@
 .playerSlider > h3 {
   position: absolute;
   left: 0;
-  top: -35px;
-  font-weight: 300;
+  top: -2rem;
+  font-weight: 400;
 }
 
 .playerSlider > .time-start {
   position: absolute;
   left: 0;
-  top: 35px;
+  top: 2rem;
 }
 
 .playerSlider > .time-stop {
   position: absolute;
   right: 0;
-  top: 35px;
+  top: 2rem;
 }
 
 input[type='range'] {
