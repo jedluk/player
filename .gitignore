@@ -73,3 +73,5 @@ build
 
 *.mp3
 *.idea
+
+.vscode/
