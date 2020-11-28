@@ -1,7 +1,6 @@
 .sideMenu {
   border-left-width: 1px;
   border-style: solid;
-  height: 100%;
   border-image: linear-gradient(
       to bottom,
       var(--dark-primary-color),
@@ -10,6 +9,7 @@
     1 100%;
   width: 0%;
   min-width: 0%;
+  height: calc(100% + var(--player-height));
   position: relative;
   transition: min-width 0.4s ease, width 0.4s ease;
 }
