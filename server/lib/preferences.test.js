@@ -1,36 +1,30 @@
-const Preferences = require('./preferences')
+const preferences = require('./preferences')
 const { promises } = require('fs')
 
 jest.mock('fs/promises')
 
 describe('Preferences', () => {
-  let preferences
-
-  beforeEach(() => {
-    preferences = new Preferences()
-  })
-
   describe('isValid method', () => {
-    it('returns false if arg is primitive', () => {
-      expect(preferences.isValid('something')).toEqual(false)
-      expect(preferences.isValid(2)).toEqual(false)
-      expect(preferences.isValid(true)).toEqual(false)
+    it('returns false if arg is primitive', async () => {
+      expect(await preferences.isValid('something')).toEqual(false)
+      expect(await preferences.isValid(2)).toEqual(false)
+      expect(await preferences.isValid(true)).toEqual(false)
     })
 
-    it('returns false if object does not contain all required properties', () => {
+    it('returns false if object does not contain all required properties', async () => {
       const pref = {
         language: 'pl',
       }
-      expect(preferences.isValid(pref)).toEqual(false)
+      expect(await preferences.isValid(pref)).toEqual(false)
     })
 
-    it('returns true if given object match model', () => {
+    it('returns true if given object match model', async () => {
       const pref = {
         language: 'pl',
         theme: 'theme1',
-        directory: '/Users/jedrzej/Desktop/muse',
+        directory: __dirname,
       }
-      expect(preferences.isValid(pref)).toEqual(true)
+      expect(await preferences.isValid(pref)).toEqual(true)
     })
   })
 
@@ -43,6 +37,9 @@ describe('Preferences', () => {
         theme: 'theme1',
         directory: '/Users/jedrzej/Desktop/muse',
       }
+      promises.lstat = jest
+        .fn()
+        .mockResolvedValueOnce({ isDirectory: () => true })
     })
 
     it('resolves a promise with null when file does not exist', async () => {
@@ -81,6 +78,9 @@ describe('Preferences', () => {
         theme: 'theme1',
         directory: '/Users/jedrzej/Desktop/muse',
       }
+      promises.lstat = jest
+        .fn()
+        .mockResolvedValueOnce({ isDirectory: () => true })
     })
 
     it('rejects a promise when preferences are not a valid object', async () => {

@@ -6,10 +6,12 @@ async function patchPreferences(req, res) {
     ...(await preferences.read()),
     ...payload,
   }
-  await preferences.write(newPreferences).catch(err => {
+  try {
+    await preferences.write(newPreferences)
+    return res.status(200).json(newPreferences)
+  } catch (err) {
     return res.status(400).json(err)
-  })
-  return res.status(200).json(newPreferences)
+  }
 }
 
 module.exports = patchPreferences
