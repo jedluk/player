@@ -26,12 +26,12 @@ class Preferences {
   }
 
   read() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       promises
         .readFile(this.preferencesPath)
         .then(JSON.parse)
-        .then(file => (this.isValid(file) ? resolve(file) : reject(null)))
-        .catch(() => reject(null))
+        .then(file => resolve(this.isValid(file) ? file : null))
+        .catch(() => resolve(null))
     })
   }
 
@@ -46,4 +46,4 @@ class Preferences {
   }
 }
 
-module.exports = Preferences
+module.exports = new Preferences()

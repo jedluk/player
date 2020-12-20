@@ -45,21 +45,21 @@ describe('Preferences', () => {
       }
     })
 
-    it('rejects a promise with null when file does not exist', async () => {
+    it('resolves a promise with null when file does not exist', async () => {
       promises.readFile = jest.fn().mockRejectedValueOnce('Not exists!')
 
-      expect.assertions(1)
-      await preferences.read().catch(err => expect(err).toEqual(null))
+      const res = await preferences.read()
+      expect(res).toEqual(null)
     })
 
-    it('rejects a promise with null when file is not valid preferences object', async () => {
+    it('resolves a promise with null when file is not valid preferences object', async () => {
       delete preferencesObject.theme
       promises.readFile = jest
         .fn()
         .mockResolvedValueOnce(JSON.stringify(preferencesObject))
 
-      expect.assertions(1)
-      await preferences.read().catch(err => expect(err).toEqual(null))
+      const res = await preferences.read()
+      expect(res).toEqual(null)
     })
 
     it('resolves promise with preferences object if valid preference object exists', async () => {
@@ -92,20 +92,20 @@ describe('Preferences', () => {
         .catch(err => expect(err.msg).toBeDefined())
     })
 
-      it('rejects a promise when writeFile throws', async () => {
-        promises.writeFile = jest.fn().mockRejectedValueOnce('error')
+    it('rejects a promise when writeFile throws', async () => {
+      promises.writeFile = jest.fn().mockRejectedValueOnce('error')
 
-        expect.assertions(1)
-        await preferences
-          .write(preferencesObject)
-          .catch(err => expect(err.msg).toBeDefined())
-      })
+      expect.assertions(1)
+      await preferences
+        .write(preferencesObject)
+        .catch(err => expect(err.msg).toBeDefined())
+    })
 
-      it('resolves promise when file is saved', async () => {
-        promises.writeFile = jest.fn().mockResolvedValueOnce('ok')
+    it('resolves promise when file is saved', async () => {
+      promises.writeFile = jest.fn().mockResolvedValueOnce('ok')
 
-        const res = await preferences.write(preferencesObject)
-        expect(res.msg).toBeDefined()
-      })
+      const res = await preferences.write(preferencesObject)
+      expect(res.msg).toBeDefined()
+    })
   })
 })

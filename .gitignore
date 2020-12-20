@@ -75,3 +75,5 @@ build
 *.idea
 
 .vscode/
+
+preferences.json

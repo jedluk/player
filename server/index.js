@@ -5,6 +5,7 @@ const cors = require('cors')
 function makeServer(port, whiteList) {
   const app = express()
   app.use(morgan('common'))
+  app.use(express.json())
   app.use(
     cors({
       origin:
