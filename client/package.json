@@ -23,7 +23,8 @@
   },
   "scripts": {
     "i18n": "node scripts/i18n.js",
-    "start": "yarn run i18n && PORT=3003 react-scripts start",
+    "codes": "node scripts/errorCodes.js",
+    "start": "yarn run i18n && yarn run codes && PORT=3003 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=node",
     "coverage": "react-scripts test --coverage --watchAll=false --env=node",
