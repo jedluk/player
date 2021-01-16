@@ -49,13 +49,13 @@ function nameOnly(filePath) {
 }
 
 module.exports = {
+  defaultsTo,
+  getTrackTags,
   isNil,
   isNull,
   isUndefined,
   isString,
-  pick,
-  noExt,
-  defaultsTo,
-  getTrackTags,
   nameOnly,
+  noExt,
+  pick,
 }
