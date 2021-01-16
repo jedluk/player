@@ -1,7 +1,10 @@
 const { defaultsTo } = require('../lib/utils')
+const ERROR_CODES = require('../errorCodes')
 
-module.exports = function (err, req, res) {
-  res
-    .status(defaultsTo(err?.status, 500))
-    .send({ msg: defaultsTo(err?.message, 'Internal server error') })
+module.exports = function (err = {}, req, res) {
+  const { status = 500, message = 'Internal server error' } = err
+  res.status(status).send({
+    msg: message,
+    code: ERROR_CODES.internalError,
+  })
 }

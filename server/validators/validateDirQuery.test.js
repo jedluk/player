@@ -1,4 +1,5 @@
 const validateQuery = require('./validateDirQuery')
+const ERROR_CODES = require('../errorCodes')
 
 describe('validateQuery middleware test suite', () => {
   let req, res
@@ -20,10 +21,11 @@ describe('validateQuery middleware test suite', () => {
     const sendMock = jest.fn()
     res.send = sendMock
     await validateQuery(req, res)
-    expect(sendMock.mock.calls.length).toEqual(1)
-    expect(sendMock.mock.calls[0][0]).toEqual({
-      msg: '"path" query param must be defined',
-    })
+    expect(sendMock).toBeCalledWith(
+      expect.objectContaining({
+        code: ERROR_CODES.directories.pathNotDefined,
+      })
+    )
   })
 
   it('sends 400 with proper error msg if "fileTypes" query string is not matching allowed types', async () => {
