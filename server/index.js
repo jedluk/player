@@ -9,8 +9,7 @@ function run(port, whiteList) {
   app.use(express.json())
   app.use(
     cors({
-      origin:
-        whiteList !== undefined ? String(whiteList).split(',') : undefined,
+      origin: whiteList && String(whiteList).split(','),
     })
   )
   app.use('/api', require('./routes'))
