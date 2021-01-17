@@ -15,7 +15,7 @@ import {
   filterTracks,
   matchByURL,
 } from './utils/tracks'
-import { getAssets } from './utils/http'
+import { getAssets, patchPreferences, stripPath } from './utils/http'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
 import SideMenu from './view/panel/SideMenu'
@@ -26,8 +26,8 @@ import { SettingsPanel } from './common/SettingsPanel'
 import style from './App.module.css'
 
 function App(): JSX.Element {
+  const { defaultDir } = useContext(Context)
   const [state, dispatch] = useReducer(rootReducer, initialState)
-  const { defaultDir, keepDirectory } = useContext(Context)
 
   const { tracks, dirs, filters, links } = state
 
@@ -35,17 +35,16 @@ function App(): JSX.Element {
   const [initialized, setInitialized] = useState<boolean>(false)
   const serializedTracks = serializeTracks(tracks)
 
-  const fetchAssets = useCallback((path?: string): Promise<void> => {
-    if (path !== undefined) keepDirectory(path)
-    return new Promise(resolve => {
+  const fetchAssets = useCallback(
+    (path?: string) =>
       getAssets(path)
         .then((assets: API.Assets) =>
           dispatch({ type: 'SETTLE_FILES', payload: assets })
         )
         .catch((err: API.Error) => console.error(err.message))
-        .finally(resolve)
-    })
-  }, [])
+        .finally(() => setInitialized(true)),
+    []
+  )
 
   const changeFilter = useCallback(
     (payload: ChangeFilterPayload): void =>
@@ -57,8 +56,16 @@ function App(): JSX.Element {
   )
 
   useEffect(() => {
-    fetchAssets(defaultDir).then(() => setInitialized(true))
+    fetchAssets(defaultDir)
   }, [fetchAssets, defaultDir])
+
+  useEffect(() => {
+    if (links.self !== null) {
+      patchPreferences({
+        directory: stripPath(links.self.href),
+      })
+    }
+  }, [links])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])

@@ -4,8 +4,10 @@ import { ERROR_CODES, API_URL } from './config'
 import { defaultsTo } from './lib'
 
 function forwardSuccessful(response: Response) {
-  if (response.ok) return response.json()
-  throw Error('Not sucesfull response!')
+  if (response.ok) {
+    return response.json()
+  }
+  return response.json().then(Promise.reject)
 }
 
 export function getAssets(path: string = 'home'): Promise<API.Assets> {
@@ -20,38 +22,53 @@ export function getAssets(path: string = 'home'): Promise<API.Assets> {
       .catch(() =>
         reject({
           code: ERROR_CODES.REQUEST_FAILED,
-          message: 'Could not get available trakcs!',
+          message: 'Could not get available tracks!',
         })
       )
   )
 }
 
 export function getPreferences(): Promise<API.Preferences | null> {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     fetch(`${API_URL}/preferences`)
       .then(forwardSuccessful)
       .then(resolve)
-      .catch(() => resolve(null))
+      .catch(err => reject(err.code))
   })
 }
 
-export function patchPreferences(payload: API.Preferences) {
-  fetch(`${API_URL}/preferences`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  }).catch(error =>
-    // PATCH will throw if no preferences at all , thus we need to create them via POST
+export function patchPreferences(
+  payload: Partial<API.Preferences>
+): Promise<API.Preferences> {
+  return new Promise(resolve => {
+    fetch(`${API_URL}/preferences`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(forwardSuccessful)
+      .then(resolve)
+      .catch(() => null)
+  })
+}
+
+export function postPreferences(
+  payload: API.Preferences
+): Promise<API.Preferences> {
+  return new Promise(resolve => {
     fetch(`${API_URL}/preferences`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
-    }).catch(() => console.warn('Could not save preferences!'))
-  )
+    })
+      .then(forwardSuccessful)
+      .then(resolve)
+      .catch(() => null)
+  })
 }
 
 export function streamURL(path: string) {

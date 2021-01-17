@@ -16,7 +16,6 @@ type AppContext = {
   translations: Maybe<Record<TranslationKey, string>>
   gridExpanded: boolean
   defaultDir: string
-  keepDirectory: (dir: string) => void
   changeTheme: () => void
   changeLocale: () => void
   toggleGridExpanded: () => void
@@ -37,7 +36,6 @@ export const Context = React.createContext<AppContext>({
   translations: null,
   gridExpanded: false,
   defaultDir: '',
-  keepDirectory: () => null,
   changeTheme: () => null,
   toggleGridExpanded: () => null,
   changeLocale: () => null,
@@ -63,30 +61,25 @@ export function AppContext(props: AppContextProps) {
       await import(`./translations/${selectedLanguage}.json`),
     []
   )
-  const keepDirectory = useCallback((path: string) => {
-    patchPreferences({ directory: path })
-  }, [])
-
   useEffect(() => {
     Object.entries(themeMap[theme]).forEach(([kind, value]) =>
       document.documentElement.style.setProperty(kind, value)
     )
     patchPreferences({ theme })
-  }, [theme])
+  }, [theme, patchPreferences])
 
   useEffect(() => {
     importTranslations(locale)
       .then(res => res.default)
       .then(setTranslations)
     patchPreferences({ language: locale })
-  }, [locale, importTranslations])
+  }, [locale, importTranslations, patchPreferences])
 
   const context = {
     changeLocale,
     changeTheme,
     defaultDir: preferences.directory,
     gridExpanded,
-    keepDirectory,
     toggleGridExpanded,
     theme: themeMap[theme],
     translations,
