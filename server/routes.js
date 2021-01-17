@@ -1,6 +1,6 @@
 const express = require('express')
 const validateQuery = require('./validators/validateDirQuery')
-const validateFileQuery = require('./validators/validatreFileQuery')
+const validateFileQuery = require('./validators/validateFileQuery')
 
 const router = express.Router()
 

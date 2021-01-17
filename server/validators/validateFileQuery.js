@@ -16,21 +16,24 @@ function validatePathQuery(req, res, next) {
 }
 
 function validateFileType(req, res, next) {
-  const types = ['mp3']
-  if (!types.some(type => path.endsWith(type))) {
+  const { path } = req.query
+
+  if (!path.toLowerCase().endsWith('mp3')) {
     throw new ClientError(
-      `Only ${String(SUPPORTED_FILES)} are supported`,
-      ERROR_CODES.files.notSupportedFileType
+      'Only mp3 files are supported',
+      ERROR_CODES.files.notSupportedType
     )
   }
   next()
 }
 
-async function validateFileAvailability() {
+async function validateFileAvailability(req, res, next) {
+  const { path } = req.query
+
   try {
     await fs.access(path)
   } catch {
-    throw ClientError(
+    throw new ClientError(
       '"path" is not pointing to valid file',
       ERROR_CODES.files.notExists
     )
