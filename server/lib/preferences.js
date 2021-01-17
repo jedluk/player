@@ -68,9 +68,9 @@ class Preferences {
         .catch(() =>
           reject(
             new APIError(
-              'Could not read preferences!',
-              ERROR_CODES.preferences.couldNotRead,
-              500
+              'Preferences do not exist!',
+              ERROR_CODES.preferences.notExist,
+              404
             )
           )
         )

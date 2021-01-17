@@ -5,9 +5,10 @@ const { APIError } = require('../lib/error')
 jest.mock('../lib/preferences')
 
 describe('getPreferences', () => {
-  let req, res
+  let req, res, nextMock
 
   beforeEach(() => {
+    nextMock = jest.fn()
     req = {
       query: {},
     }
@@ -25,16 +26,15 @@ describe('getPreferences', () => {
     const jsonMock = jest.fn()
     res.json = jsonMock
 
-    await getPreferences(req, res)
-    expect(jsonMock).toHaveBeenCalledTimes(1)
+    await getPreferences(req, res, nextMock)
+    expect(jsonMock).toHaveBeenCalledWith(1)
   })
 
-  it('should forward API error if cannot read preferences', async () => {
-    preferences.read = jest.fn().mockRejectedValueOnce(new APIError())
+  it('should forward API error via next if cannot read preferences', async () => {
+    const error = new APIError()
+    preferences.read = jest.fn().mockRejectedValueOnce(error)
 
-    expect.assertions(1)
-    await getPreferences(req, res).catch(err =>
-      expect(err instanceof APIError).toEqual(true)
-    )
+    await getPreferences(req, res, nextMock)
+    expect(nextMock).toHaveBeenCalledWith(error)
   })
 })
