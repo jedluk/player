@@ -29,7 +29,7 @@ function validateFileType(req, res, next) {
     const message = `fileTypes query param must match one of types: ${String(
       SUPPORTED_TYPES
     )}`
-    throw new ClientError(message, ERROR_CODES.directories.notSupportedFileType)
+    throw new ClientError(message, ERROR_CODES.directories.notSupportedType)
   }
   next()
 }
@@ -41,11 +41,12 @@ async function validateDirectory(req, rest, next) {
     next()
     return
   }
+
   try {
     const lstat = await fsPromises.lstat(path)
     if (!lstat.isDirectory()) throw Error()
     next()
-  } catch {
+  } catch (err) {
     throw new ClientError(
       `"${path}" is not a valid directory`,
       ERROR_CODES.directories.notExist
