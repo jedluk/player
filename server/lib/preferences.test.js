@@ -1,5 +1,6 @@
 const preferences = require('./preferences')
 const { promises } = require('fs')
+const { ClientError, APIError } = require('./error')
 
 jest.mock('fs/promises')
 
@@ -42,11 +43,13 @@ describe('Preferences', () => {
         .mockResolvedValueOnce({ isDirectory: () => true })
     })
 
-    it('resolves a promise with null when file does not exist', async () => {
+    it('resolves a promise with APIError when file does not exist', async () => {
       promises.readFile = jest.fn().mockRejectedValueOnce('Not exists!')
 
-      const res = await preferences.read()
-      expect(res).toEqual(null)
+      expect.assertions(1)
+      await preferences
+        .read()
+        .catch(err => expect(err instanceof APIError).toEqual(true))
     })
 
     it('resolves a promise with null when file is not valid preferences object', async () => {
@@ -55,8 +58,10 @@ describe('Preferences', () => {
         .fn()
         .mockResolvedValueOnce(JSON.stringify(preferencesObject))
 
-      const res = await preferences.read()
-      expect(res).toEqual(null)
+      expect.assertions(1)
+      await preferences
+        .read()
+        .catch(err => expect(err instanceof APIError).toEqual(true))
     })
 
     it('resolves promise with preferences object if valid preference object exists', async () => {
@@ -83,29 +88,30 @@ describe('Preferences', () => {
         .mockResolvedValueOnce({ isDirectory: () => true })
     })
 
-    it('rejects a promise when preferences are not a valid object', async () => {
+    it('rejects a promise with ClientError when preferences are not a valid object', async () => {
       delete preferencesObject.theme
       promises.writeFile = jest.fn()
+
       expect.assertions(1)
-      await preferences
-        .write(preferencesObject)
-        .catch(err => expect(err.msg).toBeDefined())
+      await preferences.write(preferencesObject).catch(err => {
+        expect(err instanceof ClientError).toEqual(true)
+      })
     })
 
-    it('rejects a promise when writeFile throws', async () => {
+    it('rejects a promise with APIError when writeFile throws', async () => {
       promises.writeFile = jest.fn().mockRejectedValueOnce('error')
 
       expect.assertions(1)
       await preferences
         .write(preferencesObject)
-        .catch(err => expect(err.msg).toBeDefined())
+        .catch(err => expect(err instanceof APIError).toEqual(true))
     })
 
-    it('resolves promise when file is saved', async () => {
+    it('resolves promise with no value when file is saved', async () => {
       promises.writeFile = jest.fn().mockResolvedValueOnce('ok')
 
       const res = await preferences.write(preferencesObject)
-      expect(res.msg).toBeDefined()
+      expect(res).toBeUndefined()
     })
   })
 })

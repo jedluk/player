@@ -8,14 +8,9 @@ async function patchPreferences(req, res) {
     ...current,
     ...payload,
   }
-  try {
-    await preferences.write(newPreferences)
-    return res.status(200).json(newPreferences)
-  } catch (err) {
-    return res
-      .status(400)
-      .json({ msg: err.message, code: ERROR_CODES.preferences.couldNotUpdate })
-  }
+
+  await preferences.write(newPreferences)
+  return res.status(200).json(newPreferences)
 }
 
 module.exports = patchPreferences

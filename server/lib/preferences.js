@@ -1,5 +1,7 @@
 const { promises } = require('fs')
 const path = require('path')
+const { APIError, ClientError } = require('../lib/error')
+const ERROR_CODES = require('../errorCodes')
 
 class Preferences {
   constructor() {
@@ -47,14 +49,36 @@ class Preferences {
   }
 
   read() {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       promises
         .readFile(this.preferencesPath)
         .then(JSON.parse)
         .then(file => Promise.all([Promise.resolve(file), this.isValid(file)]))
-        .then(([file, isValid]) => resolve(isValid ? file : null))
-        .catch(() => resolve(null))
+        .then(([file, isValid]) =>
+          isValid
+            ? resolve(file)
+            : reject(
+                new APIError(
+                  'Invalid preferences found',
+                  ERROR_CODES.preferences.notValidPreferences,
+                  422
+                )
+              )
+        )
+        .catch(() =>
+          reject(
+            new APIError(
+              'Could not read preferences!',
+              ERROR_CODES.preferences.couldNotRead,
+              500
+            )
+          )
+        )
     })
+  }
+
+  writeFile(preferences) {
+    return promises.writeFile(this.preferencesPath, JSON.stringify(preferences))
   }
 
   write(preferences) {
@@ -63,13 +87,24 @@ class Preferences {
         .then(isValid =>
           isValid
             ? Promise.resolve()
-            : reject({ msg: 'Not a valid preferences' })
+            : reject(
+                new ClientError(
+                  'Not a valid preferences',
+                  ERROR_CODES.preferences.notValidPreferences
+                )
+              )
         )
-        .then(() =>
-          promises.writeFile(this.preferencesPath, JSON.stringify(preferences))
+        .then(() => this.writeFile(preferences))
+        .then(() => resolve())
+        .catch(() =>
+          reject(
+            new APIError(
+              'Could not save preferences',
+              ERROR_CODES.preferences.couldNotSave,
+              500
+            )
+          )
         )
-        .then(() => resolve({ msg: 'Saved' }))
-        .catch(() => reject({ msg: 'Could not save a file' }))
     })
   }
 }

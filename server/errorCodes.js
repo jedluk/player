@@ -11,7 +11,8 @@ module.exports = Object.freeze({
   },
   preferences: {
     couldNotSave: 'could-not-save-preferences',
-    couldNotUpdate: 'could-not-update-preferences',
+    couldNotRead: 'could-not-read-preferences',
+    notValidPreferences: 'not-a-valid-preferences',
     notExist: 'preferences-not-exists',
   },
   internalError: 'internal-server-errorl',
