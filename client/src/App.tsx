@@ -4,8 +4,9 @@ import React, {
   useMemo,
   useEffect,
   useState,
+  useContext,
 } from 'react'
-import { AppContext } from './AppContext'
+import { Context } from './AppContext'
 import { API } from './types'
 import {
   findNextTrack,
@@ -26,6 +27,7 @@ import style from './App.module.css'
 
 function App(): JSX.Element {
   const [state, dispatch] = useReducer(rootReducer, initialState)
+  const { defaultDir, keepDirectory } = useContext(Context)
 
   const { tracks, dirs, filters, links } = state
 
@@ -33,19 +35,17 @@ function App(): JSX.Element {
   const [initialized, setInitialized] = useState<boolean>(false)
   const serializedTracks = serializeTracks(tracks)
 
-  const fetchAssets = useCallback(
-    (path?: string): Promise<void> => {
-      return new Promise(resolve => {
-        getAssets(path)
-          .then((assets: API.Assets) =>
-            dispatch({ type: 'SETTLE_FILES', payload: assets })
-          )
-          .catch((err: API.Error) => console.error(err.message))
-          .finally(resolve)
-      })
-    },
-    [dispatch]
-  )
+  const fetchAssets = useCallback((path?: string): Promise<void> => {
+    if (path !== undefined) keepDirectory(path)
+    return new Promise(resolve => {
+      getAssets(path)
+        .then((assets: API.Assets) =>
+          dispatch({ type: 'SETTLE_FILES', payload: assets })
+        )
+        .catch((err: API.Error) => console.error(err.message))
+        .finally(resolve)
+    })
+  }, [])
 
   const changeFilter = useCallback(
     (payload: ChangeFilterPayload): void =>
@@ -53,21 +53,22 @@ function App(): JSX.Element {
         type: 'CHANGE_FILTER',
         payload,
       }),
-    [dispatch]
+    []
   )
 
   useEffect(() => {
-    fetchAssets().then(() => setInitialized(true))
-  }, [fetchAssets])
+    fetchAssets(defaultDir).then(() => setInitialized(true))
+  }, [fetchAssets, defaultDir])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])
 
   const filteredTracks = filterTracks(tracks, filters)
+  const isFiltered = !Object.is(tracks, filteredTracks)
 
   const mainContent = initialized ? (
     <MainView
-      isFiltered={!Object.is(tracks, filteredTracks)}
+      isFiltered={isFiltered}
       track={track}
       modifiers={modifiers}
       dirs={dirs}
@@ -82,21 +83,19 @@ function App(): JSX.Element {
   )
 
   return (
-    <AppContext>
-      <div className={style.App}>
-        <div className={style.view}>
-          <SettingsPanel />
-          {mainContent}
-          <SideMenu dirs={dirs} links={links} fetchAssets={fetchAssets} />
-        </div>
-        <Player
-          track={track}
-          trackDetails={matchByURL(track, tracks)}
-          nextTrack={findNextTrack(track, tracks)}
-          setTrack={setTrack}
-        />
+    <div className={style.App}>
+      <div className={style.view}>
+        <SettingsPanel />
+        {mainContent}
+        <SideMenu dirs={dirs} links={links} fetchAssets={fetchAssets} />
       </div>
-    </AppContext>
+      <Player
+        track={track}
+        trackDetails={matchByURL(track, tracks)}
+        nextTrack={findNextTrack(track, tracks)}
+        setTrack={setTrack}
+      />
+    </div>
   )
 }
 
