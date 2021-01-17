@@ -1,35 +1,41 @@
-const { isUndefined } = require('../lib/utils')
-const ERROR_CODES = require('../errorCodes')
 const fs = require('fs').promises
+const { isUndefined } = require('../lib/utils')
+const { ClientError } = require('../lib/error')
+const ERROR_CODES = require('../errorCodes')
 
-const SUPPORTED_FILES = ['mp3']
-
-module.exports = async function checkQuery(req, res, next) {
+function validatePathQuery(req, res, next) {
   const { path } = req.query
 
   if (isUndefined(path)) {
-    return res.status(400).send({
-      msg: '"path" query param must be defined',
-      code: ERROR_CODES.files.pathNotDefined,
-    })
+    throw new ClientError(
+      '"path" query param must be defined',
+      ERROR_CODES.files.pathNotDefined
+    )
   }
+  next()
+}
 
-  if (!SUPPORTED_FILES.some(type => path.endsWith(type))) {
-    return res.status(400).send({
-      msg: `Only ${String(SUPPORTED_FILES)} are supported`,
-      code: ERROR_CODES.files.notSupportedFileType,
-    })
+function validateFileType(req, res, next) {
+  const types = ['mp3']
+  if (!types.some(type => path.endsWith(type))) {
+    throw new ClientError(
+      `Only ${String(SUPPORTED_FILES)} are supported`,
+      ERROR_CODES.files.notSupportedFileType
+    )
   }
+  next()
+}
 
+async function validateFileAvailability() {
   try {
     await fs.access(path)
-    return next()
-  } catch (err) {
-    return res
-      .status(400)
-      .send({
-        msg: '"path" is not pointing to valid file',
-        code: ERROR_CODES.files.notExists,
-      })
+  } catch {
+    throw ClientError(
+      '"path" is not pointing to valid file',
+      ERROR_CODES.files.notExists
+    )
   }
+  next()
 }
+
+module.exports = [validatePathQuery, validateFileType, validateFileAvailability]
