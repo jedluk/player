@@ -9,7 +9,7 @@ async function patchPreferences(req, res, next) {
       ...current,
       ...payload,
     }
-    await preferences.write(newPreferences).catch(err => next(err))
+    await preferences.write(newPreferences)
     return res.status(200).json(newPreferences)
   } catch (err) {
     next(err)

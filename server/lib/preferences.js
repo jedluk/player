@@ -66,7 +66,8 @@ class Preferences {
             ? resolve(file)
             : reject(
                 new APIError(
-                  this.ERROR_CODES.preferences.notValidPreferences,
+                  this.toMessage(),
+                  ERROR_CODES.preferences.notValidPreferences,
                   422
                 )
               )
