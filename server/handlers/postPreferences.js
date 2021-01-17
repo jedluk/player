@@ -6,7 +6,7 @@ async function postPreferences(req, res, next) {
     await preferences.write(payload)
     return res.status(200).json(payload)
   } catch (err) {
-    next(ett)
+    next(err)
   }
 }
 

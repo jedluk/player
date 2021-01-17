@@ -27,7 +27,7 @@ describe('getPreferences', () => {
     res.json = jsonMock
 
     await getPreferences(req, res, nextMock)
-    expect(jsonMock).toHaveBeenCalledWith(1)
+    expect(jsonMock).toHaveBeenCalledTimes(1)
   })
 
   it('should forward API error via next if cannot read preferences', async () => {

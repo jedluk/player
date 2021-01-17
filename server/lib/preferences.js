@@ -18,7 +18,7 @@ class Preferences {
           ),
       },
       theme: {
-        type: 'string',
+        type: ['theme1', 'theme2', 'theme3', 'theme4', 'theme5', 'theme6'],
         validate: val =>
           Array(6)
             .fill(1)
@@ -26,10 +26,17 @@ class Preferences {
             .includes(val),
       },
       language: {
-        type: 'string',
+        type: ['pl', 'en'],
         validate: val => ['pl', 'en'].includes(val),
       },
     }
+  }
+
+  toMessage() {
+    const correctTypes = Object.keys(this.dataModel).map(
+      key => `'${key}' is type of ${this.dataModel[key].type.toString()}`
+    )
+    return `Corect preferences are: ${correctTypes.join(', ')}`
   }
 
   isValid(newPref) {
@@ -59,8 +66,7 @@ class Preferences {
             ? resolve(file)
             : reject(
                 new APIError(
-                  'Invalid preferences found',
-                  ERROR_CODES.preferences.notValidPreferences,
+                  this.ERROR_CODES.preferences.notValidPreferences,
                   422
                 )
               )
@@ -89,7 +95,7 @@ class Preferences {
             ? Promise.resolve()
             : reject(
                 new ClientError(
-                  'Not a valid preferences',
+                  this.toMessage(),
                   ERROR_CODES.preferences.notValidPreferences
                 )
               )
