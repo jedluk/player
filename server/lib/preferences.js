@@ -11,10 +11,12 @@ class Preferences {
         type: 'string',
         validate: val =>
           new Promise(resolve =>
-            promises
-              .lstat(val)
-              .then(stats => resolve(stats.isDirectory()))
-              .catch(() => resolve(false))
+            val === 'home'
+              ? resolve(true)
+              : promises
+                  .lstat(val)
+                  .then(stats => resolve(stats.isDirectory()))
+                  .catch(() => resolve(false))
           ),
       },
       theme: {
