@@ -1,11 +1,12 @@
-const { promises } = require('fs')
 const path = require('path')
+const fs = require('fs')
+const { homedir } = require('os')
 const { APIError, ClientError } = require('../lib/error')
 const ERROR_CODES = require('../errorCodes')
 
 class Preferences {
   constructor() {
-    this.preferencesPath = path.join(__dirname, '..', 'preferences.json')
+    this.checkDir()
     this.dataModel = {
       directory: {
         type: 'string',
@@ -13,7 +14,7 @@ class Preferences {
           new Promise(resolve =>
             val === 'home'
               ? resolve(true)
-              : promises
+              : fs.promises
                   .lstat(val)
                   .then(stats => resolve(stats.isDirectory()))
                   .catch(() => resolve(false))
@@ -34,11 +35,24 @@ class Preferences {
     }
   }
 
+  checkDir() {
+    const preferencesPath = path.join(homedir(), '.prodigy')
+    if (!fs.existsSync(preferencesPath)) {
+      fs.mkdirSync(preferencesPath)
+    }
+  }
+
+  getPreferencesPath() {
+    return process.env.LOCAL_PREFERENCES === 'true'
+      ? path.join(__dirname, '..', 'preferences.json')
+      : path.join(homedir(), '.prodigy', 'preferences.json')
+  }
+
   toMessage() {
     const correctTypes = Object.keys(this.dataModel).map(
       key => `'${key}' is type of ${this.dataModel[key].type.toString()}`
     )
-    return `Corect preferences are: ${correctTypes.join(', ')}`
+    return `Correct preferences are: ${correctTypes.join(', ')}`
   }
 
   isValid(newPref) {
@@ -59,8 +73,8 @@ class Preferences {
 
   read() {
     return new Promise((resolve, reject) => {
-      promises
-        .readFile(this.preferencesPath)
+      fs.promises
+        .readFile(this.getPreferencesPath())
         .then(JSON.parse)
         .then(file => Promise.all([Promise.resolve(file), this.isValid(file)]))
         .then(([file, isValid]) =>
@@ -87,7 +101,10 @@ class Preferences {
   }
 
   writeFile(preferences) {
-    return promises.writeFile(this.preferencesPath, JSON.stringify(preferences))
+    return fs.promises.writeFile(
+      this.getPreferencesPath(),
+      JSON.stringify(preferences)
+    )
   }
 
   write(preferences) {
