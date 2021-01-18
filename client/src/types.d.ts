@@ -21,6 +21,12 @@ export namespace API {
     }
   }
 
+  type Preferences = {
+    language: 'pl' | 'en'
+    theme: 'theme1' | 'theme2' | 'theme3' | 'theme4' | 'theme5' | 'theme6'
+    directory: string
+  }
+
   type Track = Record<string, TrackDetails>
 
   type TrackDetails = {

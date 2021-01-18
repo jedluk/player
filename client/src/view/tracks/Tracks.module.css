@@ -1,6 +1,6 @@
 .tracks-container {
   padding: 0 5%;
-  height: 100%;
+  height: calc(100% - 10px);
 }
 
 .tracks-container .header {
@@ -52,7 +52,7 @@
 
 .tracks-grid tbody tr:hover {
   background-color: var(--accent-color);
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .tracks-grid tr td:not(:first-child) {

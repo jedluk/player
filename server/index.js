@@ -2,13 +2,14 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 
-function makeServer(port, whiteList) {
+function run(port, whiteList) {
   const app = express()
+
   app.use(morgan('common'))
+  app.use(express.json())
   app.use(
     cors({
-      origin:
-        whiteList !== undefined ? String(whiteList).split(',') : undefined,
+      origin: whiteList && String(whiteList).split(','),
     })
   )
   app.use('/api', require('./routes'))
@@ -22,7 +23,15 @@ function makeServer(port, whiteList) {
 
 if ('development' === process.env.NODE_ENV) {
   const { PORT = 8083, WHITE_LIST = 'http://localhost:3000' } = process.env
-  makeServer(parseInt(PORT, 10), WHITE_LIST)
+  run(parseInt(PORT, 10), WHITE_LIST)
 }
 
-module.exports = { run: makeServer }
+process.on('uncaughtException', err =>
+  console.error(new Date().toLocaleString(), ': UNCAUGHT EXCEPTION', err.stack)
+)
+
+process.on('unhandledRejection', err =>
+  console.error(new Date().toLocaleString(), ': UNHANDLED REJECTION', err.stack)
+)
+
+module.exports = { run }
