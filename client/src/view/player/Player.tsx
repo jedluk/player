@@ -143,7 +143,9 @@ export const Player = ({
         />
         {playerReady ? (
           <>
-            <span className={style['time-start']}>{formatDuration(0)}</span>
+            <span className={style['time-start']}>
+              {formatDuration(currentSec)}
+            </span>
             <span className={style['time-stop']}>
               {formatDuration(museDuration)}
             </span>

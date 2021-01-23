@@ -18,10 +18,9 @@ export function pickBy(obj: object, predicate: Function): object {
 }
 
 export function formatDuration(seconds: number): string {
-  const minutes: number = Math.floor(seconds / 60)
-  const secondsLeft: number = seconds - minutes * 60
-  const displaySeconds = secondsLeft < 10 ? '0' + secondsLeft : secondsLeft
-  return `${minutes}:${displaySeconds}`
+  const minutes = Math.floor(seconds / 60)
+  const displaySec = Math.ceil(seconds - minutes * 60)
+  return [minutes, `${displaySec}`.padStart(2, '0')].join(':')
 }
 
 export function formatTime(fromDate: Date): string {
