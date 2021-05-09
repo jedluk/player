@@ -27,6 +27,7 @@ in your terminal. Then install necessary dependencies in client and server direc
 
 ```sh
 cd client && yarn install
+yarn run i18n
 cd ../server && yarn install
 ```
 
