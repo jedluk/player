@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Theme, themeMap, ThemeMap } from './common/themeMap'
-import { TranslationKey } from './translations/types'
+import { TranslationKey, SupportedLocale } from './translations/types'
 import { API, Maybe } from './types'
+import { fetch } from './utils/globals'
+import { loopedNextItem } from './utils/lib'
+
+const locales: SupportedLocale[] = ['en', 'fr', 'pl']
+const themes = Object.keys(themeMap) as Array<keyof ThemeMap>
 
 interface AppContextProps {
   preferences: API.Preferences
   patchPreferences: (payload: Partial<API.Preferences>) => void
-  children?: React.ReactNode
+  children: React.ReactNode
 }
-
-export type SupportedLocale = 'pl' | 'en'
 
 type AppContext = {
   theme: Theme
@@ -19,16 +22,6 @@ type AppContext = {
   changeTheme: () => void
   changeLocale: () => void
   toggleGridExpanded: () => void
-}
-
-function nextTheme(previousTheme: keyof ThemeMap): keyof ThemeMap {
-  const allThemes = Object.keys(themeMap) as Array<keyof ThemeMap>
-  const currentIdx = allThemes.indexOf(previousTheme)
-  return allThemes[(currentIdx + 1) % allThemes.length]
-}
-
-function nextLang(previousLang: SupportedLocale): SupportedLocale {
-  return previousLang === 'en' ? 'pl' : 'en'
 }
 
 export const Context = React.createContext<AppContext>({
@@ -50,17 +43,19 @@ export function AppContext(props: AppContextProps) {
   const [translations, setTranslations] = useState(null)
   const [gridExpanded, setGridExpanded] = useState<boolean>(false)
 
-  const changeTheme = useCallback(() => setTheme(nextTheme), [])
-  const changeLocale = useCallback(() => setLocale(nextLang), [])
+  const changeTheme = useCallback(
+    () => setTheme(current => loopedNextItem(themes, current)),
+    []
+  )
+  const changeLocale = useCallback(
+    () => setLocale(current => loopedNextItem(locales, current)),
+    []
+  )
   const toggleGridExpanded = useCallback(
     () => setGridExpanded(prev => !prev),
     []
   )
-  const importTranslations = useCallback(
-    async (selectedLanguage: SupportedLocale) =>
-      await import(`./translations/${selectedLanguage}.json`),
-    []
-  )
+
   useEffect(() => {
     Object.entries(themeMap[theme]).forEach(([kind, value]) =>
       document.documentElement.style.setProperty(kind, value)
@@ -69,11 +64,11 @@ export function AppContext(props: AppContextProps) {
   }, [theme, patchPreferences])
 
   useEffect(() => {
-    importTranslations(locale)
-      .then(res => res.default)
+    fetch(`/translations/${locale}.json`)
+      .then(res => res.json())
       .then(setTranslations)
     patchPreferences({ language: locale })
-  }, [locale, importTranslations, patchPreferences])
+  }, [locale, patchPreferences])
 
   const context = {
     changeLocale,

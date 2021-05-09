@@ -39,3 +39,8 @@ export function joinClasses(...classes: any[]) {
 export function unique<R>(collection: R[]): R[] {
   return Array.from(new Set(collection))
 }
+
+export function loopedNextItem<T>(arr: T[], current: T): T {
+  const currentIdx = arr.indexOf(current)
+  return arr[(currentIdx + 1) % arr.length]
+}
