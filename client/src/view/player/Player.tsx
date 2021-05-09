@@ -6,9 +6,9 @@ import React, {
   useContext,
 } from 'react'
 import { Context } from '../../AppContext'
+import { streamURL } from '../../network/http'
 import { API } from '../../types'
 import { formatDuration, joinClasses } from '../../utils/lib'
-import { streamURL } from '../../utils/http'
 import { Buttons } from './Buttons'
 
 import style from './Player.module.css'

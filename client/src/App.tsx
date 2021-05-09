@@ -17,7 +17,6 @@ import {
 } from './utils/tracks'
 import { stripPath } from './network/http'
 import { ASSETS } from './network/assets'
-import { PREFERENCES } from './network/preferences'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
 import SideMenu from './view/panel/SideMenu'
@@ -28,10 +27,10 @@ import { SettingsPanel } from './common/SettingsPanel'
 import style from './App.module.css'
 
 function App(): JSX.Element {
-  const { defaultDir } = useContext(Context)
   const [state, dispatch] = useReducer(rootReducer, initialState)
 
   const { tracks, dirs, filters, links } = state
+  const { defaultDir, setDefaultDir } = useContext(Context)
 
   const [track, setTrack] = useState<string>('')
   const [initialized, setInitialized] = useState<boolean>(false)
@@ -62,12 +61,8 @@ function App(): JSX.Element {
   }, [fetchAssets, defaultDir])
 
   useEffect(() => {
-    if (links.self !== null) {
-      PREFERENCES.PATCH({
-        directory: stripPath(links.self.href),
-      })
-    }
-  }, [links])
+    if (links.self !== null) setDefaultDir(stripPath(links.self.href))
+  }, [links, setDefaultDir])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])

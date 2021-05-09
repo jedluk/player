@@ -3,18 +3,18 @@ import { fetch } from '../utils/globals'
 import { API_URL } from './config'
 import { handleHTTPResponse } from './http'
 
-const DEFAULT_PREF: API.Preferences = {
+const DEFAULT: API.Preferences = {
   directory: 'home',
   theme: 'theme1',
   language: 'en',
 }
 
 function GET(): Promise<API.Preferences> {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     fetch(`${API_URL}/preferences`)
       .then(handleHTTPResponse)
       .then(resolve)
-      .catch(() => resolve(DEFAULT_PREF))
+      .catch(err => reject(err))
   })
 }
 
@@ -54,4 +54,5 @@ export const PREFERENCES = {
   GET,
   POST,
   PATCH,
+  DEFAULT,
 }

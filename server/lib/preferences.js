@@ -29,8 +29,8 @@ class Preferences {
             .includes(val),
       },
       language: {
-        type: ['pl', 'en'],
-        validate: val => ['pl', 'en'].includes(val),
+        type: ['pl', 'en', 'fr'],
+        validate: val => ['pl', 'en', 'fr'].includes(val),
       },
     }
   }

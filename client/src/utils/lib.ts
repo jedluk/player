@@ -1,8 +1,8 @@
-export function isNull(sth: any): boolean {
+export function isNull(sth: any): sth is null {
   return sth === null
 }
 
-export function isNil(sth: any): boolean {
+export function isNil(sth: any): sth is null | undefined {
   return sth == null
 }
 

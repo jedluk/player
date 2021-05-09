@@ -37,14 +37,11 @@ describe('PREFERENCES test suite', () => {
       expect(res).toEqual(mockResponse)
     })
 
-    it('resolves promise with default pref if sth goes wrong', async () => {
+    it('rejects a promise if sth goes wrong', async () => {
       fetchMock.mockRejectedValueOnce(new Error('network error'))
-      const res = await GET()
-      expect(res).toEqual({
-        directory: 'home',
-        language: 'en',
-        theme: 'theme1',
-      })
+
+      expect.assertions(1)
+      await GET().catch(err => expect(err).toBeDefined())
     })
   })
 

@@ -22,5 +22,5 @@ function GET(path: string = 'home'): Promise<API.Assets> {
 }
 
 export const ASSETS = {
-  GET,
+  GET, // TODO: apply retry policy
 }

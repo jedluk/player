@@ -5,7 +5,7 @@ import { API, Maybe } from '../../types'
 import style from './Directories.module.css'
 import GoBackItem from './GoBackItem'
 import { Links } from '../../App.reducer'
-import { stripPath } from '../../utils/http'
+import { stripPath } from '../../network/http'
 
 interface DirectoriesProps {
   visible: boolean
