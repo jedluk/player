@@ -49,11 +49,4 @@ export const themeMap = {
   theme6,
 }
 
-export type ThemeMap = {
-  theme1: Theme
-  theme2: Theme
-  theme3: Theme
-  theme4: Theme
-  theme5: Theme
-  theme6: Theme
-}
+export type ThemeMap = typeof themeMap
