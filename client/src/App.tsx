@@ -15,7 +15,9 @@ import {
   filterTracks,
   matchByURL,
 } from './utils/tracks'
-import { getAssets, patchPreferences, stripPath } from './utils/http'
+import { stripPath } from './network/http'
+import { ASSETS } from './network/assets'
+import { PREFERENCES } from './network/preferences'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
 import SideMenu from './view/panel/SideMenu'
@@ -37,7 +39,7 @@ function App(): JSX.Element {
 
   const fetchAssets = useCallback(
     (path?: string) =>
-      getAssets(path)
+      ASSETS.GET(path)
         .then((assets: API.Assets) =>
           dispatch({ type: 'SETTLE_FILES', payload: assets })
         )
@@ -61,7 +63,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     if (links.self !== null) {
-      patchPreferences({
+      PREFERENCES.PATCH({
         directory: stripPath(links.self.href),
       })
     }
