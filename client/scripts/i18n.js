@@ -1,25 +1,31 @@
 const fs = require('fs').promises
 const path = require('path')
 
-const translationsPath = [__dirname, '..', 'src', 'translations']
+const translationsPath = [__dirname, '..', 'public', 'translations']
 
 const toTypes = () =>
-  fs
-    .readFile(path.join(...translationsPath, 'en.json'))
-    .then(buffer => buffer.toString())
-    .then(json => JSON.parse(json))
-    .then(file => {
-      console.log('Generating types...')
-      fs.writeFile(
-        path.join(...translationsPath, 'types.ts'),
-        Buffer.from(
-          [
-            'export type TranslationKey = ',
-            ...Object.keys(file).map(key => `  | '${key}'`),
-          ].join('\n')
-        )
+  Promise.all([
+    fs.readFile(path.join(...translationsPath, 'en.json')),
+    fs.readdir(path.join(...translationsPath)),
+  ]).then(([buffer, files]) => {
+    console.log('Generating types...')
+    fs.writeFile(
+      path.join(__dirname, '..', 'src', 'translations.ts'),
+      Buffer.from(
+        [
+          'export type TranslationKey = ',
+          ...Object.keys(JSON.parse(buffer.toString())).map(
+            key => `  | '${key}'`
+          ),
+          'export type SupportedLocale = ' +
+            files
+              .filter(f => f.endsWith('.json'))
+              .map(f => "'" + f.split('.json')[0] + "'")
+              .join(' | '),
+        ].join('\n')
       )
-    })
+    )
+  })
 
 const populate = () =>
   fs

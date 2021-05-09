@@ -1,0 +1,17 @@
+{
+  "mainView.searchbox.header": "Mes chansons",
+  "mainView.loader-message": "Chargement de pistes",
+  "mainView.grid.headers.title": "Titre",
+  "mainView.grid.headers.artist": "Artiste",
+  "mainView.grid.headers.artist.search": "Sélectionner un artiste",
+  "mainView.grid.headers.album": "Album",
+  "mainView.grid.headers.album.search": "Sélectionner l'album",
+  "mainView.grid.headers.year": "An",
+  "mainView.grid.headers.year.search": "Sélectionner l'année",
+  "mainView.grid.headers.genre": "Genre",
+  "mainView.grid.no-match": "Aucun résultat pour les filtres donnés",
+  "someAvailable.header": "Le dossier actuel ne contient pas de fichier(s) mp3",
+  "someAvailable.subHeader": "Veuillez essayer de choisir l'un des sous-dossiers existants",
+  "emptyView.header": "Il semble qu'il n'y ait aucune piste audio à lire",
+  "emptyView.subHeader": "Veuillez changer le répertoire actuel"
+}

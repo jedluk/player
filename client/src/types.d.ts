@@ -1,3 +1,5 @@
+import { SupportedLocale } from './translations'
+
 export type Maybe<T> = T | null
 
 export type Modifier = {
@@ -22,7 +24,7 @@ export namespace API {
   }
 
   type Preferences = {
-    language: 'pl' | 'en'
+    language: SupportedLocale
     theme: 'theme1' | 'theme2' | 'theme3' | 'theme4' | 'theme5' | 'theme6'
     directory: string
   }
