@@ -96,7 +96,7 @@ function App(): JSX.Element {
       <Player
         track={track}
         trackDetails={matchByURL(track, tracks)}
-        nextTrack={findNextTrack(track, tracks)}
+        nextTrack={findNextTrack(track, filteredTracks)}
         setTrack={setTrack}
       />
     </div>
