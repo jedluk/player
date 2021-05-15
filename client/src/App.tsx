@@ -15,7 +15,8 @@ import {
   filterTracks,
   matchByURL,
 } from './utils/tracks'
-import { getAssets, patchPreferences, stripPath } from './utils/http'
+import { stripPath } from './network/http'
+import { ASSETS } from './network/assets'
 import { Player } from './view/player/Player'
 import MainView from './view/scheme/MainView'
 import SideMenu from './view/panel/SideMenu'
@@ -26,10 +27,10 @@ import { SettingsPanel } from './common/SettingsPanel'
 import style from './App.module.css'
 
 function App(): JSX.Element {
-  const { defaultDir } = useContext(Context)
   const [state, dispatch] = useReducer(rootReducer, initialState)
 
   const { tracks, dirs, filters, links } = state
+  const { defaultDir, setDefaultDir } = useContext(Context)
 
   const [track, setTrack] = useState<string>('')
   const [initialized, setInitialized] = useState<boolean>(false)
@@ -37,7 +38,7 @@ function App(): JSX.Element {
 
   const fetchAssets = useCallback(
     (path?: string) =>
-      getAssets(path)
+      ASSETS.GET(path)
         .then((assets: API.Assets) =>
           dispatch({ type: 'SETTLE_FILES', payload: assets })
         )
@@ -60,12 +61,8 @@ function App(): JSX.Element {
   }, [fetchAssets, defaultDir])
 
   useEffect(() => {
-    if (links.self !== null) {
-      patchPreferences({
-        directory: stripPath(links.self.href),
-      })
-    }
-  }, [links])
+    if (links.self !== null) setDefaultDir(stripPath(links.self.href))
+  }, [links, setDefaultDir])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const modifiers = useMemo(() => generateModifiers(tracks), [serializedTracks])
@@ -99,7 +96,7 @@ function App(): JSX.Element {
       <Player
         track={track}
         trackDetails={matchByURL(track, tracks)}
-        nextTrack={findNextTrack(track, tracks)}
+        nextTrack={findNextTrack(track, filteredTracks)}
         setTrack={setTrack}
       />
     </div>

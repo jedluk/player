@@ -1,8 +1,8 @@
-export function isNull(sth: any): boolean {
+export function isNull(sth: any): sth is null {
   return sth === null
 }
 
-export function isNil(sth: any): boolean {
+export function isNil(sth: any): sth is null | undefined {
   return sth == null
 }
 
@@ -38,4 +38,9 @@ export function joinClasses(...classes: any[]) {
 
 export function unique<R>(collection: R[]): R[] {
   return Array.from(new Set(collection))
+}
+
+export function loopedNextItem<T>(arr: T[], current: T): T {
+  const currentIdx = arr.indexOf(current)
+  return arr[(currentIdx + 1) % arr.length]
 }

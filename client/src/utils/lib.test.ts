@@ -6,6 +6,7 @@ import {
   formatTime,
   unique,
   defaultsTo,
+  loopedNextItem,
 } from './lib'
 
 describe('lib test suite', () => {
@@ -84,6 +85,26 @@ describe('lib test suite', () => {
 
     it('uses fallback value if first argument is undefined', () => {
       expect(defaultsTo(undefined, 'fallback')).toEqual('fallback')
+    })
+  })
+
+  describe('loopedNextItem function', () => {
+    let arr: number[]
+
+    beforeEach(() => {
+      arr = [1, 2, 3, 4, 5]
+    })
+
+    it('returns next element in array', () => {
+      expect(loopedNextItem(arr, 3)).toEqual(4)
+    })
+
+    it('returns first item in array if current is last', () => {
+      expect(loopedNextItem(arr, 5)).toEqual(1)
+    })
+
+    it('returns first item if current is not there', () => {
+      expect(loopedNextItem(arr, 6)).toEqual(1)
     })
   })
 })

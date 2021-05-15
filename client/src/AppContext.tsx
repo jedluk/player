@@ -1,89 +1,115 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Theme, themeMap, ThemeMap } from './common/themeMap'
-import { TranslationKey } from './translations/types'
+import { TranslationKey, SupportedLocale } from './translations/types'
 import { API, Maybe } from './types'
+import { PREFERENCES } from './network/preferences'
+import { fetch } from './utils/globals'
+import { isNull, loopedNextItem } from './utils/lib'
 
-interface AppContextProps {
-  preferences: API.Preferences
-  patchPreferences: (payload: Partial<API.Preferences>) => void
-  children?: React.ReactNode
-}
+const locales: SupportedLocale[] = ['en', 'fr', 'pl']
+const themes = Object.keys(themeMap) as (keyof ThemeMap)[]
 
-export type SupportedLocale = 'pl' | 'en'
+type Translation = Record<TranslationKey, string>
 
 type AppContext = {
   theme: Theme
-  translations: Maybe<Record<TranslationKey, string>>
+  translations: Translation
   gridExpanded: boolean
   defaultDir: string
   changeTheme: () => void
   changeLocale: () => void
+  setDefaultDir: (dir: string) => void
   toggleGridExpanded: () => void
 }
 
-function nextTheme(previousTheme: keyof ThemeMap): keyof ThemeMap {
-  const allThemes = Object.keys(themeMap) as Array<keyof ThemeMap>
-  const currentIdx = allThemes.indexOf(previousTheme)
-  return allThemes[(currentIdx + 1) % allThemes.length]
-}
+export const Context = React.createContext<AppContext>({} as AppContext)
 
-function nextLang(previousLang: SupportedLocale): SupportedLocale {
-  return previousLang === 'en' ? 'pl' : 'en'
+interface AppContextProps {
+  children: React.ReactNode
 }
-
-export const Context = React.createContext<AppContext>({
-  theme: themeMap.theme1,
-  translations: null,
-  gridExpanded: false,
-  defaultDir: '',
-  changeTheme: () => null,
-  toggleGridExpanded: () => null,
-  changeLocale: () => null,
-})
 
 export function AppContext(props: AppContextProps) {
-  const { preferences, patchPreferences } = props
+  const [theme, setTheme] = useState<Maybe<keyof ThemeMap>>(null)
+  const [locale, setLocale] = useState<Maybe<SupportedLocale>>(null)
+  const [defaultDir, setDefaultDir] = useState<Maybe<string>>(null)
 
-  const [theme, setTheme] = useState<keyof ThemeMap>(preferences.theme)
-  const [locale, setLocale] = useState<SupportedLocale>(preferences.language)
-
-  const [translations, setTranslations] = useState(null)
+  const [translations, setTranslations] = useState<Translation>(
+    {} as Translation
+  )
   const [gridExpanded, setGridExpanded] = useState<boolean>(false)
 
-  const changeTheme = useCallback(() => setTheme(nextTheme), [])
-  const changeLocale = useCallback(() => setLocale(nextLang), [])
+  const changeTheme = useCallback(
+    () => setTheme(current => loopedNextItem(themes, current)),
+    []
+  )
+  const changeLocale = useCallback(
+    () => setLocale(current => loopedNextItem(locales, current)),
+    []
+  )
   const toggleGridExpanded = useCallback(
     () => setGridExpanded(prev => !prev),
     []
   )
-  const importTranslations = useCallback(
-    async (selectedLanguage: SupportedLocale) =>
-      await import(`./translations/${selectedLanguage}.json`),
-    []
-  )
-  useEffect(() => {
-    Object.entries(themeMap[theme]).forEach(([kind, value]) =>
-      document.documentElement.style.setProperty(kind, value)
-    )
-    patchPreferences({ theme })
-  }, [theme, patchPreferences])
 
   useEffect(() => {
-    importTranslations(locale)
-      .then(res => res.default)
-      .then(setTranslations)
-    patchPreferences({ language: locale })
-  }, [locale, importTranslations, patchPreferences])
+    let preferences: Maybe<API.Preferences> = null
+    PREFERENCES.GET()
+      .then(response => (preferences = response))
+      .catch(() => {
+        preferences = PREFERENCES.DEFAULT
+        PREFERENCES.POST(PREFERENCES.DEFAULT)
+      })
+      .finally(() => {
+        if (!isNull(preferences)) {
+          setTheme(preferences.theme)
+          setDefaultDir(preferences.directory)
+          setLocale(preferences.language)
+        }
+      })
+  }, [])
 
-  const context = {
-    changeLocale,
-    changeTheme,
-    defaultDir: preferences.directory,
-    gridExpanded,
-    toggleGridExpanded,
-    theme: themeMap[theme],
-    translations,
+  useEffect(() => {
+    if (!isNull(theme)) {
+      Object.entries(themeMap[theme]).forEach(([kind, value]) =>
+        document.documentElement.style.setProperty(kind, value)
+      )
+      PREFERENCES.PATCH({ theme })
+    }
+  }, [theme])
+
+  useEffect(() => {
+    if (!isNull(locale)) {
+      fetch(`/translations/${locale}.json`)
+        .then(res => res.json())
+        .then(setTranslations)
+      PREFERENCES.PATCH({ language: locale })
+    }
+  }, [locale])
+
+  useEffect(() => {
+    if (!isNull(defaultDir)) {
+      PREFERENCES.PATCH({ directory: defaultDir })
+    }
+  }, [defaultDir])
+
+  if (isNull(theme) || isNull(defaultDir) || isNull(locale)) {
+    return null
   }
 
-  return <Context.Provider value={context}>{props.children}</Context.Provider>
+  return (
+    <Context.Provider
+      value={{
+        changeLocale,
+        changeTheme,
+        defaultDir,
+        gridExpanded,
+        toggleGridExpanded,
+        theme: themeMap[theme],
+        setDefaultDir,
+        translations,
+      }}
+    >
+      {props.children}
+    </Context.Provider>
+  )
 }
