@@ -3,10 +3,10 @@
 Fully functional multi platform (MacOS/Windows/Linux) mp3 player built with Electron/React/Node. Built in memory of Keith Flint, one of my favorite vocalist.
 
 Links to download app (valid until June 15, 2021)
-- [Windows installer](https://easyupload.io/4pdcq9){:target="_blank"}
-- [MacOS dmg](https://easyupload.io/okvd8l){:target="_blank"}
-- [Linux Appimage](https://easyupload.io/7i2pgo){:target="_blank"}
-
+- [Windows installer](https://easyupload.io/8nr175)
+- [MacOS dmg](https://easyupload.io/okvd8l)
+- [Linux Appimage](https://easyupload.io/7i2pgo)
+- 
 ![Alt Demo](https://raw.githubusercontent.com/jedluk/random/master/player/player_demo.gif)
 
 ## Features
