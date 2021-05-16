@@ -3,7 +3,7 @@ import { ChangeFilterPayload } from '../../App.reducer'
 import FontAwesome from 'react-fontawesome'
 import Select from './Select'
 import { TranslatedText } from '../../common/TranslatedText'
-import { TranslationKey } from '../../translations/types'
+import { TranslationKey } from '../../translations'
 
 import style from './FilteringItem.module.css'
 
