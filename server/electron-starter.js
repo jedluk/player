@@ -1,15 +1,12 @@
-const electron = require('electron')
+const { app, protocol, BrowserWindow } = require('electron')
 const isDev = require('electron-is-dev')
 const path = require('path')
-
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
 
 const server = require('./index')
 const args = isDev ? [8083, 'http://localhost:3003'] : [6008, undefined]
 server.run(...args)
 
-let mainWindow
+let mainWindow = null
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -19,7 +16,7 @@ function createWindow() {
 
   const startUrl = isDev
     ? String(process.env.WHITE_LIST).split(',')[0]
-    : `file://${path.join(__dirname, 'view', 'index.html')}`
+    : `file://${path.join('view', 'index.html')}`
   mainWindow.loadURL(startUrl)
 
   if (isDev) {
@@ -31,7 +28,19 @@ function createWindow() {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  protocol.interceptFileProtocol(
+    'file',
+    (request, callback) => {
+      const url = request.replace(/^file:\/\//, '')
+      callback({ path: path.normalize(`${__dirname}/${url}`) })
+    },
+    err => {
+      if (err) console.error('Failed to register protocol')
+    }
+  )
+  createWindow()
+})
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
