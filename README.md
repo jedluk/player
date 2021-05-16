@@ -20,7 +20,7 @@ Links to download app (valid until June 15, 2021)
 - theme picker (6 available themes! ... and it's extremely easy to add new !)*
 - i18n (EN, PL, FR, DE ... and it's extremely easy to add new !)*
 
-* see also [Customizing App](#customizing app)
+* see also [Customizing app](#customizing-app)
 
 ## Development
 
@@ -91,7 +91,7 @@ yarn run i18n:populate
 New file will be placed in `client/translations/lang.json`
 
 2. Translate all values , and adjust file name (filename should match your locale)
-3. Go to ```AppContext.tsx``` and update ***locales*** array with your locale. You can modify array in a way you want. Basically array determines order in which translations are loaded after clicking button. You can leave only yours locale (no possibilty to change language), or put it somwhere in the array. It must be reflected on server side validation -> please visit ***preferences.js*** and update language validator.
+3. Go to ```AppContext.tsx``` and update ***locales*** array with your locale. You can modify array in a way you want. Basically array determines order in which translations are loaded after clicking button. You can leave only yours locale (no possibilty to change language), or put it somwhere in the array. It must be reflected on server side validation -> please visit ***preferences.js*** and update language base types.
 4. Regenerate types on client side (types are creted dynamically based on exisitng data)
 ```sh
 cd client
@@ -100,9 +100,12 @@ yarn run i18n
 
 ### Customizing themes
 
-TODO: how to customize theme
+Process is even simpler comparing to translations. You have to:
 
-## Building native app
+1. Visit ***themeMap.ts*** and define your theme based on 3 colors (light primary, dark primary and accent). New type ***must*** be typeof Theme and ***must*** be added to themeMap (you can also drop / update other themes if they are not suitable for You)
+2. Update validation on server side by visiting ***preferences.js*** and extending themes base type
+
+## Building native app 
 
 To build native app go to server diectory and run
 
