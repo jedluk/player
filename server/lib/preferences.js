@@ -30,7 +30,7 @@ class Preferences {
       },
       language: {
         type: ['pl', 'en', 'fr'],
-        validate: val => ['pl', 'en', 'fr'].includes(val),
+        validate: val => ['pl', 'en', 'fr', 'de'].includes(val),
       },
     }
   }

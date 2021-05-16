@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Theme, themeMap, ThemeMap } from './common/themeMap'
-import { TranslationKey, SupportedLocale } from './translations/types'
+import { TranslationKey, SupportedLocale } from './translations'
 import { API, Maybe } from './types'
 import { PREFERENCES } from './network/preferences'
 import { fetch } from './utils/globals'
 import { isNull, loopedNextItem } from './utils/lib'
 
-const locales: SupportedLocale[] = ['en', 'fr', 'pl']
+const locales: SupportedLocale[] = ['en', 'fr', 'de', 'pl']
 const themes = Object.keys(themeMap) as (keyof ThemeMap)[]
 
 type Translation = Record<TranslationKey, string>
