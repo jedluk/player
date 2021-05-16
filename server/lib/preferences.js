@@ -22,15 +22,15 @@ class Preferences {
       },
       theme: {
         type: ['theme1', 'theme2', 'theme3', 'theme4', 'theme5', 'theme6'],
-        validate: val =>
-          Array(6)
-            .fill(1)
-            .map((_, i) => `theme${i + 1}`)
-            .includes(val),
+        validate(val) {
+          return this.type.includes(val)
+        },
       },
       language: {
-        type: ['pl', 'en', 'fr'],
-        validate: val => ['pl', 'en', 'fr', 'de'].includes(val),
+        type: ['pl', 'en', 'de', 'fr'],
+        validate(val) {
+          return this.type.includes(val)
+        },
       },
     }
   }
@@ -58,7 +58,7 @@ class Preferences {
   isValid(newPref) {
     return new Promise(resolve => {
       if (
-        Object(newPref) !== newPref ||
+        (typeof newPref !== 'object' && newPref !== null) ||
         !Object.keys(this.dataModel).every(key => key in newPref)
       ) {
         resolve(false)
