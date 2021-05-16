@@ -4,6 +4,7 @@
   "description": "",
   "main": "electron-starter.js",
   "license": "MIT",
+  "homepage": "https://github.com/jedluk/player",
   "scripts": {
     "clean": "rimraf dist && rimraf view",
     "start": "concurrently \"yarn run server:dev\" \"cross-env BROWSER=chrome yarn run start-client\"",
@@ -14,10 +15,15 @@
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn run start-client\" \"yarn run start-electron\"",
     "electron-build": "electron-builder",
     "build-electron": "yarn run clean && yarn run build-client && yarn run electron-build",
+    "build-electron-deb": "yarn run clean && yarn run build-client && yarn run electron-builder --linux deb",
     "test": "jest --watchAll=true --env=node",
     "coverage": "jest --coverage --watchAll=false --env=node"
   },
-  "keywords": [],
+  "keywords": [
+    "mp3",
+    "player",
+    "mp3 player"
+  ],
   "author": {
     "name": "Jędrzej Łukasiuk",
     "email": "jedrzej.lukasiuk@gmail.com"

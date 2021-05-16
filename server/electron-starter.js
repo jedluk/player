@@ -19,9 +19,7 @@ function createWindow() {
     : `file://${path.join('view', 'index.html')}`
   mainWindow.loadURL(startUrl)
 
-  if (isDev) {
-    mainWindow.webContents.openDevTools()
-  }
+  if (isDev) mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -31,9 +29,10 @@ function createWindow() {
 app.on('ready', () => {
   protocol.interceptFileProtocol(
     'file',
-    (request, callback) => {
-      const url = request.replace(/^file:\/\//, '')
-      callback({ path: path.normalize(`${__dirname}/${url}`) })
+    ({ url }, callback) => {
+      callback({
+        path: path.normalize(`${__dirname}/${url.replace(/^file:\/\//, '')}`),
+      })
     },
     err => {
       if (err) console.error('Failed to register protocol')
