@@ -3,7 +3,7 @@
 Fully functional multi platform (MacOS/Windows/Linux) mp3 player built with Electron/React/Node. Built in memory of Keith Flint, one of my favorite vocalist.
 
 Links to download app (valid until June 15, 2021)
-- [Windows installer](https://easyupload.io/haumei)
+- [Windows installer](https://easyupload.io/4pdcq9)
 - [MacOS dmg](https://easyupload.io/okvd8l)
 - [Linux Appimage](https://easyupload.io/7i2pgo)
 
@@ -17,8 +17,10 @@ Links to download app (valid until June 15, 2021)
 - quick search for songs
 - traversing local directories in side panel
 - filtering by artist, album and year
-- theme picker (6 available themes! ... and it's extremely easy to add new !)
-- i18n (EN, PL, FR, DE ... and it's extremely easy to add new !)
+- theme picker (6 available themes! ... and it's extremely easy to add new !)*
+- i18n (EN, PL, FR, DE ... and it's extremely easy to add new !)*
+
+* see also [Customizing App](#customizing app)
 
 ## Development
 
@@ -68,6 +70,37 @@ yarn run server:dev
 cd server
 yarn run start
 ```
+
+## Customizing app
+
+There are two things which you can extremely easy customize:
+
+- translations
+- themes
+
+### Customizing translations
+
+You can add support for new translations in 4 simple steps:
+
+1. Generate translations template
+
+```sh
+cd client
+yarn run i18n:populate
+```
+New file will be placed in `client/translations/lang.json`
+
+2. Translate all values , and adjust file name (filename should match your locale)
+3. Go to ```AppContext.tsx``` and update ***locales*** array with your locale. You can modify array in a way you want. Basically array determines order in which translations are loaded after clicking button. You can leave only yours locale (no possibilty to change language), or put it somwhere in the array. It must be reflected on server side validation -> please visit ***preferences.js*** and update language validator.
+4. Regenerate types on client side (types are creted dynamically based on exisitng data)
+```sh
+cd client
+yarn run i18n
+```
+
+### Customizing themes
+
+TODO: how to customize theme
 
 ## Building native app
 
