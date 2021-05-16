@@ -1,0 +1,17 @@
+{
+  "mainView.searchbox.header": "Meine Lieder",
+  "mainView.loader-message": "Songs laden",
+  "mainView.grid.headers.title": "Titel",
+  "mainView.grid.headers.artist": "Künstler(in)",
+  "mainView.grid.headers.artist.search": "Künstler auswählen",
+  "mainView.grid.headers.album": "Album",
+  "mainView.grid.headers.album.search": "Album auswählen",
+  "mainView.grid.headers.year": "Jahr",
+  "mainView.grid.headers.year.search": "Jahr auswählen",
+  "mainView.grid.headers.genre": "Genre",
+  "mainView.grid.no-match": "Keine Ergebnisse für Filter",
+  "someAvailable.header": "Der aktuelle Ordner enthält keine MP3-Dateien",
+  "someAvailable.subHeader": "Bitte versuchen Sie, einen der vorhandenen Unterordner auswählen.",
+  "emptyView.header": "Es sieht so aus, als gäbe es nichts zu spielen",
+  "emptyView.subHeader": "Bitte ändern Sie das aktuelle Verzeichnis"
+}
