@@ -6,7 +6,7 @@ Links to download app (valid until June 15, 2021)
 - [Windows installer](https://easyupload.io/8nr175)
 - [MacOS dmg](https://easyupload.io/okvd8l)
 - [Linux Appimage](https://easyupload.io/7i2pgo)
-- 
+
 ![Alt Demo](https://raw.githubusercontent.com/jedluk/random/master/player/player_demo.gif)
 
 ## Features
