@@ -61,7 +61,9 @@ function App(): JSX.Element {
   }, [fetchAssets, defaultDir])
 
   useEffect(() => {
-    if (links.self !== null) setDefaultDir(stripPath(links.self.href))
+    if (links.self !== null) {
+      setDefaultDir(stripPath(links.self.href))
+    }
   }, [links, setDefaultDir])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

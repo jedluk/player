@@ -9,6 +9,7 @@ import { ChangeFilterPayload } from '../../App.reducer'
 import { TranslatedText } from '../../common/TranslatedText'
 
 import style from './Tracks.module.css'
+import { RenderWhen } from '../../common/RenderWhen'
 
 type MyTracksProps = {
   isModified: boolean
@@ -50,9 +51,9 @@ function MyTracks(props: MyTracksProps) {
   const handleScroll = useCallback(e => {
     if (theadRowRef.current !== null) {
       const target = e.target as HTMLDivElement
-      const isActive = Array.from(
-        theadRowRef.current.childNodes
-      ).some((node: any) => [...node.classList].includes(style.active))
+      const isActive = Array.from(theadRowRef.current.childNodes).some(
+        (node: any) => [...node.classList].includes(style.active)
+      )
 
       if (target.scrollTop > 0 && !isActive) {
         theadRowRef.current.childNodes.forEach((node: any) =>
@@ -70,7 +71,7 @@ function MyTracks(props: MyTracksProps) {
     if (size > 0) setTrack(Object.values(tracks)[0].fullPath)
   }, [tracks, setTrack, size])
 
-  const noTracks = size === 0
+  const hasNoTrucks = size === 0
 
   return (
     <div className={style['tracks-container']}>
@@ -78,7 +79,7 @@ function MyTracks(props: MyTracksProps) {
         <h1>
           <TranslatedText translationKey="mainView.searchbox.header" />{' '}
           <Search
-            visible={!noTracks}
+            visible={!hasNoTrucks}
             setFiltered={setFiltered}
             setFilteringPhrase={setFilteringPhrase}
           />
@@ -91,7 +92,7 @@ function MyTracks(props: MyTracksProps) {
             rowRef={theadRowRef}
             modifiers={props.modifiers}
           />
-          {!noTracks || props.isModified ? (
+          <RenderWhen condition={!hasNoTrucks || props.isModified}>
             <tbody>
               {Object.values(props.tracks).map((track, idx) => (
                 <Row
@@ -105,10 +106,10 @@ function MyTracks(props: MyTracksProps) {
                 />
               ))}
             </tbody>
-          ) : null}
+          </RenderWhen>
         </table>
       </div>
-      <NoMatch isModified={props.isModified} noTracks={noTracks} />
+      <NoMatch isModified={props.isModified} hasNoTracks={hasNoTrucks} />
     </div>
   )
 }
