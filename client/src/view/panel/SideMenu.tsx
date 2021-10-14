@@ -21,7 +21,7 @@ export default function SideMenu(props: SideMenuProps): JSX.Element {
   const classes = joinClasses(style.sideMenu, sidebarOpen ? style.open : '')
 
   return (
-    <div className={classes}>
+    <aside className={classes}>
       <Hamburger toggle={toggle} isOpen={sidebarOpen} />
       <div className={style.scrollingArea}>
         <Directories
@@ -31,6 +31,6 @@ export default function SideMenu(props: SideMenuProps): JSX.Element {
           dirs={props.dirs}
         />
       </div>
-    </div>
+    </aside>
   )
 }

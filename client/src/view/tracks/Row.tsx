@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { joinClasses } from '../../utils/lib'
 import { API } from '../../types'
 
@@ -8,14 +8,15 @@ interface RowProps {
   animationDelay: number
   track: API.TrackDetails
   style: Record<string, string>
-  setTrack: (track: string) => void
+  setTrack: (track: API.TrackDetails) => void
 }
 
 export default function Row(props: RowProps) {
   const { track, loaded, setTrack, animationDelay, style } = props
-  const { fullPath: url } = track
 
-  const handleSetTrack = useCallback(() => setTrack(url), [setTrack, url])
+  const handleSetTrack = (): void => {
+    setTrack(track)
+  }
 
   const classes = joinClasses(
     !loaded ? style.animate : '',

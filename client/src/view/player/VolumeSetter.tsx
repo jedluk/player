@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback, useState } from 'react'
+import React from 'react'
 import FontAwesome from 'react-fontawesome'
 import { joinClasses } from '../../utils/lib'
 

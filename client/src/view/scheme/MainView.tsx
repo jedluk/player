@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { API, Modifier } from '../../types'
+import { API, Maybe, Modifier } from '../../types'
 import { ChangeFilterPayload, Links } from '../../App.reducer'
 import { Context } from '../../AppContext'
 import EmptyView from './EmptyView'
@@ -13,14 +13,14 @@ import { RenderWhen } from '../../common/RenderWhen'
 import { deduceContentState } from './MainView.utils'
 
 interface MainViewProps {
-  track: string
+  track: Maybe<API.TrackDetails>
   isFiltered: boolean
   tracks: API.Track
   dirs: API.Directory
   links: Links
   modifiers: Modifier[]
   fetchAssets: (path?: string) => Promise<void>
-  setTrack: (track: string) => void
+  setTrack: (track: API.TrackDetails) => void
   changeFilter: (payload: ChangeFilterPayload) => void
 }
 

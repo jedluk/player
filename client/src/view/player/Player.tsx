@@ -1,14 +1,8 @@
-import React, {
-  useCallback,
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-} from 'react'
+import React, { useCallback, useRef, useContext } from 'react'
 import { Context } from '../../AppContext'
 import { RenderWhen } from '../../common/RenderWhen'
 import { streamURL } from '../../network/http'
-import { API } from '../../types'
+import { API, Maybe } from '../../types'
 import { formatDuration, joinClasses } from '../../utils/lib'
 import { Buttons } from './Buttons'
 
@@ -16,10 +10,9 @@ import style from './Player.module.css'
 import { useAudioController } from './useAudioController'
 
 interface PlayerProps {
-  track: string
-  trackDetails?: API.TrackDetails
-  nextTrack: string | null
-  setTrack: (track: string) => void
+  track: Maybe<API.TrackDetails>
+  nextTrack: Maybe<API.TrackDetails>
+  setTrack: (track: API.TrackDetails) => void
 }
 
 export function Player(props: PlayerProps): JSX.Element {
@@ -27,7 +20,7 @@ export function Player(props: PlayerProps): JSX.Element {
 
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const { track, nextTrack, trackDetails, setTrack } = props
+  const { track, nextTrack, setTrack } = props
 
   const {
     isPlaying,
@@ -42,35 +35,23 @@ export function Player(props: PlayerProps): JSX.Element {
     forceSetTime,
   } = useAudioController(audioRef.current)
 
-  const [assetURL, setAssetURL] = useState<string>('')
-
-  useEffect(() => {
-    if (track !== '') {
-      setAssetURL(streamURL(track))
-    }
-  }, [track])
-
-  useEffect(() => {
-    if (assetURL !== '') {
-      handleRestart()
-    }
-  }, [assetURL, handleRestart])
-
   const handleRangeChange = useCallback(
     event => forceSetTime(parseInt(event.target.value)),
     [forceSetTime]
   )
 
-  const switchTrack = useCallback(() => {
+  const switchTrack = (): void => {
     if (nextTrack !== null) {
       setTrack(nextTrack)
     }
-  }, [nextTrack])
+  }
 
   const classes = joinClasses(
     style.player,
     gridExpanded ? style.hide : undefined
   )
+
+  const audioStreamURL = track !== null ? streamURL(track.fullPath) : undefined
 
   return (
     <div className={classes}>
@@ -85,8 +66,8 @@ export function Player(props: PlayerProps): JSX.Element {
         onSetVolume={handleSetVolume}
       />
       <div className={style.playerSlider}>
-        <RenderWhen condition={trackDuration !== 0}>
-          <h3>{trackDetails?.title}</h3>
+        <RenderWhen condition={track !== null}>
+          <h3>{track?.title}</h3>
         </RenderWhen>
         <input
           type="range"
@@ -96,7 +77,7 @@ export function Player(props: PlayerProps): JSX.Element {
           onChange={handleRangeChange}
           value={currentTimeSec}
         />
-        <audio ref={audioRef} onEnded={switchTrack} src={assetURL} />
+        <audio ref={audioRef} onEnded={switchTrack} src={audioStreamURL} />
         <RenderWhen condition={trackDuration !== 0}>
           <span className={style['time-start']}>
             {formatDuration(currentTimeSec)}

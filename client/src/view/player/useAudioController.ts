@@ -32,6 +32,10 @@ export function useAudioController(
 
     function handleLoadMetaData(this: HTMLAudioElement): void {
       setTrackDuration(Math.ceil(this.duration))
+      setCurrentTime(0)
+      this.currentTime = 0
+      this.play()
+      setPlaying(true)
     }
     function handleTimeUpdate(this: HTMLAudioElement): void {
       setCurrentTime(this.currentTime)
@@ -79,7 +83,7 @@ export function useAudioController(
         setCurrentTime(audioElement.currentTime)
       }
     },
-    [audioElement]
+    [audioElement, trackDuration]
   )
 
   const forceSetTime = useCallback(

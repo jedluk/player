@@ -7,13 +7,12 @@ import React, {
   useContext,
 } from 'react'
 import { Context } from './AppContext'
-import { API } from './types'
+import { API, Maybe } from './types'
 import {
   findNextTrack,
   generateModifiers,
   serializeTracks,
   filterTracks,
-  matchByURL,
 } from './utils/tracks'
 import { stripPath } from './network/http'
 import { ASSETS } from './network/assets'
@@ -32,8 +31,8 @@ function App(): JSX.Element {
   const { tracks, dirs, filters, links } = state
   const { defaultDir, setDefaultDir } = useContext(Context)
 
-  const [track, setTrack] = useState<string>('')
-  const [initialized, setInitialized] = useState<boolean>(false)
+  const [track, setTrack] = useState<Maybe<API.TrackDetails>>(null)
+  const [initialized, setInitialized] = useState(false)
   const serializedTracks = serializeTracks(tracks)
 
   const fetchAssets = useCallback(
@@ -72,32 +71,29 @@ function App(): JSX.Element {
   const filteredTracks = filterTracks(tracks, filters)
   const isFiltered = !Object.is(tracks, filteredTracks)
 
-  const mainContent = initialized ? (
-    <MainView
-      isFiltered={isFiltered}
-      track={track}
-      modifiers={modifiers}
-      dirs={dirs}
-      links={links}
-      tracks={filteredTracks}
-      changeFilter={changeFilter}
-      fetchAssets={fetchAssets}
-      setTrack={setTrack}
-    />
-  ) : (
-    <LoadingPlaceholder />
-  )
-
   return (
     <div className={style.App}>
       <div className={style.view}>
         <SettingsPanel />
-        {mainContent}
+        {initialized ? (
+          <MainView
+            isFiltered={isFiltered}
+            track={track}
+            modifiers={modifiers}
+            dirs={dirs}
+            links={links}
+            tracks={filteredTracks}
+            changeFilter={changeFilter}
+            fetchAssets={fetchAssets}
+            setTrack={setTrack}
+          />
+        ) : (
+          <LoadingPlaceholder />
+        )}
         <SideMenu dirs={dirs} links={links} fetchAssets={fetchAssets} />
       </div>
       <Player
         track={track}
-        trackDetails={matchByURL(track, tracks)}
         nextTrack={findNextTrack(track, filteredTracks)}
         setTrack={setTrack}
       />

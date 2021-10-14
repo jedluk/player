@@ -4,7 +4,7 @@ import Header from './Header'
 import { serializeTracks } from '../../utils/tracks'
 import Row from './Row'
 import NoMatch from './NoMatch'
-import { API, Modifier } from '../../types'
+import { API, Maybe, Modifier } from '../../types'
 import { ChangeFilterPayload } from '../../App.reducer'
 import { TranslatedText } from '../../common/TranslatedText'
 
@@ -13,17 +13,17 @@ import { RenderWhen } from '../../common/RenderWhen'
 
 type MyTracksProps = {
   isModified: boolean
-  currentTrack: string
+  currentTrack: Maybe<API.TrackDetails>
   tracks: API.Track
   modifiers: Modifier[]
-  setTrack: (track: string) => void
+  setTrack: (track: API.TrackDetails) => void
   setFilteringPhrase: (text: string) => void
   fetchAssets: (path?: string) => Promise<void>
   changeFilter: (payload: ChangeFilterPayload) => void
 }
 
 function MyTracks(props: MyTracksProps) {
-  const { tracks, setFilteringPhrase, setTrack } = props
+  const { tracks, currentTrack, setFilteringPhrase, setTrack } = props
   const size = Object.keys(tracks).length
 
   const theadRowRef = useRef<HTMLTableRowElement>(null)
@@ -68,7 +68,9 @@ function MyTracks(props: MyTracksProps) {
   }, [])
 
   const setFiltered = useCallback(() => {
-    if (size > 0) setTrack(Object.values(tracks)[0].fullPath)
+    if (size > 0) {
+      setTrack(Object.values(tracks)[0])
+    }
   }, [tracks, setTrack, size])
 
   const hasNoTrucks = size === 0
@@ -98,7 +100,7 @@ function MyTracks(props: MyTracksProps) {
                 <Row
                   key={track.title}
                   style={style}
-                  isCurrentTrack={props.currentTrack === track.fullPath}
+                  isCurrentTrack={currentTrack?.fullPath === track.fullPath}
                   animationDelay={0.2 + ((idx * 0.5) % 6)}
                   track={track}
                   setTrack={props.setTrack}
