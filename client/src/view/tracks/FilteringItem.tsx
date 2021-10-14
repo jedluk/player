@@ -6,6 +6,7 @@ import { TranslatedText } from '../../common/TranslatedText'
 import { TranslationKey } from '../../translations'
 
 import style from './FilteringItem.module.css'
+import { RenderWhen } from '../../common/RenderWhen'
 
 interface FileringItemProps {
   name: string
@@ -21,7 +22,7 @@ type Option = {
 
 function FilteringItem(props: FileringItemProps) {
   const { property, changeFilter, values, name } = props
-  const [isSelectable, setSelectable] = useState<boolean>(false)
+  const [isSelectable, setSelectable] = useState(false)
   const [selected, setSelected] = useState<Option[]>([])
   const serializedValues = values.join(',')
 
@@ -31,7 +32,8 @@ function FilteringItem(props: FileringItemProps) {
   const hideFilter = useCallback(() => setSelectable(false), [setSelectable])
 
   const handleChange = useCallback(
-    (selectedOptions: Option[]) => {
+    (options: Option[] | null) => {
+      const selectedOptions = options || []
       if (selectedOptions.length > 0) hideFilter()
       setSelected(selectedOptions)
       changeFilter({
@@ -43,6 +45,7 @@ function FilteringItem(props: FileringItemProps) {
   )
 
   const options = values.map(value => ({ value, label: value }))
+
   const content =
     isSelectable && options.length > 1 ? (
       <Select
@@ -67,11 +70,11 @@ function FilteringItem(props: FileringItemProps) {
             }
           />
         </div>
-        {selected.length > 0 ? (
+        <RenderWhen condition={selected.length > 0}>
           <span className={style.indicator}>
             <FontAwesome name="filter" />
           </span>
-        ) : null}
+        </RenderWhen>
       </React.Fragment>
     )
 

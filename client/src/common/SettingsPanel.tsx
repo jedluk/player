@@ -7,10 +7,10 @@ import style from './SettingsPanel.module.css'
 
 export function SettingsPanel(): JSX.Element {
   return (
-    <div className={style.panel}>
+    <aside className={style.panel}>
       <ThemeButton />
       <ExpandButton />
       <LocaleButton />
-    </div>
+    </aside>
   )
 }

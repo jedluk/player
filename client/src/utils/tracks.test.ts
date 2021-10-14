@@ -35,28 +35,34 @@ describe('track utils test suite', () => {
   })
 
   describe('findNextTrack function', () => {
-    it('return null if current track is empty', () => {
-      expect(findNextTrack('', {})).toEqual(null)
+    it('return null if current track is null', () => {
+      expect(findNextTrack(null, {})).toEqual(null)
     })
 
     it('returns null if track is last on the list', () => {
-      const url = 'someDir/someTrack'
+      const track = {
+        fullPath: 'someDir/someTrack',
+      }
       const tracks = {
         track1: { fullPath: 'some/path' },
-        track2: { fullPath: url },
+        track2: track,
       }
-      expect(findNextTrack(url, tracks as any)).toEqual(null)
+      expect(findNextTrack(track as any, tracks as any)).toEqual(null)
     })
 
-    it('returns next track url otherwise', () => {
-      const url = 'someDir/someTrack'
-      const nextUrl = 'someDir/nextTrack'
+    it('returns next track otherwise', () => {
+      const track = {
+        fullPath: 'someDir/someTrack',
+      }
+      const nextTrack = {
+        fullPath: 'someDir/nextTrack',
+      }
       const tracks = {
         track1: { fullPath: 'some' },
-        track2: { fullPath: url },
-        track3: { fullPath: nextUrl },
+        track2: track,
+        track3: nextTrack,
       }
-      expect(findNextTrack(url, tracks as any)).toEqual(nextUrl)
+      expect(findNextTrack(track as any, tracks as any)).toEqual(nextTrack)
     })
   })
 

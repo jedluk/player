@@ -9,17 +9,19 @@ export function matchTitle(phrase: string) {
     phrase === '' || track.title.toLowerCase().includes(phrase.toLowerCase())
 }
 
-export function findNextTrack(track: string, tracks: API.Track): Maybe<string> {
-  if (track === '') return null
-  const details = Object.values(tracks)
-  const nextIndex = details.findIndex(detail => detail.fullPath === track) + 1
-  return details[nextIndex] !== undefined ? details[nextIndex].fullPath : null
-}
-
-export function matchByURL(trackURL: string, tracks: API.Track) {
-  return Object.values(tracks).find(
-    trackDetails => trackDetails.fullPath === trackURL
-  )
+export function findNextTrack(
+  track: Maybe<API.TrackDetails>,
+  tracks: API.Track
+): Maybe<API.TrackDetails> {
+  if (track === null) {
+    return null
+  }
+  const allTracks = Object.values(tracks)
+  const nextTrackIndex =
+    allTracks.findIndex(({ fullPath }) => fullPath === track.fullPath) + 1
+  return allTracks[nextTrackIndex] !== undefined
+    ? allTracks[nextTrackIndex]
+    : null
 }
 
 export function generateModifiers(tracks: API.Track): Modifier[] {
