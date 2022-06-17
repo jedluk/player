@@ -39,7 +39,7 @@
     "wait-on": "^5.2.0"
   },
   "devDependencies": {
-    "electron": "^11.0.2",
+    "electron": "^15.5.5",
     "electron-builder": "^22.9.1",
     "jest": "24.9.0",
     "nodemon": "^2.0.4",
