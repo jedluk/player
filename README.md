@@ -2,7 +2,8 @@
 
 Fully functional multi platform (MacOS/Windows/Linux) mp3 player built with Electron/React/Node. Built in memory of Keith Flint, one of my favorite vocalist.
 
-Download [MacOS dmg](https://easyupload.io/qnhamb) (valid until November 15, 2021). You can build binary for other platform by yourself extremely easily
+Download [MacOS arm64 dmg](https://easyupload.io/j614bs) (link valid until 26-03-2023). You can also build binary for another platform by yourself [extremely easily](##Building-native-app)
+
 
 ![Alt Demo](https://raw.githubusercontent.com/jedluk/random/master/player/player_demo.gif)
 
