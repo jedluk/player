@@ -11,7 +11,7 @@ const themes = Object.keys(themeMap) as (keyof ThemeMap)[]
 
 type Translation = Record<TranslationKey, string>
 
-type AppContext = {
+type AppContextType = {
   theme: Theme
   translations: Translation
   gridExpanded: boolean
@@ -22,7 +22,7 @@ type AppContext = {
   toggleGridExpanded: () => void
 }
 
-export const Context = React.createContext<AppContext>({} as AppContext)
+export const Context = React.createContext({} as AppContextType)
 
 interface AppContextProps {
   children: React.ReactNode
